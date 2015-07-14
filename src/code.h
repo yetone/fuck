@@ -1,18 +1,19 @@
 #include <list>
 #include <string>
+#include <vector>
 
 using namespace std;
 
 class Code {
 private:
 	const string file;
-	list<string> lines;
+	vector<string> lines;
 public:
 	/*
 	 * Loads line list from file
 	 */
 	Code(string file);
-	Code(string file, list<string> lines);
+	Code(string file, vector<string> lines);
 
-	list<string> getlines();
+	vector<string> getlines();
 };

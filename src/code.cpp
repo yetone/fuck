@@ -1,11 +1,12 @@
 #include <fstream>
+#include <vector>
 
 #include "code.h"
 
 using namespace std;
 
 Code::Code(string file): file(file) {
-	list<string> lines;
+	vector<string> lines;
 
 	ifstream input(file.c_str());
 
@@ -17,6 +18,10 @@ Code::Code(string file): file(file) {
 	this->lines = lines;
 }
 
-Code::Code(string file, list<string> lines): file(file), lines(lines) {
+Code::Code(string file, vector<string> lines): file(file), lines(lines) {
 
+}
+
+vector<string> Code::getlines() {
+	return this->lines;
 }
