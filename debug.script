@@ -1,4 +1,4 @@
-namespace Debug {
+namespace Debug
 	method meth()
 		
 	end_method
