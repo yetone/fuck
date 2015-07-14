@@ -1,0 +1,7 @@
+namespace Debug {
+	method meth()
+		
+	end_method
+	
+	print(print)
+end_namespace
