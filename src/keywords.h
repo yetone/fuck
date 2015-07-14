@@ -2,6 +2,8 @@
 
 using namespace std;
 
+#define ENTRY_POINT "main"
+
 #define KEYWORD_SEPARATOR ' '
 
 #define KW_END "end_"

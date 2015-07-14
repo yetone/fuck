@@ -11,10 +11,16 @@
 
 using namespace std;
 
+extern bool verbose;
+
 void parse(Code *code) {
 	vector<string> lines = code->getlines();
 
+	// Current namespace, might be empty
 	string currentns = "";
+
+	// Current method name, if no method, should be "main"
+	string currentmethod = ENTRY_POINT;
 
 	for (unsigned int i = 0; i < lines.size(); i++) {
 		string line = lines[i];
@@ -31,13 +37,22 @@ void parse(Code *code) {
 		string keyword = firstsep == string::npos ? line : line.substr(0, firstsep);
 		line = line.substr(firstsep + 1, line.length());
 
-		cout << "Keyword: "  << keyword << endl << "Line: " << line << endl << endl;
+		if (verbose) {
+			cout << "Keyword: "  << keyword << endl << "Line: " << line << endl << endl;
+		}
 
-		if (startswith(line, KW_NAMESPACE)) {
+		if (keyword == KW_NAMESPACE) {
 			if (end) {
-				currentns = removekeyword(line);
+				currentns = line;
 			} else {
 				currentns = "";
+			}
+		} else if (keyword == KW_METHOD) {
+			if (end) {
+				currentmethod = ENTRY_POINT;
+			} else {
+				currentmethod = line;
+				cout << "Method initialized: " << currentmethod << endl;
 			}
 		}
 	}
