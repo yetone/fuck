@@ -1,6 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <string>
 #include <cstring>
 
 #include "parser.h"
@@ -23,6 +24,12 @@ void parse(Code *code) {
 		if (end) {
 			line = line.substr(strlen(KW_END), line.size());
 		}
+
+		unsigned int firstsep = line.find_first_of(KEYWORD_SEPARATOR);
+		string keyword = firstsep == string::npos ? line : line.substr(0, firstsep + 1);
+		line = line.substr(firstsep + 1, line.length());
+
+		cout << "Keyword: "  << keyword << " Line: " << line << endl;
 
 		if (startswith(line, KW_NAMESPACE)) {
 			if (end) {

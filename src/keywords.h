@@ -2,6 +2,8 @@
 
 using namespace std;
 
+#define KEYWORD_SEPARATOR ' '
+
 #define KW_END "end_"
 
 #define KW_FALSE "false"
