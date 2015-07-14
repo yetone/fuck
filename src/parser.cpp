@@ -49,10 +49,11 @@ void parse(Code *code) {
 			}
 		} else if (keyword == KW_METHOD) {
 			if (end) {
+				printverbose("Method finished: " + currentmethod);
 				currentmethod = ENTRY_POINT;
 			} else {
 				currentmethod = line;
-				cout << "Method initialized: " << currentmethod << endl;
+				printverbose("Method initialized: " + currentmethod);
 			}
 		}
 	}

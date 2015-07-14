@@ -1,4 +1,5 @@
 #include <string>
+#include <iostream>
 
 #include "utils.h"
 
@@ -19,4 +20,10 @@ string trim(string s) {
 	s = s.substr(first, last + 1);
 
 	return s;
+}
+
+void printverbose(string s) {
+	if (verbose) {
+		cout << s << endl;
+	}
 }

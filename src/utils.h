@@ -4,6 +4,10 @@ using namespace std;
 
 #define TRIM "\t\r\n "
 
-bool startswith(string s, string s1);
+extern bool verbose;
+
+bool startswith(string, string);
 
 string trim(string);
+
+void printverbose(string);
