@@ -25,3 +25,14 @@ Code::Code(string file, vector<string> lines): file(file), lines(lines) {
 vector<string> Code::getlines() {
 	return this->lines;
 }
+
+Method::Method(string ns, string name): ns(ns), name(name) {
+
+}
+
+Method::Method(string ns, string name, vector<string> lines): ns(ns), name(name), lines(lines) {
+
+}
+vector<string> Method::getlines() {
+	return this->lines;
+}

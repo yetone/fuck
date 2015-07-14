@@ -21,4 +21,16 @@ public:
 	vector<string> getlines();
 };
 
+class Method {
+private:
+	const string ns;
+	const string name;
+	vector<string> lines;
+
+public:
+	Method(string ns, string name);
+	Method(string ns, string name, vector<string> lines);
+	vector<string> getlines();
+};
+
 #endif
