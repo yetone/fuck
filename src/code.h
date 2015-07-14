@@ -31,6 +31,9 @@ public:
 	Method(string ns, string name);
 	Method(string ns, string name, vector<string> lines);
 	vector<string> getlines();
+	string getname();
+	string getnamespace();
+	string getdisplayname();
 };
 
 #endif

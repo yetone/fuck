@@ -33,6 +33,19 @@ Method::Method(string ns, string name): ns(ns), name(name) {
 Method::Method(string ns, string name, vector<string> lines): ns(ns), name(name), lines(lines) {
 
 }
+
 vector<string> Method::getlines() {
 	return this->lines;
+}
+
+string Method::getname() {
+	return this->name;
+}
+
+string Method::getnamespace() {
+	return this->ns;
+}
+
+string Method::getdisplayname() {
+	return this->ns + "." + this->name;
 }
