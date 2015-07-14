@@ -13,7 +13,7 @@ string trim(string s) {
 	int last = s.find_last_not_of(TRIM);
 
 	if (s.length() == 0 || first == -1 || last == -1) {
-			return s;
+		return "";
 	}
 
 	s = s.substr(first, last + 1);
