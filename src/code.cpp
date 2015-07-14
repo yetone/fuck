@@ -26,6 +26,10 @@ vector<string> Code::getlines() {
 	return this->lines;
 }
 
+Method::Method(string name): name(name) {
+
+}
+
 Method::Method(string ns, string name): ns(ns), name(name) {
 
 }

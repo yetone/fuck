@@ -28,6 +28,7 @@ private:
 	vector<string> lines;
 
 public:
+	Method(string name);
 	Method(string ns, string name);
 	Method(string ns, string name, vector<string> lines);
 	vector<string> getlines();

@@ -20,7 +20,8 @@ void parse(Code *code) {
 	string currentns = "";
 
 	// Current method name, if no method, should be "main"
-	string currentmethod = ENTRY_POINT;
+	Method *currentmethod;
+	Method main("main");
 
 	for (unsigned int i = 0; i < lines.size(); i++) {
 		string line = lines[i];
@@ -49,11 +50,11 @@ void parse(Code *code) {
 			}
 		} else if (keyword == KW_METHOD) {
 			if (end) {
-				printverbose("Method finished: " + currentmethod);
-				currentmethod = ENTRY_POINT;
+				printverbose("Method finished: " + currentmethod->getdisplayname());
+				currentmethod = &main;
 			} else {
-				currentmethod = line;
-				printverbose("Method initialized: " + currentmethod);
+				currentmethod = new Method("line");
+				printverbose("Method initialized: " + currentmethod->getdisplayname());
 			}
 		}
 	}
