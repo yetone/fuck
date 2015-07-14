@@ -53,7 +53,7 @@ void parse(Code *code) {
 				printverbose("Method finished: " + currentmethod->getdisplayname());
 				currentmethod = &main;
 			} else {
-				currentmethod = new Method("line");
+				currentmethod = new Method(currentns, "line");
 				printverbose("Method initialized: " + currentmethod->getdisplayname());
 			}
 		}
