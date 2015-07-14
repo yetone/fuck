@@ -56,6 +56,8 @@ void parse(Code *code) {
 				currentmethod = new Method(currentns, "line");
 				printverbose("Method initialized: " + currentmethod->getdisplayname());
 			}
+		} else if (keyword == KW_PRINT) {
+			cout << line << endl;
 		}
 	}
 }

@@ -3,5 +3,5 @@ namespace Debug
 		
 	end_method
 	
-	print(print)
+	print printing text
 end_namespace
