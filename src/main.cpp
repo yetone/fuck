@@ -1,11 +1,12 @@
 #include <iostream>
+#include <cstring>
 
 #include "keywords.h"
 #include "parser.h"
 
 using namespace std;
 
-#define VERBOSE
+bool verbose = false;
 
 int main(int argc, char* argv[]) {
 
@@ -16,12 +17,17 @@ int main(int argc, char* argv[]) {
 
 	// Skip first in argument list
 	for (int i = 1; i < argc; i++) {
-		#ifdef VERBOSE
-		cout << "Parsing file " << argv[i] << endl;
-		#endif
-		Code code(argv[i]);
 
-		parse(&code);
+		if (strcmp(argv[i], "--verbose") == 0) {
+			verbose = true;
+		} else {
+			if (verbose) {
+				cout << "Parsing file " << argv[i] << endl;
+			}
+			Code code(argv[i]);
+
+			parse(&code);
+		}
 	}
 
 	return 0;
