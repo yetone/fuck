@@ -2,6 +2,7 @@
 
 #include "keywords.h"
 #include "parser.h"
+#include "code.h"
 
 using namespace std;
 
@@ -14,7 +15,7 @@ int main(int argc, char* argv[]) {
 
 	// Skip first in argument list
 	for (int i = 1; i < argc; i++) {
-		parse(argv[i]);
+		Code code(argv[i]);
 	}
 
 	return 0;

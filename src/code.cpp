@@ -1,9 +1,13 @@
+#include <fstream>
+
 #include "code.h"
+
+using namespace std;
 
 Code::Code(string file): file(file) {
 	list<string> lines;
 
-	ifstream input(file);
+	ifstream input(file.c_str());
 
 	string line;
 	while (getline(input, line)) {
