@@ -4,6 +4,9 @@
 
 using namespace std;
 
+#ifndef H_CODE
+#define H_CODE
+
 class Code {
 private:
 	const string file;
@@ -17,3 +20,5 @@ public:
 
 	vector<string> getlines();
 };
+
+#endif
