@@ -19,6 +19,8 @@ void parse(Code *code) {
 	for (unsigned int i = 0; i < lines.size(); i++) {
 		string line = lines[i];
 
+		line = trim(line);
+
 		bool end = startswith(line, KW_END);
 
 		if (end) {
