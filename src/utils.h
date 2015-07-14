@@ -1,0 +1,1 @@
+bool startswith(string, string);
