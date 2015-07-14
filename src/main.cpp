@@ -1,7 +1,6 @@
 #include <iostream>
 
 #include "keywords.h"
-#include "code.h"
 #include "parser.h"
 
 using namespace std;
