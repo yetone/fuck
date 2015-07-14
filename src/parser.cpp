@@ -28,10 +28,10 @@ void parse(Code *code) {
 		}
 
 		unsigned int firstsep = line.find_first_of(KEYWORD_SEPARATOR);
-		string keyword = firstsep == string::npos ? line : line.substr(0, firstsep + 1);
+		string keyword = firstsep == string::npos ? line : line.substr(0, firstsep);
 		line = line.substr(firstsep + 1, line.length());
 
-		cout << "Keyword: "  << keyword << " Line: " << line << endl;
+		cout << "Keyword: "  << keyword << endl << "Line: " << line << endl << endl;
 
 		if (startswith(line, KW_NAMESPACE)) {
 			if (end) {
