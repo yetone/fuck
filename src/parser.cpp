@@ -58,7 +58,3 @@ void parse(Code *code) {
 		}
 	}
 }
-
-string removekeyword(string line) {
-	return line;
-}

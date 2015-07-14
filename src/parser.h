@@ -5,5 +5,3 @@
 using namespace std;
 
 void parse(Code*);
-
-string removekeyword(string);
