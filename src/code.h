@@ -8,10 +8,9 @@ using namespace std;
 #define H_CODE
 
 class Code {
-private:
+public:
 	string file;
 	vector<string> lines;
-public:
 	/*
 	 * Loads line list from file
 	 */
@@ -19,15 +18,15 @@ public:
 	Code(string file, vector<string> lines);
 
 	vector<string> getlines();
+	string getfile();
 };
 
 class Method {
-private:
+public:
 	string ns;
 	string name;
 	vector<string> lines;
 
-public:
 	Method(string name);
 	Method(string ns, string name);
 	Method(string ns, string name, vector<string> lines);

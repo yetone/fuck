@@ -17,6 +17,8 @@ extern bool verbose;
 extern methodmap methodMap;
 
 void parse(Code *code) {
+	cout << "Parsing " << code->getfile() << endl;
+
 	vector<string> lines = code->getlines();
 
 	// Current namespace, might be empty
@@ -26,6 +28,7 @@ void parse(Code *code) {
 	Method *currentmethod;
 	Method main(ENTRY_POINT);
 	methodMap.push_back(&main);
+	currentmethod = &main;
 
 	for (unsigned int i = 0; i < lines.size(); i++) {
 		string line = lines[i];
@@ -63,21 +66,12 @@ void parse(Code *code) {
 				printverbose("Method initialized: " + currentmethod->getdisplayname());
 			}
 		} else {
-			currentmethod->getlines().push_back(line);
+			cout << "Adding " << line << " to " << currentmethod->getdisplayname() << endl;
+			currentmethod->lines.push_back(line);
 		}
 	}
 
-	Method* sad;
-
-	for (unsigned int i = 0; i < methodMap.size(); i++) {
-		Method *m = methodMap.at(i);
-		if (m->getname() == ENTRY_POINT) {
-			sad = m;
-			break;
-		}
-	}
-
-	run(sad);
+	run();
 }
 
 void run() {
@@ -104,7 +98,7 @@ void run(Method* method) {
 	}
 
 	vector<string> lines = method->getlines();
-
+	cout << lines.size();
 	for (unsigned int i = 0; i < lines.size(); i++) {
 		string line = lines[i];
 

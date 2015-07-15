@@ -26,6 +26,10 @@ vector<string> Code::getlines() {
 	return this->lines;
 }
 
+string Code::getfile() {
+	return this->file;
+}
+
 Method::Method(string name): name(name) {
 
 }

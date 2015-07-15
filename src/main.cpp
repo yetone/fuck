@@ -22,9 +22,6 @@ int main(int argc, char* argv[]) {
 		if (strcmp(argv[i], "--verbose") == 0) {
 			verbose = true;
 		} else {
-			if (verbose) {
-				cout << "Parsing file " << argv[i] << endl;
-			}
 			Code code(argv[i]);
 
 			parse(&code);
