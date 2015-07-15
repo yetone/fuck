@@ -1,7 +1,8 @@
 #include <string>
+#include <map>
 
 #include "code.h"
 
 using namespace std;
 
-void parse(Code*);
+map<string, Method*>* parse(Code*);

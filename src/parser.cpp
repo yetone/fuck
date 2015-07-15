@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <cstring>
+#include <map>
 
 #include "parser.h"
 #include "keywords.h"
@@ -13,7 +14,8 @@ using namespace std;
 
 extern bool verbose;
 
-void parse(Code *code) {
+map<string, Method*>* parse(Code *code) {
+	map<string, Method*> map;
 	vector<string> lines = code->getlines();
 
 	// Current namespace, might be empty
@@ -51,6 +53,8 @@ void parse(Code *code) {
 		} else if (keyword == KW_METHOD) {
 			if (end) {
 				printverbose("Method finished: " + currentmethod->getdisplayname());
+				map[currentmethod->getdisplayname()] = currentmethod;
+
 				currentmethod = &main;
 			} else {
 				currentmethod = new Method(currentns, "line");
@@ -60,4 +64,6 @@ void parse(Code *code) {
 			cout << line << endl;
 		}
 	}
+
+	return &map;
 }
