@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
 			}
 			Code code(argv[i]);
 
-			parse(&code);
+			map<string, Method*>* methods = parse(&code);
 		}
 	}
 
