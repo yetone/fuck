@@ -1,7 +1,8 @@
 namespace Debug
 	method meth()
-		
+		print called from method
 	end_method
 	
 	print printing text
+	call meth()
 end_namespace
