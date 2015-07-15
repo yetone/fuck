@@ -14,8 +14,8 @@ using namespace std;
 
 extern bool verbose;
 
-map<string, Method*>* parse(Code *code) {
-	map<string, Method*> map;
+methodmap* parse(Code *code) {
+	methodmap map;
 	vector<string> lines = code->getlines();
 
 	// Current namespace, might be empty
@@ -24,7 +24,7 @@ map<string, Method*>* parse(Code *code) {
 	// Current method name, if no method, should be "main"
 	Method *currentmethod;
 	Method main(ENTRY_POINT);
-	map["main"] = &main;
+	map.push_back(&main);
 
 	for (unsigned int i = 0; i < lines.size(); i++) {
 		string line = lines[i];
@@ -54,17 +54,51 @@ map<string, Method*>* parse(Code *code) {
 		} else if (keyword == KW_METHOD) {
 			if (end) {
 				printverbose("Method finished: " + currentmethod->getdisplayname());
-				map[currentmethod->getdisplayname()] = currentmethod;
+				map.push_back(currentmethod);
 
 				currentmethod = &main;
 			} else {
-				currentmethod = new Method(currentns, "line");
+				currentmethod = new Method(line);
 				printverbose("Method initialized: " + currentmethod->getdisplayname());
 			}
-		} else if (keyword == KW_PRINT) {
-			cout << line << endl;
+		} else {
+			currentmethod->getlines().push_back(line);
 		}
 	}
 
 	return &map;
+}
+
+void run(methodmap* map) {
+	Method* main;
+
+	for (unsigned int i = 0; i < map->size(); i++) {
+		Method m = map[i];
+		if (m.getname() == ENTRY_POINT) {
+			main = &m;
+			break;
+		}
+	}
+
+	//cout << "what " << main->getdisplayname() << endl;
+
+	//run(method);
+}
+
+void run(Method* method) {
+	if (verbose) {
+		cout << "Running " << method->getdisplayname() << endl;
+	}
+
+	vector<string> lines = method->getlines();
+
+	for (unsigned int i = 0; i < lines.size(); i++) {
+		string line = lines[i];
+
+		unsigned int firstsep = line.find_first_of(KEYWORD_SEPARATOR);
+		string keyword = firstsep == string::npos ? line : line.substr(0, firstsep);
+		line = line.substr(firstsep + 1, line.length());
+
+		cout << "Running keyword: " << keyword << ", line: " << line << endl;
+	}
 }

@@ -5,4 +5,10 @@
 
 using namespace std;
 
-map<string, Method*>* parse(Code*);
+typedef vector<Method*> methodmap;
+
+methodmap* parse(Code*);
+
+void run(methodmap*);
+
+void run(Method* m);
