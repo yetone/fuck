@@ -3,6 +3,7 @@
 
 #include "keywords.h"
 #include "parser.h"
+#include "utils.h"
 
 using namespace std;
 
@@ -24,7 +25,7 @@ int main(int argc, char* argv[]) {
 			verbose = true;
 		} else if (strcmp(argv[i], "--colors") == 0) {
 			colors = true;
-		} else {
+		} else if (!startswith(argv[i], "-")){
 			Code code(argv[i]);
 
 			parse(&code);
