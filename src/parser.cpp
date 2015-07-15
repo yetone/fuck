@@ -12,8 +12,6 @@
 
 using namespace std;
 
-extern bool verbose;
-
 extern methodmap methodMap;
 
 void parse(Code *code) {
