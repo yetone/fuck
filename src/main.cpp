@@ -7,6 +7,7 @@
 using namespace std;
 
 bool verbose = false;
+methodmap methodMap;
 
 int main(int argc, char* argv[]) {
 
@@ -26,9 +27,7 @@ int main(int argc, char* argv[]) {
 			}
 			Code code(argv[i]);
 
-			methodmap* methods = parse(&code);
-
-			run(methods);
+			parse(&code);
 		}
 	}
 

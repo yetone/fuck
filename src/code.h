@@ -9,7 +9,7 @@ using namespace std;
 
 class Code {
 private:
-	const string file;
+	string file;
 	vector<string> lines;
 public:
 	/*
@@ -23,8 +23,8 @@ public:
 
 class Method {
 private:
-	const string ns;
-	const string name;
+	string ns;
+	string name;
 	vector<string> lines;
 
 public:

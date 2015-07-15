@@ -7,8 +7,10 @@ using namespace std;
 
 typedef vector<Method*> methodmap;
 
-methodmap* parse(Code*);
+void parse(Code*);
 
-void run(methodmap*);
+void run();
 
-void run(Method* m);
+void run(string);
+
+void run(Method*);

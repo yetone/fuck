@@ -14,8 +14,9 @@ using namespace std;
 
 extern bool verbose;
 
-methodmap* parse(Code *code) {
-	methodmap map;
+extern methodmap methodMap;
+
+void parse(Code *code) {
 	vector<string> lines = code->getlines();
 
 	// Current namespace, might be empty
@@ -24,7 +25,7 @@ methodmap* parse(Code *code) {
 	// Current method name, if no method, should be "main"
 	Method *currentmethod;
 	Method main(ENTRY_POINT);
-	map.push_back(&main);
+	methodMap.push_back(&main);
 
 	for (unsigned int i = 0; i < lines.size(); i++) {
 		string line = lines[i];
@@ -54,7 +55,7 @@ methodmap* parse(Code *code) {
 		} else if (keyword == KW_METHOD) {
 			if (end) {
 				printverbose("Method finished: " + currentmethod->getdisplayname());
-				map.push_back(currentmethod);
+				methodMap.push_back(currentmethod);
 
 				currentmethod = &main;
 			} else {
@@ -66,23 +67,35 @@ methodmap* parse(Code *code) {
 		}
 	}
 
-	return &map;
-}
+	Method* sad;
 
-void run(methodmap* map) {
-	Method* main;
-
-	for (unsigned int i = 0; i < map->size(); i++) {
-		Method m = map[i];
-		if (m.getname() == ENTRY_POINT) {
-			main = &m;
+	for (unsigned int i = 0; i < methodMap.size(); i++) {
+		Method *m = methodMap.at(i);
+		if (m->getname() == ENTRY_POINT) {
+			sad = m;
 			break;
 		}
 	}
 
-	//cout << "what " << main->getdisplayname() << endl;
+	run(sad);
+}
 
-	//run(method);
+void run() {
+	run(ENTRY_POINT);
+}
+
+void run(string s) {
+	Method* method;
+
+	for (unsigned int i = 0; i < methodMap.size(); i++) {
+		Method *m = methodMap.at(i);
+		if (m->getname() == s) {
+			method = m;
+			break;
+		}
+	}
+
+	run(method);
 }
 
 void run(Method* method) {
