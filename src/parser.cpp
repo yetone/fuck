@@ -17,7 +17,7 @@ extern bool verbose;
 extern methodmap methodMap;
 
 void parse(Code *code) {
-	cout << "Parsing " << code->getfile() << endl;
+	printverbose("Parsing " + code->getfile());
 
 	vector<string> lines = code->getlines();
 
@@ -45,9 +45,7 @@ void parse(Code *code) {
 		string keyword = firstsep == string::npos ? line : line.substr(0, firstsep);
 		line = line.substr(firstsep + 1, line.length());
 
-		if (verbose) {
-			cout << "Keyword: "  << keyword << endl << "Line: " << line << endl << endl;
-		}
+		printverbose("Keyword: " + keyword + "Line: " + line);
 
 		if (keyword == KW_NAMESPACE) {
 			if (end) {
