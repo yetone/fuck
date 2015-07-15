@@ -55,5 +55,9 @@ string Method::getnamespace() {
 }
 
 string Method::getdisplayname() {
-	return this->ns + "." + this->name;
+	if (this->ns.length() == 0) {
+		return this->name;
+	} else {
+		return this->ns + "." + this->name;
+	}
 }
