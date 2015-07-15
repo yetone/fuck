@@ -2,6 +2,15 @@
 
 Experimental programming language with intepreter written in C++
 
+## Arguments
+
+| Argument    | Description                           |
+| --------    | -----------                           |
+| --verbose   | Prints what the intepreter is doing   |
+| --colors    | Colors stderr and verbose output      |
+
+Every other argument is being parsed as input file
+
 ## Methods
 
 ### Declare normal method
