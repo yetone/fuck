@@ -7,6 +7,7 @@
 using namespace std;
 
 bool verbose = false;
+bool colors = false;
 methodmap methodMap;
 
 int main(int argc, char* argv[]) {
@@ -21,6 +22,8 @@ int main(int argc, char* argv[]) {
 
 		if (strcmp(argv[i], "--verbose") == 0) {
 			verbose = true;
+		} else if (strcmp(argv[i], "--colors") == 0) {
+			colors = true;
 		} else {
 			Code code(argv[i]);
 
