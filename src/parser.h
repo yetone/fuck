@@ -9,8 +9,8 @@ typedef vector<Method*> methodmap;
 
 void parse(Code*);
 
-void run();
+void invoke();
 
-void run(string);
+void invoke(string);
 
-void run(Method*);
+void invoke(Method*);

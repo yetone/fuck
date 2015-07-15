@@ -71,14 +71,14 @@ void parse(Code *code) {
 		}
 	}
 
-	run();
+	invoke();
 }
 
-void run() {
-	run(ENTRY_POINT);
+void invoke() {
+	invoke(ENTRY_POINT);
 }
 
-void run(string s) {
+void invoke(string s) {
 	Method* method;
 
 	for (unsigned int i = 0; i < methodMap.size(); i++) {
@@ -89,16 +89,14 @@ void run(string s) {
 		}
 	}
 
-	run(method);
+	invoke(method);
 }
 
-void run(Method* method) {
-	if (verbose) {
-		cout << "Running " << method->getdisplayname() << endl;
-	}
+void invoke(Method* method) {
+	printverbose("Invoking " + method->getdisplayname());
 
 	vector<string> lines = method->getlines();
-	cout << lines.size();
+
 	for (unsigned int i = 0; i < lines.size(); i++) {
 		string line = lines[i];
 
@@ -106,6 +104,12 @@ void run(Method* method) {
 		string keyword = firstsep == string::npos ? line : line.substr(0, firstsep);
 		line = line.substr(firstsep + 1, line.length());
 
-		cout << "Running keyword: " << keyword << ", line: " << line << endl;
+		printverbose("Executing keyword: " + keyword + ", line: " + line);
+
+		if (keyword == KW_CALL_METHOD) {
+			invoke(line);
+		} else if (keyword == KW_PRINT) {
+			cout << line << endl;
+		}
 	}
 }

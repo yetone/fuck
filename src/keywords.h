@@ -17,6 +17,8 @@ using namespace std;
 
 #define KW_PRINT "print"
 
+#define KW_CALL_METHOD "call"
+
 void load();
 
 string get(string key);
