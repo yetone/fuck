@@ -33,7 +33,7 @@ void parse(Code *code) {
 
 		line = trim(line);
 
-		if (iscomment(line)) {
+		if (is_comment(line)) {
 			continue;
 		}
 
@@ -41,6 +41,15 @@ void parse(Code *code) {
 
 		if (end) {
 			line = line.substr(strlen(KW_END), line.size());
+		}
+
+		if (is_label(line)) {
+			// Get label from line, remove KW_GOTO_LABEL in beginning
+			string label = line.substr(1, line.length());
+
+			// Add pair to goto_labels list
+			currentmethod->goto_labels.push_back(make_pair(label, currentmethod->lines.size() - 1));
+			continue;
 		}
 
 		unsigned int firstsep = line.find_first_of(KEYWORD_SEPARATOR);
@@ -112,10 +121,24 @@ void invoke(Method* method) {
 			cout << line << endl;
 		} else if (keyword == KW_PRINT_ERR) {
 			err(line);
+		} else if (keyword == KW_GOTO) {
+			vector<pair<string, int>> goto_lines = method->goto_labels;
+			for (unsigned int s = 0; s < goto_lines.size(); s++) {
+				pair<string, int> pair = goto_lines[s];
+
+				if (pair.first == line) {
+					i = pair.second;
+					continue;
+				}
+			}
 		}
 	}
 }
 
-inline bool iscomment(string s) {
+inline bool is_label(string s) {
+	return startswith(s, KW_GOTO_LABEL);
+}
+
+inline bool is_comment(string s) {
 	return startswith(s, COMMENT_1) || startswith(s, COMMENT_2);
 }

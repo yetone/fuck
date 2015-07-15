@@ -26,6 +26,7 @@ public:
 	string ns;
 	string name;
 	vector<string> lines;
+	vector<pair<string, int>> goto_labels;
 
 	Method(string name);
 	Method(string ns, string name);

@@ -7,7 +7,9 @@ using namespace std;
 
 typedef vector<Method*> methodmap;
 
-inline bool iscomment(string);
+inline bool is_comment(string);
+
+inline bool is_label(string);
 
 void parse(Code*);
 

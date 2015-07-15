@@ -23,6 +23,9 @@ using namespace std;
 
 #define KW_CALL_METHOD "call"
 
+#define KW_GOTO_LABEL ":"
+#define KW_GOTO "goto"
+
 void load();
 
 string get(string key);
