@@ -1,11 +1,16 @@
-namespace Debug
-	method meth
-		print called from method
+method example1
+	print example1() called
+end_method
+
+print code running...
+
+namespace ns
+	method example2
+		print example2() called
 	end_method
-	
-	print printing text
-	call Debug.meth
 end_namespace
 
-print calling meth from outside namespace
-call Debug.meth
+call example1
+call ns.example2
+
+print exiting...
