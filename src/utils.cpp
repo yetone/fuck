@@ -2,8 +2,11 @@
 #include <iostream>
 
 #include "utils.h"
+#include "colors.h"
 
 using namespace std;
+
+extern bool colors;
 
 bool startswith(string s, string s1) {
 	return s.substr(0, s1.size()) == s1;
@@ -24,6 +27,10 @@ string trim(string s) {
 
 void printverbose(string s) {
 	if (verbose) {
-		cout << s << endl;
+		cout << (colors ? COLOR_LIGHT_YELLOW : "") << s << (colors ? COLOR_RESET : "") << endl;
 	}
+}
+
+void err(string s) {
+	cerr << (colors ? COLOR_LIGHT_RED : "") << s << (colors ? COLOR_RESET : "") << endl;
 }

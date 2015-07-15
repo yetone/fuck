@@ -11,3 +11,5 @@ bool startswith(string, string);
 string trim(string);
 
 void printverbose(string);
+
+void err(string);
