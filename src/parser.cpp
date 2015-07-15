@@ -110,6 +110,8 @@ void invoke(Method* method) {
 			invoke(line);
 		} else if (keyword == KW_PRINT) {
 			cout << line << endl;
+		} else if (keyword == KW_PRINT_ERR) {
+			cerr << line << endl;
 		}
 	}
 }

@@ -8,7 +8,7 @@ Experimental programming language with intepreter written in C++
 
 ```
 method example1
-  print calling method
+  out calling method
 end_method
 ```
 
@@ -17,7 +17,7 @@ end_method
 ```
 namespace ns
   method example2
-    print calling method in namespace
+    out calling method in namespace
   end_method
 end_namespace
 ```
@@ -27,4 +27,11 @@ end_namespace
 ```
 call example1
 call ns.example2
+```
+
+### Printing
+
+```
+out printing to stdout
+err printing to stderr
 ```

@@ -1,16 +1,17 @@
 method example1
-	print example1() called
+	out example1() called
 end_method
 
-print code running...
+out code running...
 
 namespace ns
 	method example2
-		print example2() called
+		out example2() called
 	end_method
 end_namespace
 
 call example1
 call ns.example2
 
-print exiting...
+err printing to stderr
+out exiting...
