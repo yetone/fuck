@@ -51,9 +51,9 @@ void parse(Code *code) {
 
 		if (keyword == KW_NAMESPACE) {
 			if (end) {
-				currentns = line;
-			} else {
 				currentns = "";
+			} else {
+				currentns = line;
 			}
 		} else if (keyword == KW_METHOD) {
 			if (end) {
@@ -62,7 +62,7 @@ void parse(Code *code) {
 
 				currentmethod = &main;
 			} else {
-				currentmethod = new Method(line);
+				currentmethod = new Method(currentns, line);
 				printverbose("Method initialized: " + currentmethod->getdisplayname());
 			}
 		} else {
@@ -83,7 +83,8 @@ void invoke(string s) {
 
 	for (unsigned int i = 0; i < methodMap.size(); i++) {
 		Method *m = methodMap.at(i);
-		if (m->getname() == s) {
+
+		if (m->getdisplayname() == s) {
 			method = m;
 			break;
 		}
