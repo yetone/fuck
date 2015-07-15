@@ -23,7 +23,7 @@ map<string, Method*>* parse(Code *code) {
 
 	// Current method name, if no method, should be "main"
 	Method *currentmethod;
-	Method main("main");
+	Method main(ENTRY_POINT);
 
 	for (unsigned int i = 0; i < lines.size(); i++) {
 		string line = lines[i];
