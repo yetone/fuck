@@ -46,3 +46,11 @@ call ns.example2
 out printing to stdout
 err printing to stderr
 ```
+
+### Goto
+
+```
+:label
+out loop
+goto label
+```
