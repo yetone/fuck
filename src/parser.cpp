@@ -33,6 +33,10 @@ void parse(Code *code) {
 
 		line = trim(line);
 
+		if (iscomment(line)) {
+			continue;
+		}
+
 		bool end = startswith(line, KW_END);
 
 		if (end) {
@@ -108,4 +112,8 @@ void invoke(Method* method) {
 			cout << line << endl;
 		}
 	}
+}
+
+inline bool iscomment(string s) {
+	return startswith(s, COMMENT_1) || startswith(s, COMMENT_2);
 }

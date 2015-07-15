@@ -2,6 +2,9 @@
 
 using namespace std;
 
+#define COMMENT_1 "#"
+#define COMMENT_2 "//"
+
 #define ENTRY_POINT "main"
 
 #define KEYWORD_SEPARATOR ' '
