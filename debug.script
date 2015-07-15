@@ -4,5 +4,8 @@ namespace Debug
 	end_method
 	
 	print printing text
-	call meth
+	call Debug.meth
 end_namespace
+
+print calling meth from outside namespace
+call Debug.meth
