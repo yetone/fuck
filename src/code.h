@@ -4,6 +4,9 @@
 
 using namespace std;
 
+typedef pair<string, int> goto_pair;
+typedef vector<goto_pair> goto_labels;
+
 #ifndef H_CODE
 #define H_CODE
 
@@ -26,7 +29,7 @@ public:
 	string ns;
 	string name;
 	vector<string> lines;
-	vector<pair<string, int>> goto_labels;
+	goto_labels goto_labels;
 
 	Method(string name);
 	Method(string ns, string name);

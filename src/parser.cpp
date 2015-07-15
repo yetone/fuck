@@ -122,9 +122,9 @@ void invoke(Method* method) {
 		} else if (keyword == KW_PRINT_ERR) {
 			err(line);
 		} else if (keyword == KW_GOTO) {
-			vector<pair<string, int>> goto_lines = method->goto_labels;
+			goto_labels goto_lines = method->goto_labels;
 			for (unsigned int s = 0; s < goto_lines.size(); s++) {
-				pair<string, int> pair = goto_lines[s];
+				goto_pair pair = goto_lines[s];
 
 				if (pair.first == line) {
 					i = pair.second;
