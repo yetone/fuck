@@ -2,6 +2,8 @@
 
 Experimental programming language with intepreter written in C++
 
+__fulang__ is an acronym for **fuck you language** or **ful language**
+
 ## Arguments
 
 | Argument    		| Description                           |
