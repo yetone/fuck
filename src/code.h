@@ -40,4 +40,13 @@ public:
 	string getdisplayname();
 };
 
+template <typename T>
+class Variable {
+public:
+	T var;
+};
+
 #endif
+
+typedef vector<Variable<int>> stack;
+

@@ -4,12 +4,14 @@
 #include "keywords.h"
 #include "parser.h"
 #include "utils.h"
+#include "code.h"
 
 using namespace std;
 
 bool verbose = false;
 bool colors = false;
 methodmap methodMap;
+stack stackMap;
 
 int main(int argc, char* argv[]) {
 

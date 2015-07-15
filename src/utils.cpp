@@ -3,6 +3,7 @@
 
 #include "utils.h"
 #include "colors.h"
+#include "keywords.h"
 
 using namespace std;
 
@@ -33,4 +34,26 @@ void printverbose(string s) {
 
 void err(string s) {
 	cerr << (colors ? COLOR_LIGHT_RED : "") << s << (colors ? COLOR_RESET : "") << endl;
+}
+
+string parsevars(string s) {
+	unsigned int pos = 0;
+	while (pos < s.length()) {
+		int i = s.find(KW_VAR_SIGN, pos);
+		pos = i;
+
+		if (i == -1) {
+			break;
+		}
+
+		int i2 = s.find(KW_VAR_SIGN, pos + 1);
+
+		string var = s.substr(i, i2 + 1);
+
+		cout << "got var " << var << endl;
+
+		pos = i2 + 1;
+	}
+
+	return s;
 }

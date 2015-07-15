@@ -26,6 +26,10 @@ using namespace std;
 #define KW_GOTO_LABEL ":"
 #define KW_GOTO "goto"
 
+#define KW_SET_VAR "set"
+#define KW_GET_VAR "get"
+#define KW_VAR_SIGN "$"
+
 void load();
 
 string get(string key);

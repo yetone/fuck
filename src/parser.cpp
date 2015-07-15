@@ -4,6 +4,7 @@
 #include <string>
 #include <cstring>
 #include <map>
+#include <stdlib.h>
 
 #include "parser.h"
 #include "keywords.h"
@@ -13,6 +14,7 @@
 using namespace std;
 
 extern methodmap methodMap;
+extern stack stackMap;
 
 void parse(Code *code) {
 	printverbose("Parsing " + code->getfile());
@@ -118,7 +120,7 @@ void invoke(Method* method) {
 		if (keyword == KW_CALL_METHOD) {
 			invoke(line);
 		} else if (keyword == KW_PRINT) {
-			cout << line << endl;
+			cout << parsevars(line) << endl;
 		} else if (keyword == KW_PRINT_ERR) {
 			err(line);
 		} else if (keyword == KW_GOTO) {
@@ -131,6 +133,22 @@ void invoke(Method* method) {
 					continue;
 				}
 			}
+		} else if (keyword == KW_SET_VAR) {
+			// get type
+			int f = line.find_first_of(" ");
+			string type = line.substr(0, f);
+
+			// get everything else in line that the variable should be set to
+			int f2 = line.find(" ", f);
+			string name = line.substr(f + 1, f2);
+
+			string value = line.substr(line.find(" ", f2 + 1) + 1, line.length());
+
+			printverbose("Setting variable \"" + name + "\" typeof(" + type + ") to \"" + value + "\"");
+
+			Variable<int> var;
+			var.var = atoi(value.c_str());
+			stackMap.push_back(var);
 		}
 	}
 }
