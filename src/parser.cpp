@@ -67,7 +67,7 @@ void parse(Code *code) {
 			}
 		} else {
 			cout << "Adding " << line << " to " << currentmethod->getdisplayname() << endl;
-			currentmethod->lines.push_back(line);
+			currentmethod->lines.push_back(keyword + " " + line);
 		}
 	}
 
