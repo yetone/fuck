@@ -1,13 +1,13 @@
-# unnamed programming language
+# fulang
 
 Experimental programming language with intepreter written in C++
 
 ## Arguments
 
-| Argument    | Description                           |
-| --------    | -----------                           |
-| --verbose   | Prints what the intepreter is doing   |
-| --colors    | Colors stderr and verbose output      |
+| Argument    		| Description                           |
+| --------    		| -----------                           |
+| --verbose, -v   	| Prints what the intepreter is doing   |
+| --colors    		| Colors stderr and verbose output      |
 
 Every other argument is being parsed as input file
 

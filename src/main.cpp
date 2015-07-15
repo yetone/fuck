@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
 	// Skip first in argument list
 	for (int i = 1; i < argc; i++) {
 
-		if (strcmp(argv[i], "--verbose") == 0) {
+		if (strcmp(argv[i], "--verbose") == 0 || strcmp(argv[i], "-v") == 0) {
 			verbose = true;
 		} else if (strcmp(argv[i], "--colors") == 0) {
 			colors = true;
