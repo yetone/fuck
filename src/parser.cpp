@@ -66,7 +66,6 @@ void parse(Code *code) {
 				printverbose("Method initialized: " + currentmethod->getdisplayname());
 			}
 		} else {
-			cout << "Adding " << line << " to " << currentmethod->getdisplayname() << endl;
 			currentmethod->lines.push_back(keyword + " " + line);
 		}
 	}
