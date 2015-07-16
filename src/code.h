@@ -44,6 +44,7 @@ template <typename T>
 class Variable {
 public:
 	T var;
+	string name;
 };
 
 #endif

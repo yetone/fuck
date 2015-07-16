@@ -147,6 +147,7 @@ void invoke(Method* method) {
 			printverbose("Setting variable \"" + name + "\" typeof(" + type + ") to \"" + value + "\"");
 
 			Variable<int> var;
+			var.name = name;
 			var.var = atoi(value.c_str());
 			stackMap.push_back(var);
 		}
