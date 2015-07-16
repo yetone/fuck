@@ -30,12 +30,12 @@ string trim(string s) {
 
 void printverbose(string s) {
 	if (verbose) {
-		cout << (colors ? COLOR_LIGHT_YELLOW : "") << s << (colors ? COLOR_RESET : "") << endl;
+		cout << "* " << (colors ? COLOR_YELLOW : "") << s << (colors ? COLOR_RESET : "") << endl;
 	}
 }
 
 void err(string s) {
-	cerr << (colors ? COLOR_LIGHT_RED : "") << s << (colors ? COLOR_RESET : "") << endl;
+	cerr << (colors ? COLOR_RED : "") << s << (colors ? COLOR_RESET : "") << endl;
 }
 
 string parsevars(string s) {
