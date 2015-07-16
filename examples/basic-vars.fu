@@ -1,5 +1,5 @@
-set int a 5
-set int b 10
-set int var 15
+set a 5
+set b 10
+set var 15
 
 out $a $b $var

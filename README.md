@@ -54,3 +54,10 @@ err printing to stderr
 out loop
 goto label
 ```
+
+### Variables
+
+```
+set name value
+set number 10
+```
