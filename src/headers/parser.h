@@ -21,3 +21,5 @@ void invoke(string);
 void invoke(Method*);
 
 void execline(Method*, unsigned int*);
+
+bool check_cond(string);

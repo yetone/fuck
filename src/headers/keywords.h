@@ -33,7 +33,7 @@ using namespace std;
 #define KW_VAR_SIGN_KEY = "sign"
 
 #define KW_IF "if"
-#define KW_ENDIF = "endif"
+#define KW_ENDIF "endif"
 
 void load();
 

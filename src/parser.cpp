@@ -168,8 +168,26 @@ void execline(Method* method, unsigned int* i) {
 		var.var = value;
 		stackMap.push_back(var);
 	} else if (keyword == get_kw(KW_IF)) {
+		printverbose("Checking " + color(VERBOSE_HL) + "if" + color(VERBOSE) + ", condition " + color(VERBOSE_HL) + line);
 
+		unsigned int end = *i;
+
+		while (++end < method->getlines().size()) {
+			string temp = method->getlines()[end];
+
+			if (temp == get_kw(KW_ENDIF)) {
+				break;
+			}
+		}
+
+		if (!check_cond(line)) {
+			*i = end;
+		}
 	}
+}
+
+bool check_cond(string line) {
+	return true;
 }
 
 inline bool is_label(string s) {
