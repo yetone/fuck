@@ -147,7 +147,7 @@ void invoke(Method* method) {
 			int f2 = line.find(" ", f + 1);
 			string value = line.substr(f + 1, f2 - f - 1);
 
-			printverbose("Setting variable \"" + name + "\" typeid(" + typeid(value).name() + ") to \"" + value + "\"");
+			printverbose("Setting variable " + color(VERBOSE_HL) + name + color(VERBOSE) + " to " + color(VERBOSE_HL) + "\"" + value + "\"");
 
 			defvar var;
 			var.name = name;
