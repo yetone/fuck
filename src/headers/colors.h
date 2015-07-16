@@ -30,5 +30,7 @@ using namespace std;
 #define VERBOSE COLOR_YELLOW
 #define VERBOSE_HL COLOR_LIGHT_YELLOW
 
+#define ERROR COLOR_RED
+
 string reset();
 string color(string);

@@ -36,11 +36,11 @@ void printverbose(string s) {
 }
 
 void printerror(string s) {
-	cout << color(COLOR_RED) << "ERROR: " << s << reset() << endl;
+	cout << color(ERROR) << "ERROR: " << s << reset() << endl;
 }
 
 void err(string s) {
-	cerr << color(COLOR_RED) << s << reset() << endl;
+	cerr << color(ERROR) << s << reset() << endl;
 }
 
 string parsevars(string s) {
