@@ -117,46 +117,52 @@ void invoke(Method* method) {
 	vector<string> lines = method->getlines();
 
 	for (unsigned int i = 0; i < lines.size(); i++) {
-		string line = lines[i];
+		execline(method, &i);
+	}
+}
 
-		unsigned int firstsep = line.find_first_of(KEYWORD_SEPARATOR);
-		string keyword = firstsep == string::npos ? line : line.substr(0, firstsep);
-		line = line.substr(firstsep + 1, line.length());
+void execline(Method* method, unsigned int* i) {
+	string line = method->getlines()[*i];
 
-		printverbose("Executing keyword " + color(VERBOSE_HL) + keyword + color(VERBOSE) + ", Line " + color(VERBOSE_HL) + line);
+	unsigned int firstsep = line.find_first_of(KEYWORD_SEPARATOR);
+	string keyword = firstsep == string::npos ? line : line.substr(0, firstsep);
+	line = line.substr(firstsep + 1, line.length());
 
-		if (keyword == get_kw(KW_CALL_METHOD)) {
-			invoke(line);
-		} else if (keyword == get_kw(KW_PRINT)) {
-			cout << parsevars(line) << endl;
-		} else if (keyword == get_kw(KW_PRINT_ERR)) {
-			err(line);
-		} else if (keyword == get_kw(KW_GOTO)) {
-			goto_labels goto_lines = method->goto_labels;
-			for (unsigned int s = 0; s < goto_lines.size(); s++) {
-				goto_pair pair = goto_lines[s];
+	printverbose("Executing keyword " + color(VERBOSE_HL) + keyword + color(VERBOSE) + ", Line " + color(VERBOSE_HL) + line);
 
-				if (pair.first == line) {
-					i = pair.second;
-					continue;
-				}
+	if (keyword == get_kw(KW_CALL_METHOD)) {
+		invoke(line);
+	} else if (keyword == get_kw(KW_PRINT)) {
+		cout << parsevars(line) << endl;
+	} else if (keyword == get_kw(KW_PRINT_ERR)) {
+		err(line);
+	} else if (keyword == get_kw(KW_GOTO)) {
+		goto_labels goto_lines = method->goto_labels;
+		for (unsigned int s = 0; s < goto_lines.size(); s++) {
+			goto_pair pair = goto_lines[s];
+
+			if (pair.first == line) {
+				*i = pair.second;
+				return;
 			}
-		} else if (keyword == get_kw(KW_SET_VAR)) {
-			// get type
-			int f = line.find_first_of(" ");
-			string name = line.substr(0, f);
-
-			// get everything else in line that the variable should be set to
-			int f2 = line.find(" ", f + 1);
-			string value = line.substr(f + 1, f2 - f - 1);
-
-			printverbose("Setting variable " + color(VERBOSE_HL) + name + color(VERBOSE) + " to " + color(VERBOSE_HL) + "\"" + value + "\"");
-
-			defvar var;
-			var.name = name;
-			var.var = value;
-			stackMap.push_back(var);
 		}
+	} else if (keyword == get_kw(KW_SET_VAR)) {
+		// get type
+		int f = line.find_first_of(" ");
+		string name = line.substr(0, f);
+
+		// get everything else in line that the variable should be set to
+		int f2 = line.find(" ", f + 1);
+		string value = line.substr(f + 1, f2 - f - 1);
+
+		printverbose("Setting variable " + color(VERBOSE_HL) + name + color(VERBOSE) + " to " + color(VERBOSE_HL) + "\"" + value + "\"");
+
+		defvar var;
+		var.name = name;
+		var.var = value;
+		stackMap.push_back(var);
+	} else if (keyword == get_kw(KW_IF)) {
+
 	}
 }
 
