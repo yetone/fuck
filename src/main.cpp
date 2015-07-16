@@ -8,6 +8,8 @@
 
 using namespace std;
 
+#define NORMAL_EXIT 0
+
 bool verbose = false;
 bool colors = false;
 methodmap methodMap;
@@ -20,6 +22,9 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 
+	// If we has gotten any files to parse
+	bool gotfiles = false;
+
 	// Skip first in argument list
 	for (int i = 1; i < argc; i++) {
 
@@ -28,11 +33,19 @@ int main(int argc, char* argv[]) {
 		} else if (strcmp(argv[i], "--colors") == 0) {
 			colors = true;
 		} else if (!startswith(argv[i], "-")){
+			gotfiles = true;
+
 			Code code(argv[i]);
 
 			parse(&code);
 		}
 	}
 
-	return 0;
+	if (gotfiles) {
+		return NORMAL_EXIT;
+	}
+
+
+
+	return NORMAL_EXIT;
 }
