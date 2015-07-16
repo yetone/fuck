@@ -61,7 +61,7 @@ void parse(Code *code) {
 		string keyword = firstsep == string::npos ? line : line.substr(0, firstsep);
 		line = line.substr(firstsep + 1, line.length());
 
-		printverbose("Keyword " + color(VERBOSE_HL) + keyword + color(VERBOSE) + ", Line " + color(VERBOSE_HL) + line);
+		printverbose("Keyword " + color(VERBOSE_HL) + keyword + color(VERBOSE) + ", line #" + to_string(i) + color(VERBOSE_HL) + " \"" + line + "\"");
 
 		if (keyword == get_kw(KW_NAMESPACE)) {
 			if (end) {
