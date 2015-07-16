@@ -46,11 +46,14 @@ string parsevars(string s) {
 			break;
 		}
 
-		int i2 = s.find(KW_VAR_SIGN, pos + 1);
+		int i2 = s.find(" ", pos + 1);
+		if (i2 == (signed int) string::npos) {
+			i2 = s.length();
+		}
 
-		string var = s.substr(i, i2 + 1);
+		string var = s.substr(i, i2 + 1 - i);
 
-		cout << "got var " << var << endl;
+		printverbose("Found variable in string: " + var);
 
 		pos = i2 + 1;
 	}
