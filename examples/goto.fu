@@ -1,3 +1,5 @@
+# create label and print text, then repeat
+
 :label
 out loop
 goto label
