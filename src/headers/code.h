@@ -24,15 +24,4 @@ public:
 	string getfile();
 };
 
-template <typename T>
-class Variable {
-public:
-	T var;
-	string name;
-};
-
 #endif
-
-typedef Variable<string> defvar;
-typedef vector<defvar> stack;
-

@@ -5,6 +5,7 @@
 #include "headers/parser.h"
 #include "headers/utils.h"
 #include "headers/code.h"
+#include "headers/var.h"
 
 using namespace std;
 

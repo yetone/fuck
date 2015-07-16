@@ -11,6 +11,7 @@
 #include "headers/keywords.h"
 #include "headers/code.h"
 #include "headers/utils.h"
+#include "headers/var.h"
 
 using namespace std;
 

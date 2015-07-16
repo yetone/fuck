@@ -5,6 +5,7 @@
 #include "headers/colors.h"
 #include "headers/keywords.h"
 #include "headers/code.h"
+#include "headers/var.h"
 
 using namespace std;
 
