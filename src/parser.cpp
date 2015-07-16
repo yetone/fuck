@@ -140,9 +140,9 @@ void invoke(Method* method) {
 
 			// get everything else in line that the variable should be set to
 			int f2 = line.find(" ", f);
-			string name = line.substr(f + 1, f2);
+			string name = line.substr(f + 1, f2 - f + 1);
 
-			string value = line.substr(line.find(" ", f2 + 1) + 1, line.length());
+			string value = line.substr(line.find(" ", f2 + 1) + 1);
 
 			printverbose("Setting variable \"" + name + "\" typeof(" + type + ") to \"" + value + "\"");
 
