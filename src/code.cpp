@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "code.h"
+#include "utils.h"
 
 using namespace std;
 
@@ -9,6 +10,11 @@ Code::Code(string file): file(file) {
 	vector<string> lines;
 
 	ifstream input(file.c_str());
+
+	if (!input.good()) {
+		printerror("Failed to read file " + file);
+		return;
+	}
 
 	string line;
 	while (getline(input, line)) {

@@ -8,6 +8,7 @@
 
 using namespace std;
 
+extern bool verbose;
 extern bool colors;
 extern stack stackMap;
 
@@ -32,6 +33,10 @@ void printverbose(string s) {
 	if (verbose) {
 		cout << "* " << (colors ? COLOR_YELLOW : "") << s << (colors ? COLOR_RESET : "") << endl;
 	}
+}
+
+void printerror(string s) {
+	cout << (colors ? COLOR_RED : "") << "ERROR: " << s << (colors ? COLOR_RESET : "") << endl;
 }
 
 void err(string s) {
