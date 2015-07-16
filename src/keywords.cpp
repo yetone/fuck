@@ -8,10 +8,10 @@ void load() {
 
 }
 
-string get(string key) {
-	return get(key, key);
+string get_kw(string key) {
+	return get_kw(key, key);
 }
 
-string get(string key, string def) {
+string get_kw(string key, string def) {
 	return def;
 }

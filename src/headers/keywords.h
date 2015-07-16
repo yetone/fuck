@@ -32,5 +32,5 @@ using namespace std;
 
 void load();
 
-string get(string key);
-string get(string key, string def);
+string get_kw(string key);
+string get_kw(string key, string def);
