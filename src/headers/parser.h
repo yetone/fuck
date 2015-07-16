@@ -2,6 +2,7 @@
 #include <map>
 
 #include "code.h"
+#include "method.h"
 
 using namespace std;
 
