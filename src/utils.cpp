@@ -10,7 +10,6 @@
 using namespace std;
 
 extern bool verbose;
-extern bool colors;
 extern stack stackMap;
 
 bool startswith(string s, string s1) {
@@ -32,16 +31,16 @@ string trim(string s) {
 
 void printverbose(string s) {
 	if (verbose) {
-		cout << "* " << (colors ? COLOR_YELLOW : "") << s << (colors ? COLOR_RESET : "") << endl;
+		cout << "* " << color(VERBOSE) << s << reset() << endl;
 	}
 }
 
 void printerror(string s) {
-	cout << (colors ? COLOR_RED : "") << "ERROR: " << s << (colors ? COLOR_RESET : "") << endl;
+	cout << color(COLOR_RED) << "ERROR: " << s << reset() << endl;
 }
 
 void err(string s) {
-	cerr << (colors ? COLOR_RED : "") << s << (colors ? COLOR_RESET : "") << endl;
+	cerr << color(COLOR_RED) << s << reset() << endl;
 }
 
 string parsevars(string s) {

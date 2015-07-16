@@ -12,6 +12,7 @@
 #include "headers/code.h"
 #include "headers/utils.h"
 #include "headers/var.h"
+#include "headers/colors.h"
 
 using namespace std;
 
@@ -60,7 +61,7 @@ void parse(Code *code) {
 		string keyword = firstsep == string::npos ? line : line.substr(0, firstsep);
 		line = line.substr(firstsep + 1, line.length());
 
-		printverbose("Keyword: " + keyword + " Line: " + line);
+		printverbose("Keyword " + color(VERBOSE_HL) + keyword + color(VERBOSE) + ", Line " + color(VERBOSE_HL) + line);
 
 		if (keyword == get_kw(KW_NAMESPACE)) {
 			if (end) {
@@ -70,13 +71,13 @@ void parse(Code *code) {
 			}
 		} else if (keyword == get_kw(KW_METHOD)) {
 			if (end) {
-				printverbose("Method finished: " + currentmethod->getdisplayname());
+				printverbose("Method " + color(VERBOSE_HL) + currentmethod->getdisplayname() + color(VERBOSE) + " finished");
 				methodMap.push_back(currentmethod);
 
 				currentmethod = &main;
 			} else {
 				currentmethod = new Method(currentns, line);
-				printverbose("Method initialized: " + currentmethod->getdisplayname());
+				printverbose("Method " + color(VERBOSE_HL) + currentmethod->getdisplayname() + color(VERBOSE) + " initialized");
 			}
 		} else {
 			currentmethod->lines.push_back(keyword + " " + line);
@@ -108,7 +109,7 @@ void invoke(string s) {
 }
 
 void invoke(Method* method) {
-	printverbose("Invoking " + method->getdisplayname());
+	printverbose("Invoking " + color(VERBOSE_HL) + method->getdisplayname());
 
 	vector<string> lines = method->getlines();
 
@@ -119,7 +120,7 @@ void invoke(Method* method) {
 		string keyword = firstsep == string::npos ? line : line.substr(0, firstsep);
 		line = line.substr(firstsep + 1, line.length());
 
-		printverbose("Executing keyword: " + keyword + ", line: " + line);
+		printverbose("Executing keyword " + color(VERBOSE_HL) + keyword + color(VERBOSE) + ", Line " + color(VERBOSE_HL) + line);
 
 		if (keyword == get_kw(KW_CALL_METHOD)) {
 			invoke(line);
