@@ -82,6 +82,8 @@ void parse(Code *code) {
 		}
 	}
 
+	printverbose("Parsing complete");
+
 	invoke();
 }
 
