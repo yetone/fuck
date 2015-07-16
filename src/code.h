@@ -49,5 +49,6 @@ public:
 
 #endif
 
-typedef vector<Variable<int>> stack;
+typedef Variable<string> defvar;
+typedef vector<defvar> stack;
 

@@ -1,5 +1,7 @@
 #include <string>
 
+#include "code.h"
+
 using namespace std;
 
 #define TRIM "\t\r\n "
@@ -15,3 +17,5 @@ void printverbose(string);
 void err(string);
 
 string parsevars(string);
+
+defvar getbyname(string);

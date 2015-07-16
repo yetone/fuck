@@ -4,10 +4,12 @@
 #include "utils.h"
 #include "colors.h"
 #include "keywords.h"
+#include "code.h"
 
 using namespace std;
 
 extern bool colors;
+extern stack stackMap;
 
 bool startswith(string s, string s1) {
 	return s.substr(0, s1.size()) == s1;
@@ -51,12 +53,26 @@ string parsevars(string s) {
 			i2 = s.length();
 		}
 
-		string var = s.substr(i, i2 + 1 - i);
+		string var = s.substr(i, i2 - i);
 
 		printverbose("Found variable in string: " + var);
+
+		s = s.replace(i, i2 + 1 - i, getbyname(var).var + "");
+
+		printverbose("Replacing " + var + " with " + getbyname(var).var);
 
 		pos = i2 + 1;
 	}
 
 	return s;
+}
+
+defvar getbyname(string name) {
+	for (defvar var : stackMap) {
+		if (var.name == name) {
+			return var;
+		}
+	}
+
+	return stackMap[0];
 }

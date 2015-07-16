@@ -139,16 +139,16 @@ void invoke(Method* method) {
 			string type = line.substr(0, f);
 
 			// get everything else in line that the variable should be set to
-			int f2 = line.find(" ", f);
-			string name = line.substr(f + 1, f2 - f + 1);
+			int f2 = line.find(" ", f + 1);
+			string name = line.substr(f + 1, f2 - f - 1);
 
-			string value = line.substr(line.find(" ", f2 + 1) + 1);
+			string value = line.substr(line.find(" ", f2) + 1);
 
 			printverbose("Setting variable \"" + name + "\" typeof(" + type + ") to \"" + value + "\"");
 
-			Variable<int> var;
+			defvar var;
 			var.name = name;
-			var.var = atoi(value.c_str());
+			var.var = value;
 			stackMap.push_back(var);
 		}
 	}
