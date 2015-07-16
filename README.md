@@ -13,7 +13,7 @@ __fulang__ is an acronym for **fuck you language** or **ful language**
 
 Every other argument is being parsed as input file
 
-## Methods
+## Examples
 
 ### Declare normal method
 
