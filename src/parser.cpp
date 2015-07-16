@@ -37,7 +37,7 @@ void parse(Code *code) {
 
 		line = trim(line);
 
-		if (is_comment(line)) {
+		if (is_comment(line) || line.length() == 0) {
 			continue;
 		}
 
