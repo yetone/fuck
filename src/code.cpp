@@ -11,11 +11,6 @@ Code::Code(string file): file(file) {
 
 	ifstream input(file.c_str());
 
-	if (!input.good()) {
-		printerror("Failed to read file " + file);
-		return;
-	}
-
 	string line;
 	while (getline(input, line)) {
 		lines.push_back(line);

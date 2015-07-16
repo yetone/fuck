@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstring>
+#include <fstream>
 
 #include "headers/keywords.h"
 #include "headers/parser.h"
@@ -35,6 +36,18 @@ int main(int argc, char* argv[]) {
 			colors = true;
 		} else if (!startswith(argv[i], "-")){
 			gotfiles = true;
+
+			string file = argv[i];
+
+			ifstream input(argv[i]);
+
+			if (!input.good()) {
+				printerror("Failed to read file " + file);
+				input.close();
+				continue;
+			}
+
+			input.close();
 
 			Code code(argv[i]);
 
