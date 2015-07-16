@@ -39,40 +39,23 @@ void err(string s) {
 }
 
 string parsevars(string s) {
-	unsigned int pos = 0;
-	while (pos < s.length()) {
-		int i = s.find(KW_VAR_SIGN, pos);
-		pos = i;
-
-		if (i == -1) {
-			break;
+	for (defvar v : stackMap) {
+		if (s.find("$" + v.name) != string::npos) {
+			s = replaceAll(s, "$" + v.name, v.var);
 		}
-
-		int i2 = s.find(" ", pos + 1);
-		if (i2 == (signed int) string::npos) {
-			i2 = s.length();
-		}
-
-		string var = s.substr(i, i2 - i);
-
-		printverbose("Found variable in string: " + var);
-
-		s = s.replace(i, i2 + 1 - i, getbyname(var).var + "");
-
-		printverbose("Replacing " + var + " with " + getbyname(var).var);
-
-		pos = i2 + 1;
 	}
 
 	return s;
 }
 
-defvar getbyname(string name) {
-	for (defvar var : stackMap) {
-		if (var.name == name) {
-			return var;
-		}
-	}
+string replaceAll(string str, string from, string to) {
+    if(from.empty())
+        return str;
+    size_t start_pos = 0;
+    while((start_pos = str.find(from, start_pos)) != string::npos) {
+        str = str.replace(start_pos, from.length(), to);
+        start_pos += to.length();
+    }
 
-	return stackMap[0];
+    return str;
 }

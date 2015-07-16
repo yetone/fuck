@@ -18,4 +18,4 @@ void err(string);
 
 string parsevars(string);
 
-defvar getbyname(string);
+string replaceAll(string str, string from, string to);
