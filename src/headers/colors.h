@@ -1,3 +1,7 @@
+#include <string>
+
+using namespace std;
+
 #define FORMAT_BOLD "\e[1m"
 #define FORMAT_DIM "\e[2m"
 #define FORMAT_UNDERLINE "\e[4m"
@@ -22,3 +26,9 @@
 #define COLOR_LIGHT_MAGENTA "\e[95m"
 #define COLOR_LIGHT_CYAN "\e[96m"
 #define COLOR_WHITE "\e[97m"
+
+#define VERBOSE COLOR_YELLOW
+#define VERBOSE_HL COLOR_LIGHT_YELLOW
+
+string reset();
+string color(string);
