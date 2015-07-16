@@ -5,6 +5,7 @@
 #include <cstring>
 #include <map>
 #include <stdlib.h>
+#include <typeinfo>
 
 #include "parser.h"
 #include "keywords.h"
@@ -136,15 +137,13 @@ void invoke(Method* method) {
 		} else if (keyword == KW_SET_VAR) {
 			// get type
 			int f = line.find_first_of(" ");
-			string type = line.substr(0, f);
+			string name = line.substr(0, f);
 
 			// get everything else in line that the variable should be set to
 			int f2 = line.find(" ", f + 1);
-			string name = line.substr(f + 1, f2 - f - 1);
+			string value = line.substr(f + 1, f2 - f - 1);
 
-			string value = line.substr(line.find(" ", f2) + 1);
-
-			printverbose("Setting variable \"" + name + "\" typeof(" + type + ") to \"" + value + "\"");
+			printverbose("Setting variable \"" + name + "\" typeid(" + typeid(value).name() + ") to \"" + value + "\"");
 
 			defvar var;
 			var.name = name;
