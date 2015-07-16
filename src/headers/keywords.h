@@ -24,11 +24,13 @@ using namespace std;
 #define KW_CALL_METHOD "call"
 
 #define KW_GOTO_LABEL ":"
+#define KW_GOTO_LABEL_KEY "goto-label"
 #define KW_GOTO "goto"
 
 #define KW_SET_VAR "set"
 #define KW_GET_VAR "get"
 #define KW_VAR_SIGN "$"
+#define KW_VAR_SIGN_KEY = "sign"
 
 void load();
 

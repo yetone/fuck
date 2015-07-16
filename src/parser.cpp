@@ -62,13 +62,13 @@ void parse(Code *code) {
 
 		printverbose("Keyword: " + keyword + " Line: " + line);
 
-		if (keyword == KW_NAMESPACE) {
+		if (keyword == get_kw(KW_NAMESPACE)) {
 			if (end) {
 				currentns = "";
 			} else {
 				currentns = line;
 			}
-		} else if (keyword == KW_METHOD) {
+		} else if (keyword == get_kw(KW_METHOD)) {
 			if (end) {
 				printverbose("Method finished: " + currentmethod->getdisplayname());
 				methodMap.push_back(currentmethod);
@@ -121,13 +121,13 @@ void invoke(Method* method) {
 
 		printverbose("Executing keyword: " + keyword + ", line: " + line);
 
-		if (keyword == KW_CALL_METHOD) {
+		if (keyword == get_kw(KW_CALL_METHOD)) {
 			invoke(line);
-		} else if (keyword == KW_PRINT) {
+		} else if (keyword == get_kw(KW_PRINT)) {
 			cout << parsevars(line) << endl;
-		} else if (keyword == KW_PRINT_ERR) {
+		} else if (keyword == get_kw(KW_PRINT_ERR)) {
 			err(line);
-		} else if (keyword == KW_GOTO) {
+		} else if (keyword == get_kw(KW_GOTO)) {
 			goto_labels goto_lines = method->goto_labels;
 			for (unsigned int s = 0; s < goto_lines.size(); s++) {
 				goto_pair pair = goto_lines[s];
@@ -137,7 +137,7 @@ void invoke(Method* method) {
 					continue;
 				}
 			}
-		} else if (keyword == KW_SET_VAR) {
+		} else if (keyword == get_kw(KW_SET_VAR)) {
 			// get type
 			int f = line.find_first_of(" ");
 			string name = line.substr(0, f);
@@ -157,7 +157,7 @@ void invoke(Method* method) {
 }
 
 inline bool is_label(string s) {
-	return startswith(s, KW_GOTO_LABEL);
+	return startswith(s, get_kw(KW_GOTO_LABEL_KEY, KW_GOTO_LABEL));
 }
 
 inline bool is_comment(string s) {
