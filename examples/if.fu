@@ -1,0 +1,7 @@
+set var1 true
+
+if var1
+	out var1 seems to be true
+endif
+
+out after if
