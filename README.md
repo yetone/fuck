@@ -1,4 +1,5 @@
-# fulang
+![logo](fulang-logo.png)
+***
 
 Experimental programming language with intepreter written in C++
 
