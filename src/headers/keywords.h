@@ -34,6 +34,8 @@ using namespace std;
 
 #define KW_IF "if"
 #define KW_ENDIF "endif"
+#define KW_ELSEIF "elif"
+#define KW_ELSE "else"
 
 void load();
 
