@@ -1,10 +1,10 @@
 #include <string>
 #include <iostream>
 
-#include "utils.h"
-#include "colors.h"
-#include "keywords.h"
-#include "code.h"
+#include "headers/utils.h"
+#include "headers/colors.h"
+#include "headers/keywords.h"
+#include "headers/code.h"
 
 using namespace std;
 

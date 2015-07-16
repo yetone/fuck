@@ -7,10 +7,10 @@
 #include <stdlib.h>
 #include <typeinfo>
 
-#include "parser.h"
-#include "keywords.h"
-#include "code.h"
-#include "utils.h"
+#include "headers/parser.h"
+#include "headers/keywords.h"
+#include "headers/code.h"
+#include "headers/utils.h"
 
 using namespace std;
 

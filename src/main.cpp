@@ -1,10 +1,10 @@
 #include <iostream>
 #include <cstring>
 
-#include "keywords.h"
-#include "parser.h"
-#include "utils.h"
-#include "code.h"
+#include "headers/keywords.h"
+#include "headers/parser.h"
+#include "headers/utils.h"
+#include "headers/code.h"
 
 using namespace std;
 

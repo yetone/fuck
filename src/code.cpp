@@ -1,8 +1,8 @@
 #include <fstream>
 #include <vector>
 
-#include "code.h"
-#include "utils.h"
+#include "headers/code.h"
+#include "headers/utils.h"
 
 using namespace std;
 
