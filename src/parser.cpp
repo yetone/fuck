@@ -59,7 +59,7 @@ void parse(Code *code) {
 		string keyword = firstsep == string::npos ? line : line.substr(0, firstsep);
 		line = line.substr(firstsep + 1, line.length());
 
-		printverbose("Keyword: " + keyword + "Line: " + line);
+		printverbose("Keyword: " + keyword + " Line: " + line);
 
 		if (keyword == KW_NAMESPACE) {
 			if (end) {
