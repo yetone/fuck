@@ -74,9 +74,12 @@ void parse(Code *code) {
 				printverbose("Method " + color(VERBOSE_HL) + currentmethod->getdisplayname() + color(VERBOSE) + " finished");
 				methodMap.push_back(currentmethod);
 
+				currentmethod->endline = i + 1;
+
 				currentmethod = &main;
 			} else {
 				currentmethod = new Method(currentns, line);
+				currentmethod->startline = i + 1;
 				printverbose("Method " + color(VERBOSE_HL) + currentmethod->getdisplayname() + color(VERBOSE) + " initialized");
 			}
 		} else {
@@ -109,7 +112,7 @@ void invoke(string s) {
 }
 
 void invoke(Method* method) {
-	printverbose("Invoking " + color(VERBOSE_HL) + method->getdisplayname());
+	printverbose("Invoking " + color(VERBOSE_HL) + method->getdisplayname() + color(VERBOSE) + " on line " + color(VERBOSE_HL) + "#" + to_string(method->startline));
 
 	vector<string> lines = method->getlines();
 

@@ -7,6 +7,8 @@ using namespace std;
 
 class Method {
 public:
+	int startline;
+	int endline;
 	string ns;
 	string name;
 	vector<string> lines;
