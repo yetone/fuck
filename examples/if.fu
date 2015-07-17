@@ -1,25 +1,36 @@
 set placeholder false
 set var1 true
 
+# should execute
 if $var1
+	err if1
 	out if1
 endif
 
 set var1 false
 set var2 true
 
+# should execute "elif $var2"
 if $var1
+	err if2
 	out if2
 elif $var2
+	err elif2
 	out elif2
 else
 	out else2
-	
+endif
+
 set var2 false
-	
+
+## should execute "else"
 if $var1
+	err if3
 	out if3
 elif $var2
+	err elif3
 	out elif3
 else
+	err else3
 	out else3
+endif
