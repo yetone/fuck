@@ -1,7 +1,25 @@
+set placeholder false
 set var1 true
 
-if var1
-	out var1 seems to be true
+if $var1
+	out if1
 endif
 
-out after if
+set var1 false
+set var2 true
+
+if $var1
+	out if2
+elif $var2
+	out elif2
+else
+	out else2
+	
+set var2 false
+	
+if $var1
+	out if3
+elif $var2
+	out elif3
+else
+	out else3
