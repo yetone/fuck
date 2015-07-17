@@ -1,7 +1,7 @@
 set placeholder false
 set var1 true
 
-# should execute
+# if1
 if $var1
 	out if1
 endif
@@ -9,7 +9,7 @@ endif
 set var1 false
 set var2 true
 
-# should execute "elif $var2"
+# elif2
 if $var1
 	out if2
 elif $var2
@@ -21,7 +21,7 @@ endif
 set var2 false
 set var3 true
 
-# should execute "else"
+# else3
 if $var1
 	out if3
 elif $var2
@@ -35,6 +35,7 @@ endif
 set var3 true
 set var4 true
 
+# should run $var4
 if $var3
 	out before inside if
 	if $var4
