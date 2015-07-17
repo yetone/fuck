@@ -1,0 +1,5 @@
+set var true
+
+while $var
+	out while
+end_while
