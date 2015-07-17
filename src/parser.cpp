@@ -191,9 +191,72 @@ void execline(Method* method, unsigned int* i, int indent) {
 		}
 	} else if (keyword == get_kw(KW_IF)) {
 		parseif(method, untrimmed, i, indent);
+	} else if (keyword == get_kw(KW_WHILE)) {
+		parsewhile(method, untrimmed, i, indent);
 	} else {
 		printerror("Unknown instruction " + color(ERROR_HL) + keyword + " (" + line + ")" + color(ERROR) + " on line #" + to_string(*i));
 	}
+}
+
+
+void parsewhile(Method* method, string line, unsigned int* i, int indent) {
+	printverbose("Checking " + color(VERBOSE_HL) + "while" + color(VERBOSE) + ", condition " + color(VERBOSE_HL) + line);
+
+	unsigned int end = *i;
+
+	vector<While> whiles;
+
+	While *current = NULL;
+
+	int totalend;
+
+	while (end < method->getlines().size()) {
+		string temp = method->getlines()[end];
+
+		int s = temp.find_first_not_of('\t');
+
+		if (s == indent && startswith(trim(temp), get_kw(KW_WHILE))) {
+			if (current != NULL) {
+				current->end = end - 1;
+				whiles.push_back(*current);
+			}
+
+			current = new While;
+			current->start = end;
+			*i = end;
+		} else if (s == indent && startswith(trim(temp), get_kw(KW_WHILE_END))) {
+			if (current != NULL) {
+				line = method->getlines()[current->start];
+				string cond = line.substr(line.find_first_of(" ") + 1);
+
+				current->end = end - 1;
+				whiles.push_back(*current);
+				*i = end;
+				totalend = end;
+
+				if (check_cond(cond)) {
+					*i = current->start -1;
+					return;
+				}
+				break;
+			}
+		}
+
+		end++;
+	}
+
+	for (While conds : whiles) {
+		string line = trim(method->getlines()[conds.start]);
+
+		string cond = line.substr(line.find_first_of(" ") + 1);
+
+		if (check_cond(cond)) {
+			*i = conds.start + 1;
+			execrange(method, i, conds.end, indent + 1);
+			break;
+		}
+	}
+	*i = totalend;
 }
 
 void parseif(Method* method, string line, unsigned int* i, int indent) {
@@ -201,9 +264,9 @@ void parseif(Method* method, string line, unsigned int* i, int indent) {
 
 	unsigned int end = *i;
 
-	vector<struct If> ifs;
+	vector<If> ifs;
 
-	struct If *current = NULL;
+	If *current = NULL;
 
 	int totalend;
 
@@ -234,7 +297,7 @@ void parseif(Method* method, string line, unsigned int* i, int indent) {
 		end++;
 	}
 
-	for (struct If conds : ifs) {
+	for (If conds : ifs) {
 		string line = trim(method->getlines()[conds.start]);
 
 		// Is else, we have passed by everything else

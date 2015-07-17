@@ -36,7 +36,12 @@ bool check_cond(string);
 
 void parseif(Method* method, string line, unsigned int* i, int);
 
-struct If {
+void parsewhile(Method* method, string, unsigned int* i, int);
+
+struct Chunk {
 	int start;
 	int end;
 };
+
+typedef Chunk If;
+typedef Chunk While;
