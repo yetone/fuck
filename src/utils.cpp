@@ -45,7 +45,9 @@ void err(string s) {
 
 string parsevars(string s) {
 	for (defvar v : stackMap) {
-		if (s.find("$" + v.name) != string::npos) {
+		int f = s.find("$" + v.name);
+
+		if (f != (signed int) string::npos) {
 			s = replaceAll(s, "$" + v.name, v.var);
 		}
 	}
@@ -58,8 +60,13 @@ string replaceAll(string str, string from, string to) {
         return str;
     size_t start_pos = 0;
     while((start_pos = str.find(from, start_pos)) != string::npos) {
-        str = str.replace(start_pos, from.length(), to);
-        start_pos += to.length();
+    	cout << str[start_pos - 1] << endl;
+    	if (str[start_pos - 1] != '\\') {
+            str = str.replace(start_pos, from.length(), to);
+            start_pos += to.length();
+    	} else {
+    		start_pos++;
+    	}
     }
 
     return str;
