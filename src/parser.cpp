@@ -163,30 +163,80 @@ void execline(Method* method, unsigned int* i) {
 
 		printverbose("Setting variable " + color(VERBOSE_HL) + name + color(VERBOSE) + " to " + color(VERBOSE_HL) + "\"" + value + "\"");
 
+		int index = 0;
+		int k;
+		for (defvar v : stackMap) {
+			if (v.name == name) {
+				index = k;
+				break;
+			}
+			k++;
+		}
+
 		defvar var;
 		var.name = name;
 		var.var = value;
-		stackMap.push_back(var);
+
+		if (index != 0) {
+			printverbose("Updated " + color(VERBOSE_HL) + name + color(VERBOSE) + " on stack");
+			//stackMap.at(index) = var;
+			stackMap.insert(stackMap.begin(), var);
+		} else {
+			printverbose("Added " + color(VERBOSE_HL) + name + color(VERBOSE) + " to stack");
+			stackMap.push_back(var);
+		}
 	} else if (keyword == get_kw(KW_IF)) {
 		printverbose("Checking " + color(VERBOSE_HL) + "if" + color(VERBOSE) + ", condition " + color(VERBOSE_HL) + line);
 
 		unsigned int end = *i;
 
-		while (++end < method->getlines().size()) {
-			string temp = method->getlines()[end];
+		vector<pair<string, int>> las;
+
+		bool found = check_cond(line);
+		printverbose(color(COLOR_GREEN) + "Initial found " + to_string(found));
+
+		while (end < method->getlines().size()) {
+			string temp = method->getlines()[end++];
 
 			if (temp == get_kw(KW_ENDIF)) {
 				break;
+			} else if (temp == get_kw(KW_ELSE)) {
+				if (found) break;
+				las.push_back(make_pair(get_kw(KW_ELSE), end));
+			} else if (temp == get_kw(KW_ELSEIF)) {
+				if (found) break;
+				las.push_back(make_pair(get_kw(KW_ELSEIF), end));
 			}
 		}
 
-		if (!check_cond(line)) {
-			*i = end;
+		if (!found) {
+			for (pair<string, int> pair : las) {
+				if (!found && pair.first == get_kw(KW_ELSE)) {
+					*i = pair.second;
+					break;
+				} else if (check_cond(pair.first)) {
+					*i = pair.second;
+					found = true;
+					break;
+				}
+			}
 		}
 	}
 }
 
 bool check_cond(string line) {
+	printverbose(color(COLOR_GREEN) + "Checking condition " + color(VERBOSE_HL) + line);
+	if (startswith(line, get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN))) {
+		line = line.substr(1);
+
+		for (unsigned int i = 0; i < stackMap.size(); i++) {
+			defvar v = stackMap[i];
+			if (v.name == line) {
+				return v.var == get_kw(KW_TRUE);
+			}
+		}
+	}
+
 	return true;
 }
 
