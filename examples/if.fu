@@ -39,6 +39,11 @@ set var4 true
 if $var3
 	out before inside if
 	if $var4
+		if $var4
+			if $var4
+				out many
+			endif
+		endif
 		out if in if
 	endif
 	out success
