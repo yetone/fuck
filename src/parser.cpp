@@ -134,6 +134,10 @@ void execline(Method* method, unsigned int* i) {
 	string keyword = firstsep == string::npos ? line : line.substr(0, firstsep);
 	line = line.substr(firstsep + 1, line.length());
 
+	if (line == keyword) {
+		line = "";
+	}
+
 	printverbose("Executing keyword " + color(VERBOSE_HL) + keyword + color(VERBOSE) + ", line #" + to_string(*i) + " " + color(VERBOSE_HL) + "\"" + line + "\"");
 
 	if (keyword == get_kw(KW_CALL_METHOD)) {
