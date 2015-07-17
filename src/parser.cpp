@@ -197,7 +197,6 @@ void execline(Method* method, unsigned int* i, int indent) {
 }
 
 void parseif(Method* method, string line, unsigned int* i, int indent) {
-	cout << color(COLOR_MAGENTA) << "Indent " << indent << endl;
 	printverbose("Checking " + color(VERBOSE_HL) + "if" + color(VERBOSE) + ", condition " + color(VERBOSE_HL) + line);
 
 	unsigned int end = *i;
@@ -236,8 +235,6 @@ void parseif(Method* method, string line, unsigned int* i, int indent) {
 	}
 
 	for (struct If conds : ifs) {
-		printverbose(color(COLOR_CYAN) + "Begin line: " + method->getlines()[conds.start] + ", end line: " + method->getlines()[conds.end]);
-
 		string line = trim(method->getlines()[conds.start]);
 
 		// Is else, we have passed by everything else
