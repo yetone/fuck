@@ -22,4 +22,11 @@ void invoke(Method*);
 
 void execline(Method*, unsigned int*);
 
+void execrange(Method*, unsigned int*, int);
+
 bool check_cond(string);
+
+struct If {
+	int start;
+	int end;
+};

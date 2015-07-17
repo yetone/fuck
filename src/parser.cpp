@@ -190,42 +190,75 @@ void execline(Method* method, unsigned int* i) {
 
 		unsigned int end = *i;
 
-		vector<pair<string, int>> las;
+		vector<struct If> ifs;
 
-		bool found = check_cond(line);
-		printverbose(color(COLOR_GREEN) + "Initial found " + to_string(found));
+		struct If *current = NULL;
+
+		int totalend;
 
 		while (end < method->getlines().size()) {
-			string temp = method->getlines()[end++];
+			string temp = method->getlines()[end];
 
-			if (temp == get_kw(KW_ENDIF)) {
+			if (startswith(trim(temp), get_kw(KW_IF)) || startswith(trim(temp), get_kw(KW_ELSEIF)) || startswith(trim(temp), get_kw(KW_ELSE))) {
+				if (current != NULL) {
+					current->end = end - 1;
+					ifs.push_back(*current);
+				}
+
+				current = new If;
+				current->start = end;
+				*i = end;
+			} else if (startswith(trim(temp), get_kw(KW_ENDIF))) {
+				current->end = end - 1;
+				ifs.push_back(*current);
+				*i = end;
+				totalend = end;
 				break;
-			} else if (temp == get_kw(KW_ELSE)) {
-				if (found) break;
-				las.push_back(make_pair(get_kw(KW_ELSE), end));
-			} else if (temp == get_kw(KW_ELSEIF)) {
-				if (found) break;
-				las.push_back(make_pair(get_kw(KW_ELSEIF), end));
 			}
+
+			end++;
 		}
 
-		if (!found) {
-			for (pair<string, int> pair : las) {
-				if (!found && pair.first == get_kw(KW_ELSE)) {
-					*i = pair.second;
-					break;
-				} else if (check_cond(pair.first)) {
-					*i = pair.second;
-					found = true;
-					break;
-				}
+		for (struct If conds: ifs) {
+			printverbose(color(COLOR_CYAN) + "Begin line: " + method->getlines()[conds.start] + ", end line: " + method->getlines()[conds.end]);
+
+			string line = trim(method->getlines()[conds.start]);
+
+			// Is else, we have passed by everything else
+			if (line == get_kw(KW_ELSE)) {
+				*i = conds.start + 1;
+				execrange(method, i, conds.end);
+				break;
 			}
+
+			string cond = line.substr(line.find_first_of(" ") + 1);
+
+			if (check_cond(cond)) {
+				*i = conds.start + 1;
+				execrange(method, i, conds.end);
+				break;
+			}
+		}
+		*i = totalend;
+	} else {
+		if (keyword == "else") {
+			cout << "got else outside" << endl;
 		}
 	}
 }
 
+void execrange(Method* method, unsigned int* i, int i1) {
+	for (; *i <= i1; *i++) {
+		execline(method, i);
+	}
+}
+
 bool check_cond(string line) {
-	printverbose(color(COLOR_GREEN) + "Checking condition " + color(VERBOSE_HL) + line);
+	if (line == get_kw(KW_ELSE)) {
+		return true;
+	}
+
+	printverbose("Checking condition " + color(VERBOSE_HL) + line);
 	if (startswith(line, get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN))) {
 		line = line.substr(1);
 

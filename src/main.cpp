@@ -11,6 +11,7 @@
 using namespace std;
 
 #define NORMAL_EXIT 0
+#define VERSION "0.0"
 
 bool verbose = false;
 bool colors = false;
@@ -18,9 +19,8 @@ methodmap methodMap;
 stack stackMap;
 
 int main(int argc, char* argv[]) {
-
 	if (argc <= 1) {
-		cerr << "No input files specified";
+		printerror("No input files specified");
 		return 1;
 	}
 
@@ -58,8 +58,6 @@ int main(int argc, char* argv[]) {
 	if (gotfiles) {
 		return NORMAL_EXIT;
 	}
-
-
 
 	return NORMAL_EXIT;
 }
