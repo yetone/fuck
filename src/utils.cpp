@@ -60,7 +60,6 @@ string replaceAll(string str, string from, string to) {
         return str;
     size_t start_pos = 0;
     while((start_pos = str.find(from, start_pos)) != string::npos) {
-    	cout << str[start_pos - 1] << endl;
     	if (str[start_pos - 1] != '\\') {
             str = str.replace(start_pos, from.length(), to);
             start_pos += to.length();
