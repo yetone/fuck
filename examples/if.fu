@@ -23,7 +23,7 @@ endif
 
 set var2 false
 
-## should execute "else"
+# should execute "else"
 if $var1
 	err if3
 	out if3
