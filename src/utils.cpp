@@ -1,5 +1,6 @@
 #include <string>
 #include <iostream>
+#include <stdlib.h>
 
 #include "headers/utils.h"
 #include "headers/colors.h"
@@ -69,4 +70,14 @@ string replaceAll(string str, string from, string to) {
     }
 
     return str;
+}
+
+int get_exit_code(string s) {
+	if (s == "normal") {
+		return EXIT_SUCCESS;
+	} else if (s == "error") {
+		return EXIT_FAILURE;
+	} else {
+		return atoi(s.c_str());
+	}
 }

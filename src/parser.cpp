@@ -193,6 +193,8 @@ void execline(Method* method, unsigned int* i, int indent) {
 		parseif(method, untrimmed, i, indent);
 	} else if (keyword == get_kw(KW_WHILE)) {
 		parsewhile(method, untrimmed, i, indent);
+	} else if (keyword == get_kw(KW_HALT)) {
+		exit(get_exit_code(line));
 	} else {
 		printerror("Unknown instruction " + color(ERROR_HL) + keyword + " (" + line + ")" + color(ERROR) + " on line #" + to_string(*i));
 	}
@@ -233,11 +235,6 @@ void parsewhile(Method* method, string line, unsigned int* i, int indent) {
 				whiles.push_back(*current);
 				*i = end;
 				totalend = end;
-
-				if (check_cond(cond)) {
-					*i = current->start -1;
-					return;
-				}
 				break;
 			}
 		}
@@ -252,7 +249,12 @@ void parsewhile(Method* method, string line, unsigned int* i, int indent) {
 
 		if (check_cond(cond)) {
 			*i = conds.start + 1;
+			exec:
 			execrange(method, i, conds.end, indent + 1);
+			if (check_cond(cond)) {
+				*i = conds.start + 1;
+				goto exec;
+			}
 			break;
 		}
 	}

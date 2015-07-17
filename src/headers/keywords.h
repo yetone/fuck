@@ -40,6 +40,8 @@ using namespace std;
 #define KW_WHILE "while"
 #define KW_WHILE_END "end_while"
 
+#define KW_HALT "halt"
+
 void load();
 
 string get_kw(string key);

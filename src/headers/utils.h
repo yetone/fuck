@@ -19,3 +19,5 @@ void err(string);
 string parsevars(string);
 
 string replaceAll(string str, string from, string to);
+
+int get_exit_code(string);
