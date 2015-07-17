@@ -1,5 +1,11 @@
 set var true
 
+
 while $var
-	out while
+	out first
+	
+	while $var
+		out second
+		halt normal
+	end_while
 end_while
