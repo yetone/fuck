@@ -97,7 +97,7 @@ void invoke() {
 }
 
 void invoke(string s) {
-	Method* method;
+	Method* method = NULL;
 
 	for (unsigned int i = 0; i < methodMap.size(); i++) {
 		Method *m = methodMap.at(i);
@@ -106,6 +106,11 @@ void invoke(string s) {
 			method = m;
 			break;
 		}
+	}
+
+	if (method == NULL) {
+		printerror("Could not find method " + s);
+		return;
 	}
 
 	invoke(method);
@@ -117,12 +122,13 @@ void invoke(Method* method) {
 	vector<string> lines = method->getlines();
 
 	for (unsigned int i = 0; i < lines.size(); i++) {
-		execline(method, &i);
+		execline(method, &i, 0);
 	}
 }
 
-void execline(Method* method, unsigned int* i) {
-	string line = method->getlines()[*i];
+void execline(Method* method, unsigned int* i, int indent) {
+	string line = trim(method->getlines()[*i]);
+	string untrimmed = method->getlines()[*i];
 
 	unsigned int firstsep = line.find_first_of(KEYWORD_SEPARATOR);
 	string keyword = firstsep == string::npos ? line : line.substr(0, firstsep);
@@ -184,68 +190,77 @@ void execline(Method* method, unsigned int* i) {
 			stackMap.push_back(var);
 		}
 	} else if (keyword == get_kw(KW_IF)) {
-		printverbose("Checking " + color(VERBOSE_HL) + "if" + color(VERBOSE) + ", condition " + color(VERBOSE_HL) + line);
+		parseif(method, untrimmed, i, indent);
+	} else {
+		printerror("Unknown instruction " + color(ERROR_HL) + keyword + " (" + line + ")" + color(ERROR) + " on line #" + to_string(*i));
+	}
+}
 
-		unsigned int end = *i;
+void parseif(Method* method, string line, unsigned int* i, int indent) {
+	cout << color(COLOR_MAGENTA) << "Indent " << indent << endl;
+	printverbose("Checking " + color(VERBOSE_HL) + "if" + color(VERBOSE) + ", condition " + color(VERBOSE_HL) + line);
 
-		vector<struct If> ifs;
+	unsigned int end = *i;
 
-		struct If *current = NULL;
+	vector<struct If> ifs;
 
-		int totalend;
+	struct If *current = NULL;
 
-		while (end < method->getlines().size()) {
-			string temp = method->getlines()[end];
+	int totalend;
 
-			if (startswith(trim(temp), get_kw(KW_IF)) || startswith(trim(temp), get_kw(KW_ELSEIF)) || startswith(trim(temp), get_kw(KW_ELSE))) {
-				if (current != NULL) {
-					current->end = end - 1;
-					ifs.push_back(*current);
-				}
+	while (end < method->getlines().size()) {
+		string temp = method->getlines()[end];
 
-				current = new If;
-				current->start = end;
-				*i = end;
-			} else if (startswith(trim(temp), get_kw(KW_ENDIF))) {
+		int s = temp.find_first_not_of('\t');
+
+		if (s == indent && (startswith(trim(temp), get_kw(KW_IF)) || startswith(trim(temp), get_kw(KW_ELSEIF)) || startswith(trim(temp), get_kw(KW_ELSE)))) {
+			if (current != NULL) {
+				current->end = end - 1;
+				ifs.push_back(*current);
+			}
+
+			current = new If;
+			current->start = end;
+			*i = end;
+		} else if (s == indent && startswith(trim(temp), get_kw(KW_ENDIF))) {
+			if (current != NULL) {
 				current->end = end - 1;
 				ifs.push_back(*current);
 				*i = end;
 				totalend = end;
 				break;
 			}
-
-			end++;
 		}
 
-		for (struct If conds: ifs) {
-			printverbose(color(COLOR_CYAN) + "Begin line: " + method->getlines()[conds.start] + ", end line: " + method->getlines()[conds.end]);
-
-			string line = trim(method->getlines()[conds.start]);
-
-			// Is else, we have passed by everything else
-			if (line == get_kw(KW_ELSE)) {
-				*i = conds.start + 1;
-				execrange(method, i, conds.end);
-				break;
-			}
-
-			string cond = line.substr(line.find_first_of(" ") + 1);
-
-			if (check_cond(cond)) {
-				*i = conds.start + 1;
-				execrange(method, i, conds.end);
-				break;
-			}
-		}
-		*i = totalend;
-	} else {
-		printerror("Unknown instruction " + color(ERROR_HL) + keyword + " (" + line + ")" + color(ERROR) + " on line #" + to_string(*i));
+		end++;
 	}
+
+	for (struct If conds : ifs) {
+		printverbose(color(COLOR_CYAN) + "Begin line: " + method->getlines()[conds.start] + ", end line: " + method->getlines()[conds.end]);
+
+		string line = trim(method->getlines()[conds.start]);
+
+		// Is else, we have passed by everything else
+		if (line == get_kw(KW_ELSE)) {
+			*i = conds.start + 1;
+			execrange(method, i, conds.end, indent + 1);
+			break;
+		}
+
+		string cond = line.substr(line.find_first_of(" ") + 1);
+
+		if (check_cond(cond)) {
+			*i = conds.start + 1;
+			execrange(method, i, conds.end, indent + 1);
+			break;
+		}
+	}
+	*i = totalend;
 }
 
-void execrange(Method* method, unsigned int* i, unsigned int to) {
+void execrange(Method* method, unsigned int* i, unsigned int to, int indent) {
 	for (unsigned int from = *i; from <= to; from++) {
-		execline(method, &from);
+		execline(method, &from, indent);
 	}
 }
 

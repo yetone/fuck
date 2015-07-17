@@ -26,13 +26,15 @@ void invoke(string);
 void invoke(Method*);
 
 // Execute line
-void execline(Method*, unsigned int*);
+void execline(Method*, unsigned int*, int indent);
 
 // Execute range of lines
-void execrange(Method*, unsigned int*, unsigned int);
+void execrange(Method*, unsigned int*, unsigned int, int indent);
 
 // check if something is true
 bool check_cond(string);
+
+void parseif(Method* method, string line, unsigned int* i, int);
 
 struct If {
 	int start;
