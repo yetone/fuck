@@ -33,10 +33,11 @@ else
 endif
 
 set var3 true
+set var4 true
 
 if $var3
 	out before inside if
-	if $var3
+	if $var4
 		out if in if
 	endif
 	out success
