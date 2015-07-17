@@ -76,3 +76,17 @@ set number 10
 # not valid
 set var 10 # set variable to 10
 ```
+
+### Think of the indentation when doing nested "blocks" (use tabs)
+
+```
+set var true
+
+if $var
+	if $var
+		if $var
+			out ok
+		endif
+	endif
+endif
+```
