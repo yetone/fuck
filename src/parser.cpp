@@ -247,9 +247,11 @@ void execline(Method* method, unsigned int* i) {
 	}
 }
 
-void execrange(Method* method, unsigned int* i, int i1) {
-	for (; *i <= i1; *i++) {
-		execline(method, i);
+void execrange(Method* method, unsigned int* i, int to) {
+	unsigned int from = *i;
+
+	for (; from <= to; from++) {
+		execline(method, &from);
 	}
 }
 
