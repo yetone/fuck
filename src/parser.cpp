@@ -83,13 +83,7 @@ void parse(Code *code) {
 				printverbose("Method " + color(VERBOSE_HL) + currentmethod->getdisplayname() + color(VERBOSE) + " initialized");
 			}
 		} else {
-			string aline = keyword + " " + line;
-
-			if (keyword == line) {
-				aline = keyword;
-			}
-
-			currentmethod->lines.push_back(aline);
+			currentmethod->lines.push_back(lines[i]);
 		}
 	}
 
