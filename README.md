@@ -62,3 +62,13 @@ goto label
 set name value
 set number 10
 ```
+
+### Comment
+
+```
+# comment
+// comment
+
+# not valid
+set var 10 # set variable to 10
+```
