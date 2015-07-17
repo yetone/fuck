@@ -245,9 +245,7 @@ void execline(Method* method, unsigned int* i) {
 		}
 		*i = totalend;
 	} else {
-		if (keyword == "else") {
-			cout << "got else outside" << endl;
-		}
+		printerror("Unknown instruction " + color(ERROR_HL) + keyword + " (" + line + ")" + color(ERROR) + " on line #" + to_string(*i));
 	}
 }
 
