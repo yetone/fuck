@@ -22,7 +22,7 @@ void invoke(Method*);
 
 void execline(Method*, unsigned int*);
 
-void execrange(Method*, unsigned int*, int);
+void execrange(Method*, unsigned int*, unsigned int);
 
 bool check_cond(string);
 
