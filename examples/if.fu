@@ -34,3 +34,13 @@ else
 	err else3
 	out else3
 endif
+
+set var3 true
+
+if $var3
+	out before inside if
+	if $var3
+		out if in if
+	endif
+	out success
+endif
