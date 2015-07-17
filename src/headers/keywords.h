@@ -37,6 +37,9 @@ using namespace std;
 #define KW_ELSEIF "elif"
 #define KW_ELSE "else"
 
+#define KW_WHILE "while"
+#define KW_WHILE_END "end_while"
+
 void load();
 
 string get_kw(string key);
