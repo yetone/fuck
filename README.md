@@ -46,6 +46,10 @@ call ns.example2
 ```
 out printing to stdout
 err printing to stderr
+
+set var 10
+out printing $var
+out actually printing the string \$var
 ```
 
 ### Goto
