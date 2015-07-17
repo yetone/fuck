@@ -1,12 +1,13 @@
 method example1
-	out example1() called
+	set var1 example1
+	out $var1
 end_method
 
 out code running...
 
 namespace ns
 	method example2
-		out example2() called
+		out can access var \$var1 $var1
 	end_method
 end_namespace
 
