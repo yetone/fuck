@@ -1,0 +1,10 @@
+set variablename value
+set bool1 true
+set bool2 false
+set bool3 $bool1
+set bool4 !$bool3
+
+out $bool1
+out $bool2
+out $bool3
+out $bool4
