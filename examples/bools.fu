@@ -8,3 +8,13 @@ out $bool1
 out $bool2
 out $bool3
 out $bool4
+
+if $bool3
+	out \$bool3 is $bool3
+endif
+
+if $bool4
+	out \$bool4 is true, shouldn't get here
+else
+	out \$bool4 is $bool4
+endif
