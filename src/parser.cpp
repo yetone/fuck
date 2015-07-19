@@ -368,27 +368,38 @@ bool check_cond(string line) {
 	return true;
 }
 
+defvar* getvar(string name) {
+
+	for (unsigned int i = 0; i < stackMap.size(); i++) {
+		defvar v = stackMap[i];
+		if (v.name == name) {
+			return &stackMap[i];
+		}
+	}
+
+	return NULL;
+}
+
 string parse_set_statement(string s) {
 	printverbose("Checking variable set statement " + color(VERBOSE_HL) + s);
 
 	bool opposite = s[0] == '!';
 	bool var = s[opposite ? 1 : 0] == '$';
 
-	if (var) {
+	if (var && s.find(" ") == string::npos) {
 		string name = s.substr(opposite ? 2 : 1);
 
-		for (unsigned int i = 0; i < stackMap.size(); i++) {
-			defvar v = stackMap[i];
-			if (v.name == name) {
-				if (opposite) {
-					bool yes = v.var == "true";
+		defvar v = *getvar(name);
+		if (v.name == name) {
+			if (opposite) {
+				bool yes = v.var == "true";
 
-					s = yes ? "false" : "true";
-				} else {
-					s = v.var;
-				}
+				s = yes ? "false" : "true";
+			} else {
+				s = v.var;
 			}
 		}
+
 	}
 
 	return s;

@@ -47,5 +47,8 @@ void parseif(Method* method, string line, unsigned int* i, int);
 
 void parsewhile(Method* method, string, unsigned int* i, int);
 
+// Get variable on stack from name
+defvar* getvar(string);
+
 typedef Chunk If;
 typedef Chunk While;
