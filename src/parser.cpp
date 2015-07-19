@@ -174,26 +174,24 @@ void execline(Method* method, unsigned int* i, int indent) {
 
 		printverbose("Setting variable " + color(VERBOSE_HL) + name + color(VERBOSE) + " to " + color(VERBOSE_HL) + "\"" + statement + "\"");
 
-		int index = 0;
-		int k;
-		for (defvar v : stackMap) {
+		int index = -1;
+		for (unsigned int k = 0; k < stackMap.size(); k++) {
+			defvar v = stackMap[k];
 			if (v.name == name) {
 				index = k;
 				break;
 			}
-			k++;
 		}
 
 		defvar var;
 		var.name = name;
 		var.var = parse_set_statement(statement);
 
-		if (index != 0) {
-			printverbose("Updated " + color(VERBOSE_HL) + name + color(VERBOSE) + " on stack");
-			//stackMap.at(index) = var;
-			stackMap.insert(stackMap.begin(), var);
+		if (index != -1) {
+			printverbose("Updated " + color(VERBOSE_HL) + name + color(VERBOSE) + " on stack with value " + var.var);
+			stackMap.at(index) = var;
 		} else {
-			printverbose("Added " + color(VERBOSE_HL) + name + color(VERBOSE) + " to stack");
+			printverbose("Added " + color(VERBOSE_HL) + name + color(VERBOSE) + " to stack with value " + var.var);
 			stackMap.push_back(var);
 		}
 	} else if (keyword == get_kw(KW_IF)) {
