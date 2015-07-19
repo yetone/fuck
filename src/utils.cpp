@@ -65,6 +65,7 @@ string replaceAll(string str, string from, string to) {
             str = str.replace(start_pos, from.length(), to);
             start_pos += to.length();
     	} else {
+    		str = str.replace(start_pos - 1, 1, "");
     		start_pos++;
     	}
     }
