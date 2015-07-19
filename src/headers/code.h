@@ -10,6 +10,11 @@ typedef vector<goto_pair> goto_labels;
 #ifndef H_CODE
 #define H_CODE
 
+struct Chunk {
+	int start;
+	int end;
+};
+
 class Code {
 public:
 	string file;

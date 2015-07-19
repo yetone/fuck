@@ -7,8 +7,7 @@ using namespace std;
 
 class Method {
 public:
-	int startline;
-	int endline;
+	struct Chunk chunk;
 	string ns;
 	string name;
 	vector<string> lines;
