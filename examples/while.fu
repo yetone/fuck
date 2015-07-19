@@ -1,11 +1,16 @@
 set var true
 
+set halt false
 
 while $var
 	out first
 	
 	while $var
 		out second
-		halt normal
+		if $halt
+			halt normal
+		else
+			set halt true
+		endif
 	end_while
 end_while
