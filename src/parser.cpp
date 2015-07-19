@@ -132,9 +132,11 @@ void invoke(Method* method) {
 	}
 }
 
-void execline(Method* method, unsigned int* i, int indent) {
+ReturnType execline(Method* method, unsigned int* i, int indent) {
 	string line = trim(method->getlines()[*i]);
 	string untrimmed = method->getlines()[*i];
+
+	printverbose(color(COLOR_CYAN) + line);
 
 	unsigned int firstsep = line.find_first_of(KEYWORD_SEPARATOR);
 	string keyword = firstsep == string::npos ? line : line.substr(0, firstsep);
@@ -158,9 +160,9 @@ void execline(Method* method, unsigned int* i, int indent) {
 			goto_pair pair = goto_lines[s];
 
 			if (pair.first == line) {
-				printverbose("Jumping back to line " + color(VERBOSE_HL) + "#" + to_string(pair.second));
+				printverbose(color(COLOR_MAGENTA) + "Jumping back to line " + color(VERBOSE_HL) + "#" + to_string(pair.second));
 				*i = pair.second - 1;
-				return;
+				break;
 			}
 		}
 	} else if (keyword == get_kw(KW_SET_VAR)) {
@@ -200,9 +202,15 @@ void execline(Method* method, unsigned int* i, int indent) {
 		parsewhile(method, untrimmed, i, indent);
 	} else if (keyword == get_kw(KW_HALT)) {
 		exit(get_exit_code(line));
+	} else if (keyword == get_kw(KW_BREAK)) {
+		return ReturnType::BREAK;
+	} else if (keyword == get_kw(KW_CONTINUE)) {
+		return ReturnType::CONTINUE;
 	} else {
 		printerror("Unknown instruction " + color(ERROR_HL) + keyword + " (" + line + ")" + color(ERROR) + " on line #" + to_string(*i));
 	}
+
+	return ReturnType::NORMAL;
 }
 
 
@@ -255,8 +263,11 @@ void parsewhile(Method* method, string line, unsigned int* i, int indent) {
 		if (check_cond(cond)) {
 			*i = conds.start + 1;
 			exec:
-			execrange(method, i, conds.end, indent + 1);
-			if (check_cond(cond)) {
+			ReturnType type = execrange(method, i, conds.end, indent + 1);
+			if (type == ReturnType::BREAK) {
+				continue;
+			}
+			if (check_cond(cond) || type == ReturnType::CONTINUE) {
 				*i = conds.start + 1;
 				goto exec;
 			}
@@ -325,10 +336,16 @@ void parseif(Method* method, string line, unsigned int* i, int indent) {
 	*i = totalend;
 }
 
-void execrange(Method* method, unsigned int* i, unsigned int to, int indent) {
+ReturnType execrange(Method* method, unsigned int* i, unsigned int to, int indent) {
 	for (unsigned int from = *i; from <= to; from++) {
-		execline(method, &from, indent);
+		ReturnType type = execline(method, &from, indent);
+
+		if (type != ReturnType::NORMAL) {
+			return type;
+		}
 	}
+
+	return ReturnType::NORMAL;
 }
 
 bool check_cond(string line) {

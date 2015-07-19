@@ -8,6 +8,12 @@ using namespace std;
 
 typedef vector<Method*> methodmap;
 
+enum class ReturnType {
+	CONTINUE,
+	BREAK,
+	NORMAL
+};
+
 // Check if line is comment
 inline bool is_comment(string);
 
@@ -26,10 +32,10 @@ void invoke(string);
 void invoke(Method*);
 
 // Execute line
-void execline(Method*, unsigned int*, int indent);
+ReturnType execline(Method*, unsigned int*, int indent);
 
 // Execute range of lines
-void execrange(Method*, unsigned int*, unsigned int, int indent);
+ReturnType execrange(Method*, unsigned int*, unsigned int, int indent);
 
 // check if something is true
 bool check_cond(string);
