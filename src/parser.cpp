@@ -58,8 +58,8 @@ void parse(Code *code) {
 			printverbose("Adding label " + color(VERBOSE_HL) + "\"" + label + "\"" + color(VERBOSE) + " on line #" + to_string(rl));
 
 			// Add pair to goto_labels list
-			currentmethod->goto_labels.push_back(make_pair(label, rl));
-			currentmethod->lines.push_back(lines[i]);
+
+			currentmethod->goto_labels.push_back(make_pair(label, currentmethod->lines.size()));
 			continue;
 		}
 
