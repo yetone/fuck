@@ -42,6 +42,9 @@ using namespace std;
 
 #define KW_HALT "halt"
 
+#define KW_BREAK "break"
+#define KW_CONTINUE "continue"
+
 void load();
 
 string get_kw(string key);
