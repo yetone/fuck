@@ -8,9 +8,24 @@ while $var
 	while $var
 		out second
 		if $halt
-			halt normal
+			#halt normal
+			break
 		else
 			set halt true
+			set var false
 		endif
 	end_while
+end_while
+
+set var true
+
+while $var
+	out breaking...
+	break
+	out after break...
+end_while
+
+while $var
+	continue
+	break
 end_while
