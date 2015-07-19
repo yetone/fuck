@@ -33,6 +33,7 @@ void parse(Code *code) {
 	methodMap.push_back(&main);
 	currentmethod = &main;
 
+	int rl = 0;
 	for (unsigned int i = 0; i < lines.size(); i++) {
 		string line = lines[i];
 
@@ -41,6 +42,8 @@ void parse(Code *code) {
 		if (is_comment(line) || line.length() == 0) {
 			continue;
 		}
+
+		rl++;
 
 		bool end = startswith(line, KW_END);
 
@@ -52,8 +55,11 @@ void parse(Code *code) {
 			// Get label from line, remove KW_GOTO_LABEL in beginning
 			string label = line.substr(1, line.length());
 
+			printverbose("Adding label " + color(VERBOSE_HL) + "\"" + label + "\"" + color(VERBOSE) + " on line #" + to_string(rl));
+
 			// Add pair to goto_labels list
-			currentmethod->goto_labels.push_back(make_pair(label, currentmethod->lines.size() - 1));
+			currentmethod->goto_labels.push_back(make_pair(label, rl));
+			currentmethod->lines.push_back(lines[i]);
 			continue;
 		}
 
@@ -61,7 +67,7 @@ void parse(Code *code) {
 		string keyword = firstsep == string::npos ? line : line.substr(0, firstsep);
 		line = line.substr(firstsep + 1, line.length());
 
-		printverbose("Keyword " + color(VERBOSE_HL) + keyword + color(VERBOSE) + ", line #" + to_string(i) + color(VERBOSE_HL) + " \"" + line + "\"");
+		printverbose("Keyword " + color(VERBOSE_HL) + keyword + color(VERBOSE) + ", line #" + to_string(rl) + color(VERBOSE_HL) + " \"" + line + "\"");
 
 		if (keyword == get_kw(KW_NAMESPACE)) {
 			if (end) {
@@ -74,12 +80,12 @@ void parse(Code *code) {
 				printverbose("Method " + color(VERBOSE_HL) + currentmethod->getdisplayname() + color(VERBOSE) + " finished");
 				methodMap.push_back(currentmethod);
 
-				currentmethod->endline = i + 1;
+				currentmethod->endline = rl + 1;
 
 				currentmethod = &main;
 			} else {
 				currentmethod = new Method(currentns, line);
-				currentmethod->startline = i + 1;
+				currentmethod->startline = rl + 1;
 				printverbose("Method " + color(VERBOSE_HL) + currentmethod->getdisplayname() + color(VERBOSE) + " initialized");
 			}
 		} else {
@@ -152,7 +158,8 @@ void execline(Method* method, unsigned int* i, int indent) {
 			goto_pair pair = goto_lines[s];
 
 			if (pair.first == line) {
-				*i = pair.second;
+				printverbose("Jumping back to line " + color(VERBOSE_HL) + "#" + to_string(pair.second));
+				*i = pair.second - 1;
 				return;
 			}
 		}
