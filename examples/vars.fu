@@ -1,0 +1,14 @@
+# set 3 different variables and print them
+
+set a 5
+set b 10
+set var 15
+
+out printing variable values
+out \$a=$a \$b=$b \$var=$var
+
+# print empty line
+out
+
+out printing \$a+\$b+\$var
+out $a + $b + $var
