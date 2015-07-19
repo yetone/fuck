@@ -34,6 +34,9 @@ void execrange(Method*, unsigned int*, unsigned int, int indent);
 // check if something is true
 bool check_cond(string);
 
+// used when set keyword is used, create new variable
+string parse_set_statement(string statement);
+
 void parseif(Method* method, string line, unsigned int* i, int);
 
 void parsewhile(Method* method, string, unsigned int* i, int);

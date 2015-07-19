@@ -163,9 +163,9 @@ void execline(Method* method, unsigned int* i, int indent) {
 
 		// get everything else in line that the variable should be set to
 		int f2 = line.find(" ", f + 1);
-		string value = line.substr(f + 1, f2 - f - 1);
+		string statement = line.substr(f + 1, f2 - f - 1);
 
-		printverbose("Setting variable " + color(VERBOSE_HL) + name + color(VERBOSE) + " to " + color(VERBOSE_HL) + "\"" + value + "\"");
+		printverbose("Setting variable " + color(VERBOSE_HL) + name + color(VERBOSE) + " to " + color(VERBOSE_HL) + "\"" + statement + "\"");
 
 		int index = 0;
 		int k;
@@ -179,7 +179,7 @@ void execline(Method* method, unsigned int* i, int indent) {
 
 		defvar var;
 		var.name = name;
-		var.var = value;
+		var.var = parse_set_statement(statement);
 
 		if (index != 0) {
 			printverbose("Updated " + color(VERBOSE_HL) + name + color(VERBOSE) + " on stack");
@@ -344,6 +344,32 @@ bool check_cond(string line) {
 	}
 
 	return true;
+}
+
+string parse_set_statement(string s) {
+	printverbose("Checking variable set statement " + color(VERBOSE_HL) + s);
+
+	bool opposite = s[0] == '!';
+	bool var = s[opposite ? 1 : 0] == '$';
+
+	if (var) {
+		string name = s.substr(opposite ? 2 : 1);
+
+		for (unsigned int i = 0; i < stackMap.size(); i++) {
+			defvar v = stackMap[i];
+			if (v.name == name) {
+				if (opposite) {
+					bool yes = v.var == "true";
+
+					s = yes ? "false" : "true";
+				} else {
+					s = v.var;
+				}
+			}
+		}
+	}
+
+	return s;
 }
 
 inline bool is_label(string s) {
