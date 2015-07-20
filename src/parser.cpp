@@ -171,7 +171,6 @@ ReturnType execline(Method* method, unsigned int* i, int indent) {
 		string name = line.substr(0, f);
 
 		// get everything else in line that the variable should be set to
-		int f2 = line.find(" ", f + 1);
 		string statement = line.substr(f + 1);
 
 		printverbose("Setting variable " + color(VERBOSE_HL) + name + color(VERBOSE) + " to " + color(VERBOSE_HL) + "\"" + statement + "\"");
@@ -386,6 +385,7 @@ string parse_set_statement(string s) {
 	bool opposite = s[0] == '!';
 	bool var = s[opposite ? 1 : 0] == '$';
 
+	// Single variable
 	if (var && s.find(" ") == string::npos) {
 		string name = s.substr(opposite ? 2 : 1);
 
