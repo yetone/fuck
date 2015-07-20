@@ -151,7 +151,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent) {
 	if (keyword == get_kw(KW_CALL_METHOD)) {
 		invoke(line);
 	} else if (keyword == get_kw(KW_PRINT)) {
-		cout << parsevars(line) << endl;
+		cout << parse_set_statement(line) << endl;
 	} else if (keyword == get_kw(KW_PRINT_ERR)) {
 		err(line);
 	} else if (keyword == get_kw(KW_GOTO)) {
