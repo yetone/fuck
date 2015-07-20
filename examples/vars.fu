@@ -11,4 +11,5 @@ out \$a=$a \$b=$b \$var=$var
 out
 
 out printing \$a+\$b+\$var
-out $a + $b + $var
+set val $a + $b + $var
+out $val
