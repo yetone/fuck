@@ -172,7 +172,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent) {
 
 		// get everything else in line that the variable should be set to
 		int f2 = line.find(" ", f + 1);
-		string statement = line.substr(f + 1, f2 - f - 1);
+		string statement = line.substr(f + 1);
 
 		printverbose("Setting variable " + color(VERBOSE_HL) + name + color(VERBOSE) + " to " + color(VERBOSE_HL) + "\"" + statement + "\"");
 
