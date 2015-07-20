@@ -20,7 +20,7 @@ Every other argument is being parsed as input file
 
 ```
 method example1
-  out calling method
+  out "calling method"
 end_method
 ```
 
@@ -29,7 +29,7 @@ end_method
 ```
 namespace ns
   method example2
-    out calling method in namespace
+    out "calling method in namespace"
   end_method
 end_namespace
 ```
@@ -44,26 +44,26 @@ call ns.example2
 ### Printing
 
 ```
-out printing to stdout
-err printing to stderr
+out "printing to stdout"
+err "printing to stderr"
 
 set var 10
-out printing $var
-out actually printing the string \$var
+out "printing $var"
+out "actually printing the string \$var"
 ```
 
 ### Goto
 
 ```
 :label
-out loop
+out "loop"
 goto label
 ```
 
 ### Variables
 
 ```
-set name value
+set name "value"
 set number 10
 ```
 
@@ -85,7 +85,7 @@ set var true
 if $var
 	if $var
 		if $var
-			out ok
+			out "ok"
 		endif
 	endif
 endif
