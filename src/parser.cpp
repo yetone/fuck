@@ -93,7 +93,7 @@ void parse(Code *code) {
 		}
 	}
 
-	printverbose("Parsing complete");
+	printverbose(color(COLOR_GREEN) + "Parsing complete");
 
 	invoke();
 }
