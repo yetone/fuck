@@ -11,7 +11,7 @@ public:
 	string ns;
 	string name;
 	vector<string> lines;
-	goto_labels goto_labels;
+	goto_labels labels;
 
 	Method(string name);
 	Method(string ns, string name);
