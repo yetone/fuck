@@ -387,12 +387,8 @@ string parse_set_statement(string s) {
 
 	bool isstring = s[0] == '\"' && s[s.length() - 1] == '\"';
 
-	if (isstring) {
-		return s.substr(1, s.length() - 1);
-	}
-
 	// Single variable
-	if  (var && s.find(" ") == string::npos) {
+	if (!isstring && var && s.find(" ") == string::npos) {
 		string name = s.substr(opposite ? 2 : 1);
 
 		defvar v = *getvar(name);
@@ -407,8 +403,12 @@ string parse_set_statement(string s) {
 		}
 
 	} else {
+		if (isstring) {
+			s = s.substr(1, s.length() - 2);
+		} else {
+			s = replaceAll(s, " ", "");
+		}
 		s = parsevars(s);
-		s = replaceAll(s, " ", "");
 	}
 
 	return s;
