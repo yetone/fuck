@@ -40,10 +40,6 @@ void printerror(string s) {
 	cout << color(ERROR) << "ERROR: " << s << reset() << endl;
 }
 
-void err(string s) {
-	cerr << color(ERROR) << s << reset() << endl;
-}
-
 string parsevars(string s) {
 	for (defvar v : stackMap) {
 		int f = s.find("$" + v.name);

@@ -14,8 +14,6 @@ void printverbose(string);
 
 void printerror(string);
 
-void err(string);
-
 string parsevars(string);
 
 string replaceAll(string str, string from, string to);

@@ -153,7 +153,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent) {
 	} else if (keyword == get_kw(KW_PRINT)) {
 		cout << parse_set_statement(line) << endl;
 	} else if (keyword == get_kw(KW_PRINT_ERR)) {
-		err(line);
+		cerr << color(ERROR) << parse_set_statement(line) << reset() << endl;
 	} else if (keyword == get_kw(KW_GOTO)) {
 		goto_labels goto_lines = method->goto_labels;
 		for (unsigned int s = 0; s < goto_lines.size(); s++) {
