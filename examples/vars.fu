@@ -4,16 +4,16 @@ set a 5
 set b 10
 set var 15
 
-out printing variable values
-out \$a=$a \$b=$b \$var=$var
+out "printing variable values"
+out "\$a=$a \$b=$b \$var=$var"
 
 # print empty line
 out
 
-out printing \$a+\$b+\$var
-set val $a + $b + $var
+out "printing \$a+\$b+\$var"
+set val "$a + $b + $var"
 out $val
 
-out printing 10 + 5 + 1
-set val 10 + 5 + 1
+out "printing 10 + 5 + 1"
+set "val 10 + 5 + 1"
 out $val

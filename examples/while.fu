@@ -20,9 +20,9 @@ end_while
 set var true
 
 while $var
-	out breaking...
+	out "breaking..."
 	break
-	out after break...
+	out "after break..."
 end_while
 
 while $var
