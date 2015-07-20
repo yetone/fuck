@@ -115,7 +115,7 @@ void invoke(string s) {
 	}
 
 	if (method == NULL) {
-		printerror("Could not find method " + s);
+		printerror("Could not find method " + color(COLOR_LIGHT_RED) + s);
 		return;
 	}
 
