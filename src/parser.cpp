@@ -136,8 +136,6 @@ ReturnType execline(Method* method, unsigned int* i, int indent) {
 	string line = trim(method->getlines()[*i]);
 	string untrimmed = method->getlines()[*i];
 
-	printverbose(color(COLOR_CYAN) + line);
-
 	unsigned int firstsep = line.find_first_of(KEYWORD_SEPARATOR);
 	string keyword = firstsep == string::npos ? line : line.substr(0, firstsep);
 	line = line.substr(firstsep + 1, line.length());
