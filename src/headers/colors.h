@@ -33,5 +33,7 @@ using namespace std;
 #define ERROR COLOR_RED
 #define ERROR_HL COLOR_LIGHT_RED
 
+#define WARNING COLOR_LIGHT_YELLOW
+
 string reset();
 string color(string);

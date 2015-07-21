@@ -364,7 +364,8 @@ bool check_cond(string line) {
 		}
 	}
 
-	return true;
+	printwarning("No condition detected, returning default DEFAULT_COND");
+	return DEFAULT_COND;
 }
 
 defvar* getvar(string name) {
