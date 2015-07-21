@@ -10,7 +10,7 @@ bool startswith(string, string);
 
 string trim(string);
 
-void printverbose(string);
+void printverbose(string, bool star = true);
 
 void printerror(string);
 

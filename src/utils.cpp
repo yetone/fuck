@@ -30,9 +30,9 @@ string trim(string s) {
 	return s;
 }
 
-void printverbose(string s) {
+void printverbose(string s, bool star) {
 	if (verbose) {
-		cout << "* " << color(VERBOSE) << s << reset() << endl;
+		cout << (star ? "* " : "") << color(VERBOSE) << s << reset() << endl;
 	}
 }
 

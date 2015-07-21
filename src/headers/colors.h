@@ -35,5 +35,7 @@ using namespace std;
 
 #define WARNING COLOR_LIGHT_YELLOW
 
+#define COMMENT COLOR_LIGHT_GREEN
+
 string reset();
 string color(string);

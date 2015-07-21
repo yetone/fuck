@@ -39,7 +39,7 @@ void parse(Code &code) {
 
 		line = trim(line);
 
-		if (is_comment(line) || line.length() == 0) {
+		if (line.length() == 0) {
 			continue;
 		}
 
@@ -135,6 +135,11 @@ void invoke(Method* method) {
 ReturnType execline(Method* method, unsigned int* i, int indent) {
 	string line = trim(method->getlines()[*i]);
 	string untrimmed = method->getlines()[*i];
+
+	if (is_comment(line)) {
+		printverbose(color(COMMENT) + line, false);
+		return ReturnType::NORMAL;
+	}
 
 	unsigned int firstsep = line.find_first_of(KEYWORD_SEPARATOR);
 	string keyword = firstsep == string::npos ? line : line.substr(0, firstsep);
