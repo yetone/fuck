@@ -1,3 +1,16 @@
+# Call method that doesn't exist
 call non_existing_method
+
+# Unknown instructions
 endif
 else
+
+# set variable with empty value
+set var
+
+# call set keyword with no arguments
+set
+
+if
+
+endif
