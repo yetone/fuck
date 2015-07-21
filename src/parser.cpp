@@ -59,7 +59,7 @@ void parse(Code *code) {
 
 			// Add pair to goto_labels list
 
-			currentmethod->goto_labels.push_back(make_pair(label, currentmethod->lines.size()));
+			currentmethod->labels.push_back(make_pair(label, currentmethod->lines.size()));
 			continue;
 		}
 
@@ -155,7 +155,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent) {
 	} else if (keyword == get_kw(KW_PRINT_ERR)) {
 		cerr << color(ERROR) << parse_set_statement(line) << reset() << endl;
 	} else if (keyword == get_kw(KW_GOTO)) {
-		goto_labels goto_lines = method->goto_labels;
+		goto_labels goto_lines = method->labels;
 		for (unsigned int s = 0; s < goto_lines.size(); s++) {
 			goto_pair pair = goto_lines[s];
 
