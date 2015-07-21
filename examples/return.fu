@@ -1,0 +1,2 @@
+set var ok
+return $var
