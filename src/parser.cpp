@@ -418,6 +418,33 @@ string parse_set_statement(string s) {
 	return s;
 }
 
+defvar setvar(string name, string statement) {
+	printverbose("Setting variable " + color(VERBOSE_HL) + name + color(VERBOSE) + " to " + color(VERBOSE_HL) + "\"" + statement + "\"");
+
+	int index = -1;
+	for (unsigned int k = 0; k < stackMap.size(); k++) {
+		defvar v = stackMap[k];
+		if (v.name == name) {
+			index = k;
+			break;
+		}
+	}
+
+	defvar var;
+	var.name = name;
+	var.var = parse_set_statement(statement);
+
+	if (index != -1) {
+		printverbose("Updated " + color(VERBOSE_HL) + name + color(VERBOSE) + " on stack with value " + var.var);
+		stackMap.at(index) = var;
+	} else {
+		printverbose("Added " + color(VERBOSE_HL) + name + color(VERBOSE) + " to stack with value " + var.var);
+		stackMap.push_back(var);
+	}
+
+	return var;
+}
+
 inline bool is_label(string s) {
 	return startswith(s, get_kw(KW_GOTO_LABEL_KEY, KW_GOTO_LABEL));
 }

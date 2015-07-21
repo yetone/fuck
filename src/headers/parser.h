@@ -1,6 +1,7 @@
 #include <string>
 #include <map>
 
+#include "var.h"
 #include "code.h"
 #include "method.h"
 
@@ -20,6 +21,8 @@ inline bool is_comment(string);
 
 // Check if line is goto label
 inline bool is_label(string);
+
+defvar setvar(string name, string statement);
 
 void parse(Code&);
 
