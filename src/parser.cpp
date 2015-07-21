@@ -102,7 +102,7 @@ void invoke() {
 	invoke(ENTRY_POINT);
 }
 
-void invoke(string s) {
+defvar* invoke(string s) {
 	Method* method = NULL;
 
 	for (unsigned int i = 0; i < methodMap.size(); i++) {
@@ -116,21 +116,28 @@ void invoke(string s) {
 
 	if (method == NULL) {
 		printerror("Could not find method " + color(COLOR_LIGHT_RED) + s);
-		return;
+		return NULL;
 	}
 
-	invoke(method);
+	return invoke(method);
 }
 
-void invoke(Method* method) {
+defvar* invoke(Method* method) {
 	printverbose("Invoking " + color(VERBOSE_HL) + method->getdisplayname() + color(VERBOSE) + " on line " + color(VERBOSE_HL) + "#" + to_string(method->chunk.start));
 
 	vector<string> lines = method->getlines();
 
 	for (unsigned int i = 0; i < lines.size(); i++) {
 		defvar* var = NULL;
-		execline(method, &i, 0, var);
+
+		ReturnType type = execline(method, &i, 0, var);
+
+		if (type == ReturnType::RETURN && var != NULL) {
+			return var;
+		}
 	}
+
+	return NULL;
 }
 
 ReturnType execline(Method* method, unsigned int* i, int indent, defvar* var) {
@@ -179,20 +186,24 @@ ReturnType execline(Method* method, unsigned int* i, int indent, defvar* var) {
 
 		setvar(name, statement);
 	} else if (keyword == get_kw(KW_IF)) {
-		parseif(method, untrimmed, i, indent);
+		// TODO parse return
+		parseif(method, untrimmed, i, indent, var);
 	} else if (keyword == get_kw(KW_WHILE)) {
-		parsewhile(method, untrimmed, i, indent);
+		// TODO parse return
+		parsewhile(method, untrimmed, i, indent, var);
 	} else if (keyword == get_kw(KW_HALT)) {
 		exit(get_exit_code(line));
 	} else if (keyword == get_kw(KW_BREAK)) {
 		return ReturnType::BREAK;
 	} else if (keyword == get_kw(KW_RETURN)) {
 		if (line.length() > 0) {
+			printverbose("Returning " + color(VERBOSE_HL) + line);
 			string set = parse_set_statement(line);
 			defvar v = setvar("temp", line);
 			var = &v;
 		} else {
 			var = NULL;
+			printverbose("Returning...");
 		}
 		return ReturnType::RETURN;
 	} else if (keyword == get_kw(KW_CONTINUE)) {
@@ -205,7 +216,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent, defvar* var) {
 }
 
 
-void parsewhile(Method* method, string line, unsigned int* i, int indent) {
+ReturnType parsewhile(Method* method, string line, unsigned int* i, int indent, defvar* var) {
 	printverbose("Checking " + color(VERBOSE_HL) + "while" + color(VERBOSE) + ", condition " + color(VERBOSE_HL) + line);
 
 	unsigned int end = *i;
@@ -254,21 +265,24 @@ void parsewhile(Method* method, string line, unsigned int* i, int indent) {
 		if (check_cond(cond)) {
 			*i = conds.start + 1;
 			exec:
-			ReturnType type = execrange(method, i, conds.end, indent + 1);
+			ReturnType type = execrange(method, i, conds.end, indent + 1, var);
 			if (type == ReturnType::BREAK) {
 				continue;
-			}
-			if (check_cond(cond) || type == ReturnType::CONTINUE) {
+			} else if (check_cond(cond) || type == ReturnType::CONTINUE) {
 				*i = conds.start + 1;
 				goto exec;
+			} else if (type == ReturnType::RETURN && var != NULL) {
+				return type;
 			}
 			break;
 		}
 	}
 	*i = totalend;
+
+	return ReturnType::NONE;
 }
 
-void parseif(Method* method, string line, unsigned int* i, int indent) {
+ReturnType parseif(Method* method, string line, unsigned int* i, int indent, defvar* var) {
 	printverbose("Checking " + color(VERBOSE_HL) + "if" + color(VERBOSE) + ", condition " + color(VERBOSE_HL) + line);
 
 	unsigned int end = *i;
@@ -312,7 +326,10 @@ void parseif(Method* method, string line, unsigned int* i, int indent) {
 		// Is else, we have passed by everything else
 		if (line == get_kw(KW_ELSE)) {
 			*i = conds.start + 1;
-			execrange(method, i, conds.end, indent + 1);
+			ReturnType type = execrange(method, i, conds.end, indent + 1, var);
+			if (type == ReturnType::RETURN) {
+				return type;
+			}
 			break;
 		}
 
@@ -320,16 +337,20 @@ void parseif(Method* method, string line, unsigned int* i, int indent) {
 
 		if (check_cond(cond)) {
 			*i = conds.start + 1;
-			execrange(method, i, conds.end, indent + 1);
+			ReturnType type = execrange(method, i, conds.end, indent + 1, var);
+			if (type == ReturnType::RETURN) {
+				return type;
+			}
 			break;
 		}
 	}
 	*i = totalend;
+
+	return ReturnType::NONE;
 }
 
-ReturnType execrange(Method* method, unsigned int* i, unsigned int to, int indent) {
+ReturnType execrange(Method* method, unsigned int* i, unsigned int to, int indent, defvar* var) {
 	for (unsigned int from = *i; from <= to; from++) {
-		defvar* var = NULL;
 		ReturnType type = execline(method, &from, indent, var);
 
 		if (type != ReturnType::NONE) {
