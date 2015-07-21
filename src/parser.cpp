@@ -19,10 +19,10 @@ using namespace std;
 extern methodmap methodMap;
 extern stack stackMap;
 
-void parse(Code *code) {
-	printverbose("Parsing " + code->getfile());
+void parse(Code &code) {
+	printverbose("Parsing " + code.getfile());
 
-	vector<string> lines = code->getlines();
+	vector<string> lines = code.getlines();
 
 	// Current namespace, might be empty
 	string currentns = "";

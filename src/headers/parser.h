@@ -20,7 +20,7 @@ inline bool is_comment(string);
 // Check if line is goto label
 inline bool is_label(string);
 
-void parse(Code*);
+void parse(Code&);
 
 // Invoke main method
 void invoke();

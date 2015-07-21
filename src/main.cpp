@@ -51,7 +51,7 @@ int main(int argc, char* argv[]) {
 
 			Code code(argv[i]);
 
-			parse(&code);
+			parse(code);
 		}
 	}
 
