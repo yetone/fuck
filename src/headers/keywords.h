@@ -44,6 +44,7 @@ using namespace std;
 
 #define KW_BREAK "break"
 #define KW_CONTINUE "continue"
+#define KW_RETURN "return"
 
 void load();
 
