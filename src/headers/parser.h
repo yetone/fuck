@@ -11,6 +11,7 @@ typedef vector<Method*> methodmap;
 enum class ReturnType {
 	CONTINUE,
 	BREAK,
+	RETURN,
 	NONE
 };
 
