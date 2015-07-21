@@ -128,11 +128,12 @@ void invoke(Method* method) {
 	vector<string> lines = method->getlines();
 
 	for (unsigned int i = 0; i < lines.size(); i++) {
-		execline(method, &i, 0);
+		defvar* var = NULL;
+		execline(method, &i, 0, var);
 	}
 }
 
-ReturnType execline(Method* method, unsigned int* i, int indent) {
+ReturnType execline(Method* method, unsigned int* i, int indent, defvar* var) {
 	string line = trim(method->getlines()[*i]);
 	string untrimmed = method->getlines()[*i];
 
@@ -176,28 +177,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent) {
 		// get everything else in line that the variable should be set to
 		string statement = line.substr(f + 1);
 
-		printverbose("Setting variable " + color(VERBOSE_HL) + name + color(VERBOSE) + " to " + color(VERBOSE_HL) + "\"" + statement + "\"");
-
-		int index = -1;
-		for (unsigned int k = 0; k < stackMap.size(); k++) {
-			defvar v = stackMap[k];
-			if (v.name == name) {
-				index = k;
-				break;
-			}
-		}
-
-		defvar var;
-		var.name = name;
-		var.var = parse_set_statement(statement);
-
-		if (index != -1) {
-			printverbose("Updated " + color(VERBOSE_HL) + name + color(VERBOSE) + " on stack with value " + var.var);
-			stackMap.at(index) = var;
-		} else {
-			printverbose("Added " + color(VERBOSE_HL) + name + color(VERBOSE) + " to stack with value " + var.var);
-			stackMap.push_back(var);
-		}
+		setvar(name, statement);
 	} else if (keyword == get_kw(KW_IF)) {
 		parseif(method, untrimmed, i, indent);
 	} else if (keyword == get_kw(KW_WHILE)) {
@@ -206,6 +186,15 @@ ReturnType execline(Method* method, unsigned int* i, int indent) {
 		exit(get_exit_code(line));
 	} else if (keyword == get_kw(KW_BREAK)) {
 		return ReturnType::BREAK;
+	} else if (keyword == get_kw(KW_RETURN)) {
+		if (line.length() > 0) {
+			string set = parse_set_statement(line);
+			defvar v = setvar("temp", line);
+			var = &v;
+		} else {
+			var = NULL;
+		}
+		return ReturnType::RETURN;
 	} else if (keyword == get_kw(KW_CONTINUE)) {
 		return ReturnType::CONTINUE;
 	} else {
@@ -340,7 +329,8 @@ void parseif(Method* method, string line, unsigned int* i, int indent) {
 
 ReturnType execrange(Method* method, unsigned int* i, unsigned int to, int indent) {
 	for (unsigned int from = *i; from <= to; from++) {
-		ReturnType type = execline(method, &from, indent);
+		defvar* var = NULL;
+		ReturnType type = execline(method, &from, indent, var);
 
 		if (type != ReturnType::NONE) {
 			return type;

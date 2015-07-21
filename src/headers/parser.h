@@ -36,7 +36,7 @@ void invoke(string);
 void invoke(Method*);
 
 // Execute line
-ReturnType execline(Method*, unsigned int*, int indent);
+ReturnType execline(Method*, unsigned int*, int indent, defvar * var);
 
 // Execute range of lines
 ReturnType execrange(Method*, unsigned int*, unsigned int, int indent);
