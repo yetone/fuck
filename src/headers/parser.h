@@ -11,7 +11,7 @@ typedef vector<Method*> methodmap;
 enum class ReturnType {
 	CONTINUE,
 	BREAK,
-	NORMAL
+	NONE
 };
 
 // Check if line is comment

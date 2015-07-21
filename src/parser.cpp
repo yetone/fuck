@@ -138,7 +138,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent) {
 
 	if (is_comment(line)) {
 		printverbose(color(COMMENT) + line, false);
-		return ReturnType::NORMAL;
+		return ReturnType::NONE;
 	}
 
 	unsigned int firstsep = line.find_first_of(KEYWORD_SEPARATOR);
@@ -212,7 +212,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent) {
 		printerror("Unknown instruction " + color(ERROR_HL) + keyword + " (" + line + ")" + color(ERROR) + " on line #" + to_string(*i));
 	}
 
-	return ReturnType::NORMAL;
+	return ReturnType::NONE;
 }
 
 
@@ -342,12 +342,12 @@ ReturnType execrange(Method* method, unsigned int* i, unsigned int to, int inden
 	for (unsigned int from = *i; from <= to; from++) {
 		ReturnType type = execline(method, &from, indent);
 
-		if (type != ReturnType::NORMAL) {
+		if (type != ReturnType::NONE) {
 			return type;
 		}
 	}
 
-	return ReturnType::NORMAL;
+	return ReturnType::NONE;
 }
 
 bool check_cond(string line) {
