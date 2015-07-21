@@ -15,5 +15,5 @@ set val "$a + $b + $var"
 out $val
 
 out "printing 10 + 5 + 1"
-set "val 10 + 5 + 1"
+set val "10 + 5 + 1"
 out $val
