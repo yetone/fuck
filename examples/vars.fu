@@ -20,3 +20,11 @@ out $val
 
 $another := 40
 out $another
+
+$var := 10
+$var2 := 20
+
+# Might parse "$var2" as $var + 2
+# can result in 10, 102
+
+out "$var, $var2"
