@@ -47,7 +47,7 @@ call ns.example2
 out "printing to stdout"
 err "printing to stderr"
 
-set var 10
+push var 10
 out "printing $var"
 out "actually printing the string \$var"
 ```
@@ -63,8 +63,8 @@ goto label
 ### Variables
 
 ```
-set name "value"
-set number 10
+push name "value"
+push number 10
 $number := 40
 $name := "ok"
 ```
@@ -101,7 +101,7 @@ endif
 while $var
 	while $var
 		out will only run once
-		set var false
+		push var false
 	end_while
 end_while
 ```

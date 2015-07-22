@@ -2,7 +2,7 @@ method method
 	return "ok"
 end_method
 
-set var method() method()
+push var method() method()
 
 out $var
 $va2 := method()

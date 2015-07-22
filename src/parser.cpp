@@ -203,7 +203,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 		return ReturnType::RETURN;
 	} else if (keyword == get_kw(KW_CONTINUE)) {
 		return ReturnType::CONTINUE;
-	} else if (keyword == get_kw(KW_SET_VAR) || (startswith(keyword, get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN)) && startswith(line, get_kw(KW_SET_VAR_SIMPLE_KEY, KW_SET_VAR_SIMPLE)))) {
+	} else if (keyword == get_kw(KW_PUSH_VAR) || (startswith(keyword, get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN)) && startswith(line, get_kw(KW_PUSH_VAR_SIMPLE_KEY, KW_PUSH_VAR_SIMPLE)))) {
 		// get type
 		int f = line.find_first_of(" ");
 		string name;

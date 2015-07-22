@@ -1,8 +1,8 @@
-set variablename value
-set bool1 true
-set bool2 false
-set bool3 $bool1
-set bool4 !$bool3
+push variablename value
+push bool1 true
+push bool2 false
+push bool3 $bool1
+push bool4 !$bool3
 
 out $bool1
 out $bool2
@@ -18,6 +18,6 @@ if $bool4
 	out \$bool4 is true
 else
 	out \$bool4 is false
-	set bool4 true
+	push bool4 true
 	goto repeat
 endif

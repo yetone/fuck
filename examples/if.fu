@@ -1,13 +1,13 @@
-set placeholder false
-set var1 true
+push placeholder false
+push var1 true
 
 # if1
 if $var1
 	out if1
 endif
 
-set var1 false
-set var2 true
+push var1 false
+push var2 true
 
 # elif2
 if $var1
@@ -18,8 +18,8 @@ else
 	out else2
 endif
 
-set var2 false
-set var3 true
+push var2 false
+push var3 true
 
 # else3
 if $var1
@@ -32,8 +32,8 @@ else
 	out else3
 endif
 
-set var3 true
-set var4 true
+push var3 true
+push var4 true
 
 # should run $var4
 if $var3

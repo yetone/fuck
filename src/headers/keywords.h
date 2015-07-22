@@ -27,9 +27,9 @@ using namespace std;
 #define KW_GOTO_LABEL_KEY "goto-label"
 #define KW_GOTO "goto"
 
-#define KW_SET_VAR "set"
-#define KW_SET_VAR_SIMPLE ":="
-#define KW_SET_VAR_SIMPLE_KEY "set-simple"
+#define KW_PUSH_VAR "push"
+#define KW_PUSH_VAR_SIMPLE ":="
+#define KW_PUSH_VAR_SIMPLE_KEY "push-simple"
 
 #define KW_VAR_SIGN "$"
 #define KW_VAR_SIGN_KEY "sign"

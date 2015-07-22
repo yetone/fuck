@@ -5,11 +5,11 @@ call non_existing_method
 endif
 else
 
-# set variable with empty value
-set var
+# push variable with empty value
+push var
 
-# call set keyword with no arguments
-set
+# call push keyword with no arguments
+push
 
 if
 
