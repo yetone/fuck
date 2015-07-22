@@ -17,3 +17,6 @@ out $val
 out "printing 10 + 5 + 1"
 set val "10 + 5 + 1"
 out $val
+
+$another := 40
+out $another

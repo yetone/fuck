@@ -65,6 +65,8 @@ goto label
 ```
 set name "value"
 set number 10
+$number := 40
+$name := "ok"
 ```
 
 ### Comment
