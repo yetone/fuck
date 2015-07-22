@@ -5,3 +5,5 @@ end_method
 set var method() method()
 
 out $var
+$var2 := method()
+out "ok $var ok method() $var2"
