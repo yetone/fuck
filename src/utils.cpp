@@ -59,15 +59,16 @@ string parsevars(string s) {
 	for (Method* m : methodMap) {
 		string find = m->getname() + "()";
 
-		int f = s.find(find);
+		int f = 0;
 
-		if (f != (signed int) string::npos) {
+		while ((f = s.find(find, f)) != (signed int) string::npos) {
 			defvar* returned = invoke(m);
 
 			if (returned == NULL) {
 				printerror("Function " + color(ERROR_HL) + m->getname() + color(ERROR) + " did not return any value");
 			} else {
-				s = replaceAll(s, find, returned->var);
+				s = s.replace(f, find.length(), returned->var);
+				f += returned->var.length();
 			}
 		}
 	}
