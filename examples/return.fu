@@ -1,2 +1,5 @@
-set var ok
-return $var
+method method
+	return "ok"
+end_method
+
+out method()
