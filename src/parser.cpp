@@ -180,15 +180,6 @@ ReturnType execline(Method* method, unsigned int* i, int indent, defvar*& var) {
 				break;
 			}
 		}
-	} else if (keyword == get_kw(KW_SET_VAR)) {
-		// get type
-		int f = line.find_first_of(" ");
-		string name = line.substr(0, f);
-
-		// get everything else in line that the variable should be set to
-		string statement = line.substr(f + 1);
-
-		setvar(name, statement);
 	} else if (keyword == get_kw(KW_IF)) {
 		// TODO parse return
 		parseif(method, untrimmed, i, indent, var);
@@ -212,6 +203,15 @@ ReturnType execline(Method* method, unsigned int* i, int indent, defvar*& var) {
 		return ReturnType::RETURN;
 	} else if (keyword == get_kw(KW_CONTINUE)) {
 		return ReturnType::CONTINUE;
+	} else if (keyword == get_kw(KW_SET_VAR)) {
+		// get type
+		int f = line.find_first_of(" ");
+		string name = line.substr(0, f);
+
+		// get everything else in line that the variable should be set to
+		string statement = line.substr(f + 1);
+
+		setvar(name, statement);
 	} else {
 		printerror("Unknown instruction " + color(ERROR_HL) + keyword + " (" + line + ")" + color(ERROR) + " on line #" + to_string(*i));
 	}
