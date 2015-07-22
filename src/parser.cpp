@@ -160,7 +160,11 @@ ReturnType execline(Method* method, unsigned int* i, int indent, defvar*& var) {
 	printverbose("Executing keyword " + color(VERBOSE_HL) + keyword + color(VERBOSE) + ", line #" + to_string(*i) + " " + color(VERBOSE_HL) + "\"" + line + "\"");
 
 	if (keyword == get_kw(KW_CALL_METHOD)) {
-		invoke(line);
+		defvar* returned = invoke(line);
+
+		if (returned != NULL) {
+			printverbose(color(COLOR_MAGENTA) + "Returned value " + returned->var);
+		}
 	} else if (keyword == get_kw(KW_PRINT)) {
 		cout << parse_set_statement(line) << endl;
 	} else if (keyword == get_kw(KW_PRINT_ERR)) {
