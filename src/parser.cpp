@@ -203,13 +203,19 @@ ReturnType execline(Method* method, unsigned int* i, int indent, defvar*& var) {
 		return ReturnType::RETURN;
 	} else if (keyword == get_kw(KW_CONTINUE)) {
 		return ReturnType::CONTINUE;
-	} else if (keyword == get_kw(KW_SET_VAR)) {
+	} else if (keyword == get_kw(KW_SET_VAR) || (startswith(keyword, get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN)) && startswith(line, get_kw(KW_SET_VAR_SIMPLE_KEY, KW_SET_VAR_SIMPLE)))) {
 		// get type
 		int f = line.find_first_of(" ");
-		string name = line.substr(0, f);
+		string name;
+		string statement;
 
-		// get everything else in line that the variable should be set to
-		string statement = line.substr(f + 1);
+		if (startswith(keyword, get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN))) {
+			name = keyword.substr(1);
+			statement = trim(line.substr(2));
+		} else {
+			name = line.substr(0, f);
+			statement = line.substr(f + 1);
+		}
 
 		setvar(name, statement);
 	} else {

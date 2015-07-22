@@ -28,6 +28,9 @@ using namespace std;
 #define KW_GOTO "goto"
 
 #define KW_SET_VAR "set"
+#define KW_SET_VAR_SIMPLE ":="
+#define KW_SET_VAR_SIMPLE_KEY "set-simple"
+
 #define KW_GET_VAR "get"
 #define KW_VAR_SIGN "$"
 #define KW_VAR_SIGN_KEY "sign"
