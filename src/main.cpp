@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
 
 		if (strcmp(argv[i], "--verbose") == 0 || strcmp(argv[i], "-v") == 0) {
 			verbose = true;
-		} else if (strcmp(argv[i], "--colors") == 0) {
+		} else if (strcmp(argv[i], "--colors") == 0 || strcmp(argv[i], "-c") == 0) {
 			colors = true;
 		} else if (!startswith(argv[i], "-")){
 			gotfiles = true;

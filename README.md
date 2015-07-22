@@ -10,7 +10,7 @@ __fulang__ is an acronym for **fuck you language** or **ful language**
 | Argument    		| Description                           |
 | --------    		| -----------                           |
 | --verbose, -v   	| Prints what the intepreter is doing   |
-| --colors    		| Colors stderr and verbose output      |
+| --colors, -c		| Colors stderr and verbose output      |
 
 Every other argument is being parsed as input file
 
