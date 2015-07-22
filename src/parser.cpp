@@ -102,7 +102,7 @@ void invoke() {
 	invoke(ENTRY_POINT);
 }
 
-defvar* invoke(string s) {
+Variable* invoke(string s) {
 	Method* method = NULL;
 
 	for (unsigned int i = 0; i < methodMap.size(); i++) {
@@ -122,13 +122,13 @@ defvar* invoke(string s) {
 	return invoke(method);
 }
 
-defvar* invoke(Method* method) {
+Variable* invoke(Method* method) {
 	printverbose("Invoking " + color(VERBOSE_HL) + method->getdisplayname() + color(VERBOSE) + " on line " + color(VERBOSE_HL) + "#" + to_string(method->chunk.start));
 
 	vector<string> lines = method->getlines();
 
 	for (unsigned int i = 0; i < lines.size(); i++) {
-		defvar* var = NULL;
+		Variable* var = NULL;
 
 		ReturnType type = execline(method, &i, 0, var);
 
@@ -140,7 +140,7 @@ defvar* invoke(Method* method) {
 	return NULL;
 }
 
-ReturnType execline(Method* method, unsigned int* i, int indent, defvar*& var) {
+ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var) {
 	string line = trim(method->getlines()[*i]);
 	string untrimmed = method->getlines()[*i];
 
@@ -160,7 +160,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent, defvar*& var) {
 	printverbose("Executing keyword " + color(VERBOSE_HL) + keyword + color(VERBOSE) + ", line #" + to_string(*i) + " " + color(VERBOSE_HL) + "\"" + line + "\"");
 
 	if (keyword == get_kw(KW_CALL_METHOD)) {
-		defvar* returned = invoke(line);
+		Variable* returned = invoke(line);
 
 		if (returned != NULL) {
 			printverbose(color(COLOR_MAGENTA) + "Returned value " + returned->var);
@@ -194,7 +194,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent, defvar*& var) {
 		if (line.length() > 0) {
 			printverbose("Returning " + color(VERBOSE_HL) + line);
 			string set = parse_set_statement(line);
-			defvar v = setvar("temp", line);
+			Variable v = setvar("temp", line);
 			var = &v;
 		} else {
 			var = NULL;
@@ -226,7 +226,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent, defvar*& var) {
 }
 
 
-ReturnType parsewhile(Method* method, string line, unsigned int* i, int indent, defvar*& var) {
+ReturnType parsewhile(Method* method, string line, unsigned int* i, int indent, Variable*& var) {
 	printverbose("Checking " + color(VERBOSE_HL) + "while" + color(VERBOSE) + ", condition " + color(VERBOSE_HL) + line);
 
 	unsigned int end = *i;
@@ -292,7 +292,7 @@ ReturnType parsewhile(Method* method, string line, unsigned int* i, int indent, 
 	return ReturnType::NONE;
 }
 
-ReturnType parseif(Method* method, string line, unsigned int* i, int indent, defvar*& var) {
+ReturnType parseif(Method* method, string line, unsigned int* i, int indent, Variable*& var) {
 	printverbose("Checking " + color(VERBOSE_HL) + "if" + color(VERBOSE) + ", condition " + color(VERBOSE_HL) + line);
 
 	unsigned int end = *i;
@@ -359,7 +359,7 @@ ReturnType parseif(Method* method, string line, unsigned int* i, int indent, def
 	return ReturnType::NONE;
 }
 
-ReturnType execrange(Method* method, unsigned int* i, unsigned int to, int indent, defvar*& var) {
+ReturnType execrange(Method* method, unsigned int* i, unsigned int to, int indent, Variable*& var) {
 	for (unsigned int from = *i; from <= to; from++) {
 		ReturnType type = execline(method, &from, indent, var);
 
@@ -381,7 +381,7 @@ bool check_cond(string line) {
 		line = line.substr(1);
 
 		for (unsigned int i = 0; i < stackMap.size(); i++) {
-			defvar v = stackMap[i];
+			Variable v = stackMap[i];
 			if (v.name == line) {
 				return v.var == get_kw(KW_TRUE);
 			}
@@ -392,10 +392,10 @@ bool check_cond(string line) {
 	return DEFAULT_COND;
 }
 
-defvar* getvar(string name) {
+Variable* getvar(string name) {
 
 	for (unsigned int i = 0; i < stackMap.size(); i++) {
-		defvar v = stackMap[i];
+		Variable v = stackMap[i];
 		if (v.name == name) {
 			return &stackMap[i];
 		}
@@ -416,7 +416,7 @@ string parse_set_statement(string s) {
 	if (!isstring && var && s.find(" ") == string::npos) {
 		string name = s.substr(opposite ? 2 : 1);
 
-		defvar v = *getvar(name);
+		Variable v = *getvar(name);
 		if (v.name == name) {
 			if (opposite) {
 				bool yes = v.var == "true";
@@ -439,19 +439,19 @@ string parse_set_statement(string s) {
 	return s;
 }
 
-defvar setvar(string name, string statement) {
+Variable setvar(string name, string statement) {
 	printverbose("Setting variable " + color(VERBOSE_HL) + name + color(VERBOSE) + " to " + color(VERBOSE_HL) + "\"" + statement + "\"");
 
 	int index = -1;
 	for (unsigned int k = 0; k < stackMap.size(); k++) {
-		defvar v = stackMap[k];
+		Variable v = stackMap[k];
 		if (v.name == name) {
 			index = k;
 			break;
 		}
 	}
 
-	defvar var;
+	Variable var;
 	var.name = name;
 	var.var = parse_set_statement(statement);
 

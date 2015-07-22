@@ -48,7 +48,7 @@ void printwarning(string s) {
 }
 
 string parsevars(string s) {
-	for (defvar v : stackMap) {
+	for (Variable v : stackMap) {
 		int f = s.find("$" + v.name);
 
 		if (f != (signed int) string::npos) {
@@ -62,7 +62,7 @@ string parsevars(string s) {
 		int f = 0;
 
 		while ((f = s.find(find, f)) != (signed int) string::npos) {
-			defvar* returned = invoke(m);
+			Variable* returned = invoke(m);
 
 			if (returned == NULL) {
 				printerror("Function " + color(ERROR_HL) + m->getname() + color(ERROR) + " did not return any value");
