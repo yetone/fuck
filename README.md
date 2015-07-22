@@ -64,7 +64,14 @@ goto label
 
 ```
 push name "value"
+
+# pushes to back of stack, default
+# push back number 10
 push number 10
+
+# pushes to front of stack
+# push front number 10
+
 $number := 40
 $name := "ok"
 ```
