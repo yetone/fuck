@@ -7,10 +7,13 @@
 #include "headers/keywords.h"
 #include "headers/code.h"
 #include "headers/var.h"
+#include "headers/parser.h"
 
 using namespace std;
 
 extern bool verbose;
+
+extern methodmap methodMap;
 extern stack stackMap;
 
 bool startswith(string s, string s1) {
@@ -50,6 +53,22 @@ string parsevars(string s) {
 
 		if (f != (signed int) string::npos) {
 			s = replaceAll(s, "$" + v.name, v.var);
+		}
+	}
+
+	for (Method* m : methodMap) {
+		string find = m->getname() + "()";
+
+		int f = s.find(find);
+
+		if (f != (signed int) string::npos) {
+			defvar* returned = invoke(m);
+
+			if (returned == NULL) {
+				printerror("Function " + color(ERROR_HL) + m->getname() + color(ERROR) + " did not return any value");
+			} else {
+				s = replaceAll(s, find, returned->var);
+			}
 		}
 	}
 
