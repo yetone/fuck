@@ -28,6 +28,9 @@ using namespace std;
 #define KW_GOTO "goto"
 
 #define KW_PUSH_VAR "push"
+#define KW_PUSH_FRONT /* push */ "front"
+#define KW_PUSH_BACK /* push */ "back"
+
 #define KW_PUSH_VAR_SIMPLE ":="
 #define KW_PUSH_VAR_SIMPLE_KEY "push-simple"
 

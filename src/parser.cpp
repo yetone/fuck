@@ -208,6 +208,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 		int f = line.find_first_of(" ");
 		string name;
 		string statement;
+		StackPos pos = StackPos::END;
 
 		if (startswith(keyword, get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN))) {
 			name = keyword.substr(1);
@@ -215,9 +216,18 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 		} else {
 			name = line.substr(0, f);
 			statement = line.substr(f + 1);
+
+			if (name == get_kw(KW_PUSH_FRONT) || name == get_kw(KW_PUSH_BACK)) {
+				name = statement.substr(0, statement.find_first_of(" "));
+				statement = statement.substr(statement.find_first_of(" ") + 1);
+
+				if (name == get_kw(KW_PUSH_FRONT)) {
+					pos = StackPos::FRONT;
+				}
+			}
 		}
 
-		setvar(name, statement);
+		setvar(name, statement, pos);
 	} else {
 		printerror("Unknown instruction " + color(ERROR_HL) + keyword + " (" + line + ")" + color(ERROR) + " on line #" + to_string(*i));
 	}
@@ -439,7 +449,7 @@ string parse_set_statement(string s) {
 	return s;
 }
 
-Variable setvar(string name, string statement) {
+Variable setvar(string name, string statement, StackPos pos) {
 	printverbose("Setting variable " + color(VERBOSE_HL) + name + color(VERBOSE) + " to " + color(VERBOSE_HL) + "\"" + statement + "\"");
 
 	int index = -1;
@@ -460,7 +470,14 @@ Variable setvar(string name, string statement) {
 		stackMap.at(index) = var;
 	} else {
 		printverbose("Added " + color(VERBOSE_HL) + name + color(VERBOSE) + " to stack with value " + var.var);
-		stackMap.push_back(var);
+
+		if (pos == StackPos::FRONT) {
+			stackMap.insert(stackMap.begin(), var);
+		} else if (pos == StackPos::END) {
+			stackMap.push_back(var);
+		} else {
+			printerror("Invalid stack position");
+		}
 	}
 
 	return var;

@@ -16,13 +16,18 @@ enum class ReturnType {
 	NONE
 };
 
+enum class StackPos {
+	FRONT,
+	END
+};
+
 // Check if line is comment
 inline bool is_comment(string);
 
 // Check if line is goto label
 inline bool is_label(string);
 
-Variable setvar(string name, string statement);
+Variable setvar(string name, string statement, StackPos pos = StackPos::END);
 
 void parse(Code&);
 
