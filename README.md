@@ -86,7 +86,20 @@ if $var
 	if $var
 		if $var
 			out "ok"
+		else
+			out \$var is somehow false
 		endif
 	endif
 endif
+```
+
+### While
+
+```
+while $var
+	while $var
+		out will only run once
+		set var false
+	end_while
+end_while
 ```

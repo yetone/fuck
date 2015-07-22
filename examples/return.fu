@@ -2,4 +2,6 @@ method method
 	return "ok"
 end_method
 
-out method()
+set var method() method()
+
+out $var
