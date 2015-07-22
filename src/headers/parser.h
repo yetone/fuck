@@ -36,10 +36,10 @@ defvar* invoke(string);
 defvar* invoke(Method*);
 
 // Execute line
-ReturnType execline(Method*, unsigned int*, int indent, defvar*);
+ReturnType execline(Method*, unsigned int*, int indent, defvar*&);
 
 // Execute range of lines
-ReturnType execrange(Method*, unsigned int*, unsigned int, int indent, defvar*);
+ReturnType execrange(Method*, unsigned int*, unsigned int, int indent, defvar*&);
 
 // check if something is true
 bool check_cond(string);
@@ -47,9 +47,9 @@ bool check_cond(string);
 // used when set keyword is used, create new variable
 string parse_set_statement(string statement);
 
-ReturnType parseif(Method* method, string line, unsigned int* i, int, defvar*);
+ReturnType parseif(Method* method, string line, unsigned int* i, int, defvar*&);
 
-ReturnType parsewhile(Method* method, string, unsigned int* i, int, defvar*);
+ReturnType parsewhile(Method* method, string, unsigned int* i, int, defvar*&);
 
 typedef Chunk If;
 typedef Chunk While;

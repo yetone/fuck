@@ -140,7 +140,7 @@ defvar* invoke(Method* method) {
 	return NULL;
 }
 
-ReturnType execline(Method* method, unsigned int* i, int indent, defvar* var) {
+ReturnType execline(Method* method, unsigned int* i, int indent, defvar*& var) {
 	string line = trim(method->getlines()[*i]);
 	string untrimmed = method->getlines()[*i];
 
@@ -216,7 +216,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent, defvar* var) {
 }
 
 
-ReturnType parsewhile(Method* method, string line, unsigned int* i, int indent, defvar* var) {
+ReturnType parsewhile(Method* method, string line, unsigned int* i, int indent, defvar*& var) {
 	printverbose("Checking " + color(VERBOSE_HL) + "while" + color(VERBOSE) + ", condition " + color(VERBOSE_HL) + line);
 
 	unsigned int end = *i;
@@ -282,7 +282,7 @@ ReturnType parsewhile(Method* method, string line, unsigned int* i, int indent, 
 	return ReturnType::NONE;
 }
 
-ReturnType parseif(Method* method, string line, unsigned int* i, int indent, defvar* var) {
+ReturnType parseif(Method* method, string line, unsigned int* i, int indent, defvar*& var) {
 	printverbose("Checking " + color(VERBOSE_HL) + "if" + color(VERBOSE) + ", condition " + color(VERBOSE_HL) + line);
 
 	unsigned int end = *i;
@@ -349,7 +349,7 @@ ReturnType parseif(Method* method, string line, unsigned int* i, int indent, def
 	return ReturnType::NONE;
 }
 
-ReturnType execrange(Method* method, unsigned int* i, unsigned int to, int indent, defvar* var) {
+ReturnType execrange(Method* method, unsigned int* i, unsigned int to, int indent, defvar*& var) {
 	for (unsigned int from = *i; from <= to; from++) {
 		ReturnType type = execline(method, &from, indent, var);
 
