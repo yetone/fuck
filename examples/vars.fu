@@ -2,10 +2,15 @@
 
 push a 5
 push b 10
-push var 15
+
+# same as just writing "push" (back is default)
+push back var 15
+
+# pushing variable to first index in stack
+push front first 50
 
 out "printing variable values"
-out "\$a=$a \$b=$b \$var=$var"
+out "\$a=$a \$b=$b \$var=$var \$first=$first"
 
 # print empty line
 out
