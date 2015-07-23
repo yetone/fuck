@@ -20,11 +20,11 @@ push val "$a + $b + $var"
 out $val
 
 out "printing above as values"
-push val "$a + $b + $var"
+push val $a + $b + $var
 out $val
 
 out "printing 10 + 5 + 1"
-push val "10 + 5 + 1"
+push val 10 + 5 + 1
 out $val
 
 $another := 40
