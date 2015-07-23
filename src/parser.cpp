@@ -449,9 +449,19 @@ string parse_set_statement(string s) {
 			s = s.substr(1, s.length() - 2);
 		} else {
 			s = replaceAll(s, " ", "");
-			int val = eval(s);
+			double val = eval(s);
 
 			s = to_string(val);
+
+			unsigned int f = s.find_last_of('.');
+
+			if (f != string::npos && s.substr(f + 1).find_first_not_of('0') == string::npos) {
+				// If absolute value, remove dot and zeros
+				s = s.substr(0, f);
+			} else {
+				// Remove zeros
+				s = s.substr(0, s.find_last_not_of('0') + 1);
+			}
 		}
 	}
 
