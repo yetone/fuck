@@ -417,6 +417,10 @@ Variable* getvar(string name) {
 string parse_set_statement(string s) {
 	printverbose("Checking variable set statement " + color(VERBOSE_HL) + s);
 
+	if (s.length() == 0) {
+		return s;
+	}
+
 	bool opposite = s[0] == '!';
 	bool var = s[opposite ? 1 : 0] == '$';
 
