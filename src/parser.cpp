@@ -13,6 +13,7 @@
 #include "headers/utils.h"
 #include "headers/var.h"
 #include "headers/colors.h"
+#include "headers/mathexp.h"
 
 using namespace std;
 
@@ -442,12 +443,16 @@ string parse_set_statement(string s) {
 		}
 
 	} else {
+		s = parsevars(s);
+
 		if (isstring) {
 			s = s.substr(1, s.length() - 2);
 		} else {
 			s = replaceAll(s, " ", "");
+			int val = eval(s);
+
+			s = to_string(val);
 		}
-		s = parsevars(s);
 	}
 
 	return s;

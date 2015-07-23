@@ -7,5 +7,10 @@ using namespace std;
 
 int eval(string s) {
 	printverbose("Evaluating mathematical expression " + color(VERBOSE_HL) + s);
-	return 0;
+
+	int val;
+
+	val = stoi(s);
+
+	return val;
 }
