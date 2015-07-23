@@ -16,7 +16,7 @@ using namespace std;
 bool verbose = false;
 bool colors = false;
 methodmap methodMap;
-stack stackMap;
+stackmap stackMap;
 
 int main(int argc, char* argv[]) {
 	if (argc <= 1) {

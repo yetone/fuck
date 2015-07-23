@@ -14,7 +14,7 @@ using namespace std;
 extern bool verbose;
 
 extern methodmap methodMap;
-extern stack stackMap;
+extern stackmap stackMap;
 
 bool startswith(string s, string s1) {
 	return s.substr(0, s1.size()) == s1;

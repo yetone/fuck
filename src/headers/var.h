@@ -14,4 +14,4 @@ public:
 
 #endif
 
-typedef vector<Variable> stack;
+typedef vector<Variable> stackmap;

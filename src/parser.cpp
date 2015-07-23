@@ -18,7 +18,7 @@
 using namespace std;
 
 extern methodmap methodMap;
-extern stack stackMap;
+extern stackmap stackMap;
 
 void parse(Code &code) {
 	printverbose("Parsing " + code.getfile());
