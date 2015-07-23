@@ -112,3 +112,7 @@ while $var
 	end_while
 end_while
 ```
+
+***
+
+Uses [cpp-expression-parser](https://github.com/bamos/cpp-expression-parser) for parsing mathematical expressions
