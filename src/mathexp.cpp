@@ -177,15 +177,18 @@ double calculate(const char* expr, std::map<std::string, double>* vars) {
 			} else if (!str.compare("%")) {
 				evaluation.push((int) left % (int) right);
 			} else {
-				throw std::domain_error("Unknown operator: '" + str + "'.");
+				printerror("Invalid operator " + color(ERROR_HL) + str);
+				break;
 			}
 		} else if (doubleTok) {
 			evaluation.push(doubleTok->val);
 		} else {
-			throw std::domain_error("Invalid token.");
+			printerror("Invalid token");
+			break;
 		}
 		delete base;
 	}
+
 	return evaluation.top();
 }
 
