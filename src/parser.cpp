@@ -187,6 +187,9 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 	} else if (keyword == get_kw(KW_WHILE)) {
 		// TODO parse return
 		parsewhile(method, untrimmed, i, indent, var);
+	} else if (keyword == get_kw(KW_FOR)) {
+		// TODO parse return
+		parsefor(method, untrimmed, i, indent, var);
 	} else if (keyword == get_kw(KW_HALT)) {
 		exit(get_exit_code(line));
 	} else if (keyword == get_kw(KW_BREAK)) {
@@ -236,6 +239,71 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 	return ReturnType::NONE;
 }
 
+ReturnType parsefor(Method* method, string line, unsigned int* i, int indent, Variable*& var) {
+	printverbose("Checking " + color(VERBOSE_HL) + "for" + color(VERBOSE) + ", condition " + color(VERBOSE_HL) + line);
+
+	unsigned int end = *i;
+
+	vector<For> fors;
+
+	For *current = NULL;
+
+	int totalend;
+
+	while (end < method->getlines().size()) {
+		string temp = method->getlines()[end];
+
+		int s = temp.find_first_not_of('\t');
+
+		if (s == indent && startswith(trim(temp), get_kw(KW_FOR))) {
+			if (current != NULL) {
+				current->end = end - 1;
+				fors.push_back(*current);
+			}
+
+			current = new While;
+			current->start = end;
+			*i = end;
+		} else if (s == indent && startswith(trim(temp), get_kw(KW_FOR_END))) {
+			if (current != NULL) {
+				line = method->getlines()[current->start];
+				string cond = line.substr(line.find_first_of(" ") + 1);
+
+				current->end = end - 1;
+				fors.push_back(*current);
+				*i = end;
+				totalend = end;
+				break;
+			}
+		}
+
+		end++;
+	}
+
+	for (For conds : fors) {
+		string line = trim(method->getlines()[conds.start]);
+
+		string cond = line.substr(line.find_first_of(" ") + 1);
+
+		if (check_cond(cond)) {
+			*i = conds.start + 1;
+			exec:
+			ReturnType type = execrange(method, i, conds.end, indent + 1, var);
+			if (type == ReturnType::BREAK) {
+				continue;
+			} else if (check_cond(cond) || type == ReturnType::CONTINUE) {
+				*i = conds.start + 1;
+				goto exec;
+			} else if (type == ReturnType::RETURN && var != NULL) {
+				return type;
+			}
+			break;
+		}
+	}
+	*i = totalend;
+
+	return ReturnType::NONE;
+}
 
 ReturnType parsewhile(Method* method, string line, unsigned int* i, int indent, Variable*& var) {
 	printverbose("Checking " + color(VERBOSE_HL) + "while" + color(VERBOSE) + ", condition " + color(VERBOSE_HL) + line);

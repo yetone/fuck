@@ -56,5 +56,8 @@ ReturnType parseif(Method* method, string line, unsigned int* i, int, Variable*&
 
 ReturnType parsewhile(Method* method, string, unsigned int* i, int, Variable*&);
 
+ReturnType parsefor(Method* method, string, unsigned int* i, int, Variable*&);
+
 typedef Chunk If;
 typedef Chunk While;
+typedef Chunk For;
