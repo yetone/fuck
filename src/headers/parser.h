@@ -27,6 +27,8 @@ inline bool is_comment(string);
 // Check if line is goto label
 inline bool is_label(string);
 
+Variable* getvar(string);
+
 Variable setvar(string name, string statement, StackPos pos = StackPos::END);
 
 void parse(Code&);
