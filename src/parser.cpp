@@ -539,6 +539,10 @@ string parse_set_statement(string s) {
 Variable setvar(string name, string statement, StackPos pos) {
 	printverbose("Setting variable " + color(VERBOSE_HL) + name + color(VERBOSE) + " to " + color(VERBOSE_HL) + "\"" + statement + "\"");
 
+	if (name[0] == get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN)[0]) {
+		name = name.substr(1);
+	}
+
 	int index = -1;
 	for (unsigned int k = 0; k < stackMap.size(); k++) {
 		Variable v = stackMap[k];
