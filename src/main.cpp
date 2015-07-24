@@ -34,10 +34,9 @@ int main(int argc, char* argv[]) {
 
 	// Skip first in argument list
 	for (int i = 1; i < argc; i++) {
-
-		if (strcmp(argv[i], ARG_VERBOSE) == 0 || strcmp(argv[i], ARG_VERBOSE_SHORT) == 0) {
+		if (!strcmp(argv[i], ARG_VERBOSE) || !strcmp(argv[i], ARG_VERBOSE_SHORT)) {
 			verbose = true;
-		} else if (strcmp(argv[i], ARG_COLORS) == 0 || strcmp(argv[i], ARG_COLORS_SHORT) == 0) {
+		} else if (!strcmp(argv[i], ARG_COLORS)|| !strcmp(argv[i], ARG_COLORS_SHORT)) {
 			colors = true;
 		} else if (!startswith(argv[i], "-")){
 			gotfiles = true;
