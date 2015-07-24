@@ -292,7 +292,7 @@ ReturnType parsefor(Method* method, string line, unsigned int* i, int indent, Va
 		}
 
 		Variable from;
-		Variable to;
+		int to;
 		string dos;
 
 		for (unsigned int in = 1; in < spl.size(); in++) {
@@ -301,9 +301,9 @@ ReturnType parsefor(Method* method, string line, unsigned int* i, int indent, Va
 			string w = s.substr(s.find_first_of(' ') + 1);
 
 			if (startswith(s, get_kw(KW_FOR_FROM))) {
-				from = setvar("test1", w);
+				from = setvar(first, w);
 			} else if (startswith(s, get_kw(KW_FOR_TO))) {
-				to = setvar("test2", w);
+				to = atoi(w.c_str());
 			} else if (startswith(s, get_kw(KW_FOR_DO))) {
 				dos = w;
 			} else {
@@ -312,19 +312,18 @@ ReturnType parsefor(Method* method, string line, unsigned int* i, int indent, Va
 		}
 
 		int f = atoi(from.var.c_str());
-		int t = atoi(to.var.c_str());
 
-		cout << "To: " << t << " From: " << f << endl;
+		cout << "To: " << to << " From: " << f << endl;
 
-		if (f <= t) {//check_cond(cond)) {
+		if (f <= to) {//check_cond(cond)) {
 			*i = conds.start + 1;
 			exec:
 			ReturnType type = execrange(method, i, conds.end, indent + 1, var);
 			if (type == ReturnType::BREAK) {
 				continue;
-			} else if (f <= t || type == ReturnType::CONTINUE) {
+			} else if (f <= to || type == ReturnType::CONTINUE) {
 				*i = conds.start + 1;
-				cout << "To: " << t << " From: " << f << endl;
+				cout << "To: " << to << " From: " << f << endl;
 
 				Variable temp = setvar(from.name, dos);
 				f = atoi(temp.var.c_str());
@@ -508,7 +507,7 @@ bool check_cond(string line) {
 
 Variable* getvar(string name) {
 	if (name[0] == get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN)[0]) {
-			name = name.substr(1);
+		name = name.substr(1);
 	}
 
 	for (unsigned int i = 0; i < stackMap.size(); i++) {
