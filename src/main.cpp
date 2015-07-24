@@ -13,6 +13,11 @@ using namespace std;
 #define NORMAL_EXIT 0
 #define VERSION "0.0"
 
+#define ARG_VERBOSE "--verbose"
+#define ARG_VERBOSE_SHORT "-v"
+#define ARG_COLORS "--colors"
+#define ARG_COLORS_SHORT "-c"
+
 bool verbose = false;
 bool colors = false;
 methodmap methodMap;
@@ -30,9 +35,9 @@ int main(int argc, char* argv[]) {
 	// Skip first in argument list
 	for (int i = 1; i < argc; i++) {
 
-		if (strcmp(argv[i], "--verbose") == 0 || strcmp(argv[i], "-v") == 0) {
+		if (strcmp(argv[i], ARG_VERBOSE) == 0 || strcmp(argv[i], ARG_VERBOSE_SHORT) == 0) {
 			verbose = true;
-		} else if (strcmp(argv[i], "--colors") == 0 || strcmp(argv[i], "-c") == 0) {
+		} else if (strcmp(argv[i], ARG_COLORS) == 0 || strcmp(argv[i], ARG_COLORS_SHORT) == 0) {
 			colors = true;
 		} else if (!startswith(argv[i], "-")){
 			gotfiles = true;
