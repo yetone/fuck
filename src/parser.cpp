@@ -284,15 +284,66 @@ ReturnType parsefor(Method* method, string line, unsigned int* i, int indent, Va
 		string line = trim(method->getlines()[conds.start]);
 
 		string cond = line.substr(line.find_first_of(" ") + 1);
+		vector<string> spl = split(cond, ';');
 
-		if (check_cond(cond)) {
+		string first = cond.substr(0, cond.find_first_of(";"));
+
+		Variable *p = getvar(first);
+		Variable v;
+		if (p == NULL) {
+			string setseq = get_kw(KW_PUSH_VAR_SIMPLE_KEY, KW_PUSH_VAR_SIMPLE);
+
+			if (first.find_first_of(setseq) != string::npos) {
+				string name = first.substr(0, first.find_first_of(setseq));
+				string stat = first.substr(first.find_first_of(setseq) + setseq.length());
+				name = trim(name);
+				stat = trim(stat);
+
+				cout << name << " - " << stat << endl;
+
+				v = setvar(name, stat);
+			} else {
+				v = setvar(first, "");
+			}
+		}
+
+		Variable from;
+		Variable to;
+		string dos;
+
+		for (unsigned int in = 1; in < spl.size(); in++) {
+			string s = trim(spl[in]);
+			string word = s.substr(0, s.find_first_of(' '));
+			string w = s.substr(s.find_first_of(' ') + 1);
+
+			if (startswith(s, get_kw(KW_FOR_FROM))) {
+				from = setvar("test1", w);
+			} else if (startswith(s, get_kw(KW_FOR_TO))) {
+				to = setvar("test2", w);
+			} else if (startswith(s, get_kw(KW_FOR_DO))) {
+				dos = w;
+			} else {
+				printwarning("Unknown " + s);
+			}
+		}
+
+		int f = atoi(from.var.c_str());
+		int t = atoi(to.var.c_str());
+
+		cout << "To: " << t << " From: " << f << endl;
+
+		if (f <= t) {//check_cond(cond)) {
 			*i = conds.start + 1;
 			exec:
 			ReturnType type = execrange(method, i, conds.end, indent + 1, var);
 			if (type == ReturnType::BREAK) {
 				continue;
-			} else if (check_cond(cond) || type == ReturnType::CONTINUE) {
+			} else if (f <= t || type == ReturnType::CONTINUE) {
 				*i = conds.start + 1;
+				cout << "To: " << t << " From: " << f << endl;
+
+				Variable temp = setvar(from.name, dos);
+				f = atoi(temp.var.c_str());
 				goto exec;
 			} else if (type == ReturnType::RETURN && var != NULL) {
 				return type;
