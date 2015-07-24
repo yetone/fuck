@@ -45,6 +45,9 @@ using namespace std;
 #define KW_WHILE "while"
 #define KW_WHILE_END "end_while"
 
+#define KW_FOR "for"
+#define KW_FOR_END "end_for"
+
 #define KW_HALT "halt"
 
 #define KW_BREAK "break"
