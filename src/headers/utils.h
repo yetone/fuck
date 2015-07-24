@@ -20,4 +20,6 @@ string parsevars(string);
 
 string replaceAll(string str, string from, string to);
 
+vector<string> split(string&, char delim = ' ');
+
 int get_exit_code(string);

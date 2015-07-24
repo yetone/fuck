@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include <stdlib.h>
+#include <sstream>
 
 #include "headers/utils.h"
 #include "headers/colors.h"
@@ -91,6 +92,16 @@ string replaceAll(string str, string from, string to) {
     }
 
     return str;
+}
+
+vector<string> split(string& s, char delim) {
+	vector<string> elems;
+	stringstream ss(s);
+	string item;
+	while (getline(ss, item, delim)) {
+		elems.push_back(item);
+	}
+	return elems;
 }
 
 int get_exit_code(string s) {
