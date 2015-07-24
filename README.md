@@ -113,6 +113,11 @@ while $var
 end_while
 ```
 
-***
+### Expressions
 
 Uses [cpp-expression-parser](https://github.com/bamos/cpp-expression-parser) for parsing mathematical expressions
+
+```
+# will print 91
+out (1 + 5) / 2 * 3 ^ 3 + (5 * 2)
+```
