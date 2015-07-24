@@ -287,24 +287,8 @@ ReturnType parsefor(Method* method, string line, unsigned int* i, int indent, Va
 		vector<string> spl = split(cond, ';');
 
 		string first = cond.substr(0, cond.find_first_of(";"));
-
-		Variable *p = getvar(first);
-		Variable v;
-		if (p == NULL) {
-			string setseq = get_kw(KW_PUSH_VAR_SIMPLE_KEY, KW_PUSH_VAR_SIMPLE);
-
-			if (first.find_first_of(setseq) != string::npos) {
-				string name = first.substr(0, first.find_first_of(setseq));
-				string stat = first.substr(first.find_first_of(setseq) + setseq.length());
-				name = trim(name);
-				stat = trim(stat);
-
-				cout << name << " - " << stat << endl;
-
-				v = setvar(name, stat);
-			} else {
-				v = setvar(first, "");
-			}
+		if (first[0] == get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN)[0]) {
+			first = first.substr(1);
 		}
 
 		Variable from;
