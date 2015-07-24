@@ -47,6 +47,9 @@ using namespace std;
 
 #define KW_FOR "for"
 #define KW_FOR_END "end_for"
+#define KW_FOR_FROM "from"
+#define KW_FOR_TO "to"
+#define KW_FOR_DO "do"
 
 #define KW_HALT "halt"
 
