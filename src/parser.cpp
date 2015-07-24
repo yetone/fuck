@@ -472,6 +472,9 @@ bool check_cond(string line) {
 }
 
 Variable* getvar(string name) {
+	if (name[0] == KW_VAR_SIGN) {
+		name = name.substr(1);
+	}
 
 	for (unsigned int i = 0; i < stackMap.size(); i++) {
 		Variable v = stackMap[i];
