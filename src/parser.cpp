@@ -261,7 +261,7 @@ ReturnType parsefor(Method* method, string line, unsigned int* i, int indent, Va
 				fors.push_back(*current);
 			}
 
-			current = new While;
+			current = new For;
 			current->start = end;
 			*i = end;
 		} else if (s == indent && startswith(trim(temp), get_kw(KW_FOR_END))) {
@@ -510,7 +510,7 @@ string parse_set_statement(string s) {
 			}
 		}
 
-	} else {
+	} else if (s != "true" && s != "false"){
 		s = parsevars(s);
 
 		if (isstring) {
