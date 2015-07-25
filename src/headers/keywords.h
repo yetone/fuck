@@ -57,6 +57,8 @@ using namespace std;
 
 #define KW_LESS_THAN "<"
 #define KW_MORE_THAN ">"
+#define KW_LESS_OR_EQUALS "<="
+#define KW_MORE_OR_EQUALS "=>"
 
 void load();
 
