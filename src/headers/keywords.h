@@ -55,6 +55,9 @@ using namespace std;
 #define KW_CONTINUE "continue"
 #define KW_RETURN "return"
 
+#define KW_LESS_THAN "<"
+#define KW_MORE_THAN ">"
+
 void load();
 
 string get_kw(string key);
