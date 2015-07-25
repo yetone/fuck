@@ -17,6 +17,7 @@ using namespace std;
 #define ARG_VERBOSE_SHORT "-v"
 #define ARG_COLORS "--colors"
 #define ARG_COLORS_SHORT "-c"
+#define EXIT "exit"
 
 bool verbose = false;
 bool colors = false;
@@ -66,7 +67,19 @@ int main(int argc, char* argv[]) {
 	}
 
 	if (gotfiles) {
+		// We have processed all input files, exit
 		return NORMAL_EXIT;
+	}
+
+	while (true) {
+		cout << ">> ";
+
+		string s;
+		getline(cin, s);
+
+		if (s == EXIT) {
+			return NORMAL_EXIT;
+		}
 	}
 
 	return NORMAL_EXIT;
