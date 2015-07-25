@@ -31,6 +31,8 @@ void printinfo() {
 int main(int argc, char* argv[]) {
 	printinfo();
 
+	cout.setf(ios::boolalpha);
+
 	if (argc <= 1) {
 		printerror("No input files specified");
 		return 1;
