@@ -49,7 +49,11 @@ void parse(Code &code) {
 		bool end = line.substr(0, line.find_first_of(' ')) == get_kw(KW_END);
 
 		if (end) {
-			line = line.substr(strlen(KW_END) + 1, line.size());
+			if (line.length() > strlen(KW_END)) {
+				line = line.substr(strlen(KW_END) + 1, line.size());
+			} else {
+				line = "";
+			}
 		}
 
 		if (is_label(line)) {
