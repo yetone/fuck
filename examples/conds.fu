@@ -1,0 +1,12 @@
+$bool := true
+
+if $bool
+	out "\$bool is true"
+endif
+
+$val1 := 10
+$val2 := 50
+
+if ($val1 < $val2) and ($val2 > $val1)
+	out "\$val1 is less than \$val2"
+endif
