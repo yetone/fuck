@@ -21,6 +21,15 @@ enum class StackPos {
 	END
 };
 
+enum class Relational {
+	EQUAL,
+	NOT_EQUAL,
+	MORE,
+	LESS,
+	MORE_OR_EQ,
+	LESS_OR_EQ
+};
+
 // Check if line is comment
 inline bool is_comment(string);
 
