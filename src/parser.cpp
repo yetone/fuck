@@ -524,16 +524,24 @@ bool check_cond(string line) {
 		conds.push_back(s);
 
 		pos += s.length();
-
-		cout << "Found condition " << s << endl;
 	}
+
+	bool istrue = DEFAULT_COND;
 
 	for (string cond : conds) {
 		bool result = check_cond_compare(cond);
 
+		cout << "Checking " << cond << ", got back " << result << endl;
+
+		istrue = result;
+
 		if (!result) {
-			return false;
+			break;
 		}
+	}
+
+	if (istrue) {
+		return true;
 	}
 
 	printwarning("No condition detected, returning default DEFAULT_COND");
@@ -541,11 +549,58 @@ bool check_cond(string line) {
 }
 
 bool check_cond_compare(string cond) {
+	string splitat;
+	Relational ret;
 
+	if (contains(cond, get_kw(KW_EQUALS))) {
+		splitat = get_kw(KW_EQUALS);
+		ret = Relational::EQUALS;
+	} else if (contains(cond, get_kw(KW_NOT_EQ))) {
+		splitat = get_kw(KW_NOT_EQ);
+		ret = Relational::NOT_EQUAL;
+	} else if (contains(cond, get_kw(KW_LESS_THAN))) {
+		splitat = get_kw(KW_LESS_THAN);
+		ret = Relational::LESS_THAN;
+	} else if (contains(cond, get_kw(KW_MORE_THAN))) {
+		splitat = get_kw(KW_MORE_THAN);
+		ret = Relational::MORE_THAN;
+	} else if (contains(cond, get_kw(KW_LESS_OR_EQUALS))) {
+		splitat = get_kw(KW_LESS_OR_EQUALS);
+		ret = Relational::LESS_OR_EQUALS;
+	} else if (contains(cond, get_kw(KW_MORE_OR_EQUALS))) {
+		splitat = get_kw(KW_MORE_OR_EQUALS);
+		ret = Relational::MORE_OR_EQUALS;
+	}
+
+	int index = cond.find(splitat);
+
+	string stat1 = parse_set_statement(trim(cond.substr(0, index)));
+	string stat2 = parse_set_statement(trim(cond.substr(index + splitat.length())));
+
+	return check_cond_compare(stat1, stat2, ret);
 }
 
-bool check_cond_compare(Variable& var1, Variable& var2, Relational ret) {
+bool check_cond_compare(const string& var1, const string& var2, Relational ret) {
+	if (ret == Relational::EQUALS) {
+		return var1 == var2;
+	} else if (ret == Relational::NOT_EQUAL) {
+		return var1 != var2;
+	}
 
+	int i1 = atoi(var1.c_str());
+	int i2 = atoi(var2.c_str());
+
+	if (ret == Relational::LESS_THAN) {
+		return i1 < i2;
+	} else if (ret == Relational::MORE_THAN) {
+		return i1 > i2;
+	} else if (ret == Relational::LESS_OR_EQUALS) {
+		return i1 <= i2;
+	} else if (ret == Relational::MORE_OR_EQUALS) {
+		return i1 >= i2;
+	}
+
+	return DEFAULT_COND;
 }
 
 Variable* getvar(string name) {

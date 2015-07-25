@@ -22,12 +22,12 @@ enum class StackPos {
 };
 
 enum class Relational {
-	EQUAL,
+	EQUALS,
 	NOT_EQUAL,
-	MORE,
-	LESS,
-	MORE_OR_EQ,
-	LESS_OR_EQ
+	MORE_THAN,
+	LESS_THAN,
+	MORE_OR_EQUALS,
+	LESS_OR_EQUALS
 };
 
 // Check if line is comment
@@ -60,8 +60,8 @@ ReturnType execrange(Method*, unsigned int*, unsigned int, int indent, Variable*
 // check if something is true
 bool check_cond(string);
 
-bool check_cond_compare(string cond) {
-bool check_cond_compare(Variable& var1, Variable& var2, Relational rel);
+bool check_cond_compare(string cond);
+bool check_cond_compare(const string& var1, const string& var2, Relational ret);
 
 // used when set keyword is used, create new variable
 string parse_set_statement(string statement);
