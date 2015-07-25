@@ -46,10 +46,10 @@ void parse(Code &code) {
 
 		rl++;
 
-		bool end = startswith(line, KW_END);
+		bool end = line.substr(0, line.find_first_of(' ')) == get_kw(KW_END);
 
 		if (end) {
-			line = line.substr(strlen(KW_END), line.size());
+			line = line.substr(strlen(KW_END) + 1, line.size());
 		}
 
 		if (is_label(line)) {
