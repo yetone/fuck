@@ -7,6 +7,7 @@ using namespace std;
 #define TRIM "\t\r\n "
 
 bool startswith(string, string);
+bool contains(string s, string find);
 
 string trim(string);
 
