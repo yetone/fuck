@@ -3,10 +3,10 @@ push var true
 push halt false
 
 while $var
-	out first
+	out "first"
 	
 	while $var
-		out second
+		out "second"
 		if $halt
 			#halt normal
 			break
@@ -14,8 +14,8 @@ while $var
 			push halt true
 			push var false
 		endif
-	end_while
-end_while
+	end
+end
 
 push var true
 
@@ -23,9 +23,9 @@ while $var
 	out "breaking..."
 	break
 	out "after break..."
-end_while
+end
 
 while $var
 	continue
 	break
-end_while
+end
