@@ -539,15 +539,15 @@ string parse_set_statement(string s) {
 		Variable v = *getvar(name);
 		if (v.name == name) {
 			if (opposite) {
-				bool yes = v.var == "true";
+				bool yes = v.var == get_kw(KW_TRUE);
 
-				s = yes ? "false" : "true";
+				s = yes ? get_kw(KW_FALSE) : get_kw(KW_TRUE);
 			} else {
 				s = v.var;
 			}
 		}
 
-	} else if (s != "true" && s != "false"){
+	} else if (s != get_kw(KW_TRUE) && s != get_kw(KW_FALSE)){
 		s = parsevars(s);
 
 		if (isstring) {
