@@ -13,8 +13,8 @@ typedef vector<goto_pair> goto_labels;
 #define DEFAULT_COND false
 
 struct Chunk {
-	int start;
-	int end;
+	int start = 0;
+	int end = 0;
 };
 
 class Code {
