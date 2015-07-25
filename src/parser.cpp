@@ -268,7 +268,7 @@ ReturnType parsefor(Method* method, string line, unsigned int* i, int indent, Va
 			current = new For;
 			current->start = end;
 			*i = end;
-		} else if (s == indent && startswith(trim(temp), get_kw(KW_FOR_END))) {
+		} else if (s == indent && startswith(trim(temp), get_kw(KW_END))) {
 			if (current != NULL) {
 				line = method->getlines()[current->start];
 				string cond = line.substr(line.find_first_of(" ") + 1);
@@ -368,7 +368,7 @@ ReturnType parsewhile(Method* method, string line, unsigned int* i, int indent, 
 			current = new While;
 			current->start = end;
 			*i = end;
-		} else if (s == indent && startswith(trim(temp), get_kw(KW_WHILE_END))) {
+		} else if (s == indent && startswith(trim(temp), get_kw(KW_END))) {
 			if (current != NULL) {
 				line = method->getlines()[current->start];
 				string cond = line.substr(line.find_first_of(" ") + 1);
