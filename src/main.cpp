@@ -23,7 +23,13 @@ bool colors = false;
 methodmap methodMap;
 stackmap stackMap;
 
+void printinfo() {
+	cout << "fulang " << VERSION << endl;
+}
+
 int main(int argc, char* argv[]) {
+	printinfo();
+
 	if (argc <= 1) {
 		printerror("No input files specified");
 		return 1;
