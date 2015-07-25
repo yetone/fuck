@@ -1,9 +1,9 @@
 method method
 	return "ok"
-end_method
+end method
 
-push var method() method()
+push var "method() method()"
 
 out $var
-$va2 := method()
+$va2 := "method()"
 out "ok $var ok method() $va2"
