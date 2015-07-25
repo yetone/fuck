@@ -494,7 +494,9 @@ bool check_cond(string line) {
 	}
 
 	printverbose("Checking condition " + color(VERBOSE_HL) + line);
-	if (startswith(line, get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN))) {
+
+	bool var = startswith(line, get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN));
+	if (var) {
 		line = line.substr(1);
 
 		for (unsigned int i = 0; i < stackMap.size(); i++) {
@@ -519,13 +521,31 @@ bool check_cond(string line) {
 
 		string s = line.substr(first + 1, second - 1);
 
+		conds.push_back(s);
+
 		pos += s.length();
 
 		cout << "Found condition " << s << endl;
 	}
 
+	for (string cond : conds) {
+		bool result = check_cond_compare(cond);
+
+		if (!result) {
+			return false;
+		}
+	}
+
 	printwarning("No condition detected, returning default DEFAULT_COND");
 	return DEFAULT_COND;
+}
+
+bool check_cond_compare(string cond) {
+
+}
+
+bool check_cond_compare(Variable& var1, Variable& var2, Relational ret) {
+
 }
 
 Variable* getvar(string name) {
