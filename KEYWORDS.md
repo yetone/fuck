@@ -79,3 +79,17 @@ call ns.name()
 ```go
 out "returned value is ns.name()"
 ```
+
+#### If constructs
+
+```go
+$var := 5
+
+if ($var == 5)
+  out "\$var is 5"
+elif ($var < 5)
+  out "\$var is below 5"
+else
+  out "\$var is $var"
+endif
+```
