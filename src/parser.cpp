@@ -500,9 +500,28 @@ bool check_cond(string line) {
 		for (unsigned int i = 0; i < stackMap.size(); i++) {
 			Variable v = stackMap[i];
 			if (v.name == line) {
+				printverbose("Matched single variable");
 				return v.var == get_kw(KW_TRUE);
 			}
 		}
+	}
+
+	vector<string> conds;
+
+	int pos = 0;
+	while (true) {
+		int first = line.find('(', pos);
+		int second = line.find(')', pos);
+
+		if (first == (signed int) string::npos || second == (signed int) string::npos) {
+			break;
+		}
+
+		string s = line.substr(first + 1, second - 1);
+
+		pos += s.length();
+
+		cout << "Found condition " << s << endl;
 	}
 
 	printwarning("No condition detected, returning default DEFAULT_COND");
