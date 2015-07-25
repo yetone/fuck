@@ -7,6 +7,36 @@ endif
 $val1 := 10
 $val2 := 50
 
-if ($val1 < $val2) and ($val2 > $val1)
+if ($val1 < $val2)
 	out "\$val1 is less than \$val2"
 endif
+
+if ($val2 > $val1)
+	out "\$val2 is more than \$val1"
+endif
+
+if ($val1 > $val2)
+	# will not happen
+else
+	out "\$val1 is not more than \$val2"
+endif
+
+if ($val2 < $val1)
+	# will not happen
+else
+	out "\$val2 is not less than \$val1"
+endif
+
+# same as $val1
+$val3 := $val1
+
+if ($val1 == $val3)
+	out "\$val1 is equal to \$val3"
+endif
+
+$val3 := 0
+
+while ($val1 != $val3)
+	out "\$val1 is not equal to \$val3"
+	$val1 := $val3
+end
