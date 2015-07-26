@@ -21,3 +21,31 @@ Contains tests of all operators like
 ## [errors.fu](errors.fu)
 
 Causes errors, calls invalid methods and keywords, performs keywords with no arguments and more
+
+## [for.fu](for.fu)
+
+```for``` loop tests
+
+## [goto.fu](goto.fu)
+
+```goto``` loop tests
+
+## [while.fu](while.fu)
+
+```while``` loop tests
+
+## [if.fu](if.fu)
+
+Test of keywords ```if``` ```elif``` ```else``` ```endif```
+
+## [math.fu](math.fu)
+
+Tests mathematical expressions
+
+## [return.fu](return.fu)
+
+Contains tests of returning values from methods using the ```return``` keyword
+
+## [vars.fu](vars.fu)
+
+Contains test of setting variables and parsing variables in strings
