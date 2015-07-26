@@ -93,3 +93,29 @@ else
   out "\$var is $var"
 endif
 ```
+
+#### While loop
+
+```
+$var := true
+
+while $var
+  out "\$var is true"
+end
+```
+
+#### For loop
+
+```i``` is the variable
+
+```from 2``` declares the start value
+
+```to 30``` declares the end value
+
+```do $i + 1``` is the increase value (equal to ```$i := $i + 1```)
+
+```go
+for i; from 2; to 30; do $i + 1;
+  out $i
+end
+```
