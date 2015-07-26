@@ -61,6 +61,10 @@ using namespace std;
 #define KW_LESS_OR_EQUALS "<="
 #define KW_MORE_OR_EQUALS "=>"
 
+#define KW_AND "and"
+#define KW_OR "or"
+#define KW_XOR "xor"
+
 void load();
 
 string get_kw(string key);
