@@ -115,7 +115,7 @@ end
 ```do $i + 1``` is the increase value (equal to ```$i := $i + 1```)
 
 ```go
-for i; from 2; to 30; do $i + 1;
+for $i; from 2; to 30; do $i + 1;
   out $i
 end
 ```
