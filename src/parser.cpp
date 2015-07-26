@@ -317,17 +317,14 @@ ReturnType parsefor(Method* method, string line, unsigned int* i, int indent, Va
 
 		int f = atoi(from.var.c_str());
 
-		cout << "To: " << to << " From: " << f << endl;
-
-		if (f <= to) {//check_cond(cond)) {
+		if (f != to) {
 			*i = conds.start + 1;
 			exec:
 			ReturnType type = execrange(method, i, conds.end, indent + 1, var);
 			if (type == ReturnType::BREAK) {
 				continue;
-			} else if (f <= to || type == ReturnType::CONTINUE) {
+			} else if (f != to || type == ReturnType::CONTINUE) {
 				*i = conds.start + 1;
-				cout << "To: " << to << " From: " << f << endl;
 
 				Variable temp = setvar(from.name, dos);
 				f = atoi(temp.var.c_str());
