@@ -512,6 +512,12 @@ bool check_cond(string line) {
 		int first = line.find('(', pos);
 		int second = line.find(')', pos);
 
+		int beginnext = line.find('(', pos + 1);
+
+		if (beginnext != (signed int) string::npos) {
+			string keywords = trim(line.substr(second + 1, beginnext - second - 1));
+		}
+
 		if (first == (signed int) string::npos || second == (signed int) string::npos) {
 			break;
 		}
