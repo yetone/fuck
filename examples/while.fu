@@ -13,7 +13,7 @@ while $var
 		else
 			push halt true
 			push var false
-		endif
+		end
 	end
 end
 

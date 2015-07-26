@@ -4,7 +4,7 @@ push var1 true
 # if1
 if $var1
 	out if1
-endif
+end
 
 push var1 false
 push var2 true
@@ -16,7 +16,7 @@ elif $var2
 	out elif2
 else
 	out else2
-endif
+end
 
 push var2 false
 push var3 true
@@ -30,7 +30,7 @@ elif $var3
 	out elif3
 else
 	out else3
-endif
+end
 
 push var3 true
 push var4 true
@@ -42,9 +42,9 @@ if $var3
 		if $var4
 			if $var4
 				out many
-			endif
-		endif
+			end
+		end
 		out if in if
-	endif
+	end
 	out success
-endif
+end

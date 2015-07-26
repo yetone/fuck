@@ -2,7 +2,7 @@
 call non_existing_method
 
 # Unknown instructions
-endif
+end
 else
 
 # push variable with empty value
@@ -13,4 +13,4 @@ push
 
 if
 
-endif
+end

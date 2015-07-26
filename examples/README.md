@@ -36,7 +36,7 @@ Causes errors, calls invalid methods and keywords, performs keywords with no arg
 
 ## [if.fu](if.fu)
 
-Test of keywords ```if``` ```elif``` ```else``` ```endif```
+Test of keywords ```if``` ```elif``` ```else``` ```end```
 
 ## [math.fu](math.fu)
 

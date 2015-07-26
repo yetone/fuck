@@ -11,7 +11,7 @@ out $bool4
 
 if $bool3
 	out \$bool3 is $bool3
-endif
+end
 
 :repeat
 if $bool4
@@ -20,4 +20,4 @@ else
 	out \$bool4 is false
 	push bool4 true
 	goto repeat
-endif
+end

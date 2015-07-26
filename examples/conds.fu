@@ -2,41 +2,59 @@ $bool := true
 
 if $bool
 	out "\$bool is true"
-endif
+end
 
 $val1 := 10
 $val2 := 50
 
 if ($val1 < $val2)
 	out "\$val1 is less than \$val2"
-endif
+end
 
 if ($val2 > $val1)
 	out "\$val2 is more than \$val1"
-endif
+end
 
 if ($val1 > $val2)
 	# will not happen
 else
 	out "\$val1 is not more than \$val2"
-endif
+end
 
 if ($val2 < $val1)
 	# will not happen
 else
 	out "\$val2 is not less than \$val1"
-endif
+end
 
 # same as $val1
 $val3 := $val1
 
 if ($val1 == $val3)
 	out "\$val1 is equal to \$val3"
-endif
+end
 
 $val3 := 0
 
 while ($val1 != $val3)
 	out "\$val1 is not equal to \$val3"
 	$val1 := $val3
+end
+
+# compare strings
+$val1 := "string"
+$val2 := "string"
+
+if ($val1 == $val2)
+	out "strings is equal"
+end
+
+# Will not happen
+if ($val1 == $val2) and ($val1 != $val2)
+	out "what the fuck"
+end
+
+# Will happen
+if ($val1 == $val2) and ($val2 == $val1)
+	out "\$val1 == \$val2"
 end

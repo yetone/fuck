@@ -431,7 +431,7 @@ ReturnType parseif(Method* method, string line, unsigned int* i, int indent, Var
 			current = new If;
 			current->start = end;
 			*i = end;
-		} else if (s == indent && startswith(trim(temp), get_kw(KW_ENDIF))) {
+		} else if (s == indent && startswith(trim(temp), get_kw(KW_END))) {
 			if (current != NULL) {
 				current->end = end - 1;
 				ifs.push_back(*current);

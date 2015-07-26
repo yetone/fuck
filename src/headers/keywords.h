@@ -38,7 +38,6 @@ using namespace std;
 #define KW_VAR_SIGN_KEY "sign"
 
 #define KW_IF "if"
-#define KW_ENDIF "endif"
 #define KW_ELSEIF "elif"
 #define KW_ELSE "else"
 
