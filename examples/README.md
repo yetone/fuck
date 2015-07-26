@@ -6,11 +6,12 @@ This directory contains some examples of the key features of fulang
 
 Contains tests of all operators like
 
-```
-<
+```<```
+```<```
+```<```
+```<```
 >
 <=
 >=
 !=
 ==
-```
