@@ -17,3 +17,7 @@ Contains tests of all operators like
 !=
 ==
 ```
+
+## [errors.fu](errors.fu)
+
+Causes errors, calls invalid methods and keywords, performs keywords with no arguments and more
