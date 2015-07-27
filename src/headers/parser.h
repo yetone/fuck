@@ -21,6 +21,12 @@ enum class StackPos {
 	END
 };
 
+enum class Conds {
+	AND,
+	OR,
+	XOR
+};
+
 enum class Relational {
 	EQUALS,
 	NOT_EQUAL,
