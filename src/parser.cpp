@@ -628,10 +628,12 @@ string parse_set_statement(string s) {
 		return s;
 	}
 
+	s = trim(s);
+
 	bool opposite = s[0] == '!';
 	bool var = s[opposite ? 1 : 0] == '$';
 
-	bool isstring = s[0] == '\"' && s[s.length() - 1] == '\"';
+	bool isstring = s[0] == '\"' || s[s.length() - 1] == '\"';
 
 	// Single variable
 	if (!isstring && var && s.find(" ") == string::npos) {
