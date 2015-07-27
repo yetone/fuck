@@ -18,6 +18,10 @@ Contains tests of all operators like
 ==
 ```
 
+## [decimals.fu](decimals.fu)
+
+Does some basic tests with decimals
+
 ## [errors.fu](errors.fu)
 
 Causes errors, calls invalid methods and keywords, performs keywords with no arguments and more
