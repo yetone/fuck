@@ -505,7 +505,7 @@ bool check_cond(string line) {
 		}
 	}
 
-	vector<string> conds;
+	vector<pair<Conds, string>> conds;
 
 	int pos = 0;
 	while (true) {
@@ -514,8 +514,18 @@ bool check_cond(string line) {
 
 		int beginnext = line.find('(', pos + 1);
 
+		Conds cond;
+
 		if (beginnext != (signed int) string::npos) {
 			string keywords = trim(line.substr(second + 1, beginnext - second - 1));
+
+			if (contains(keywords, get_kw(KW_AND))) {
+				cond = Conds::AND;
+			} else if (contains(keywords, get_kw(KW_OR))) {
+				cond = Conds::OR;
+			} else if (contains(keywords, get_kw(KW_XOR))) {
+				cond = Conds::XOR;
+			}
 		}
 
 		if (first == (signed int) string::npos || second == (signed int) string::npos) {
@@ -524,14 +534,16 @@ bool check_cond(string line) {
 
 		string s = line.substr(first + 1, second - 1);
 
-		conds.push_back(s);
+		conds.push_back(make_pair(cond, s));
 
 		pos += s.length();
 	}
 
 	bool istrue = DEFAULT_COND;
 
-	for (string cond : conds) {
+	for (pair<Conds, string> p : conds) {
+		string cond = p.second;
+
 		bool result = check_cond_compare(cond);
 
 		cout << "Checking " << cond << ", got back " << result << endl;
