@@ -590,8 +590,8 @@ bool check_cond_compare(const string& var1, const string& var2, Relational ret) 
 		return var1 != var2;
 	}
 
-	int i1 = atoi(var1.c_str());
-	int i2 = atoi(var2.c_str());
+	double i1 = atof(var1.c_str());
+	double i2 = atof(var2.c_str());
 
 	if (ret == Relational::LESS_THAN) {
 		return i1 < i2;
