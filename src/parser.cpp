@@ -542,24 +542,31 @@ bool check_cond(string line) {
 
 	bool istrue = false;
 
+	bool b[conds.size()];
+	for (unsigned int i = 0; i < conds.size(); i++) {
+		b[i] = false;
+	}
+
+	pos = 0;
 	for (unsigned int i = 0; i < conds.size(); i++) {
 		pair<Conds, bool> p = conds[i];
 
-		istrue = p.second;
-
-		if (!p.second) {
-			break;
-		}
-
 		if (p.first == Conds::AND) {
-
+			b[pos] = p.second;
 		} else if (p.first == Conds::OR) {
-
+			b[++pos] = p.second;
 		} else if (p.first == Conds::XOR) {
-
+			// TODO
 		}
 	}
 
+	for (bool bs : b) {
+		cout << bs << endl;
+		if (bs) {
+			istrue = bs;
+			break;
+		}
+	}
 
 	return istrue;
 }
