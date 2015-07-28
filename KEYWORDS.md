@@ -1,4 +1,4 @@
-# Keywords
+# Keywords & Examples
 
 This is the default keywords in fulang. You will be able to modify all these without recompiling
 
