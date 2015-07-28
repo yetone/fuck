@@ -555,12 +555,8 @@ bool check_cond(string line) {
 		}
 	}
 
-	if (istrue) {
-		return true;
-	}
 
-	printwarning("No condition detected, returning default DEFAULT_COND");
-	return DEFAULT_COND;
+	return istrue;
 }
 
 bool check_cond_compare(string cond) {
