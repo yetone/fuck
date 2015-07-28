@@ -9,6 +9,7 @@ $var4 := 40
 if ($var1 < $var2)
 
 end
+
 if ($var1 == $var2)
 
 elif ($var2 != $var3)
@@ -17,10 +18,15 @@ else
 
 end
 
+
 for $i; from 0; to 10; do $i + 1
 
 end
 
-label l
 
+label l
 goto l
+
+while ($var1 < $var2)
+	
+end 
