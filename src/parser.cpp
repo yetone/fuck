@@ -547,23 +547,40 @@ bool check_cond(string line) {
 		b[i] = false;
 	}
 
+	bool exor = false;
+
 	pos = 0;
 	for (unsigned int i = 0; i < conds.size(); i++) {
 		pair<Conds, bool> p = conds[i];
 
 		if (p.first == Conds::AND) {
 			b[pos] = p.second;
+			pos++;
 		} else if (p.first == Conds::OR) {
-			b[++pos] = p.second;
+			b[pos++] = p.second;
 		} else if (p.first == Conds::XOR) {
-			// TODO
+			b[pos++] = p.second;
+			exor = true;
 		}
 	}
 
-	for (bool bs : b) {
-		if (bs) {
-			istrue = bs;
-			break;
+	if (exor) {
+		istrue = false;
+		bool first = b[0];
+
+		for (int i = 0; i < pos; i++) {
+			//cout << "first: " << first << ", i: " << b[i] << endl;
+			if (b[i] != first) {
+				istrue = true;
+				break;
+			}
+		}
+	} else {
+		for (bool bs : b) {
+			if (bs) {
+				istrue = bs;
+				break;
+			}
 		}
 	}
 
