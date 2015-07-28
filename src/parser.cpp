@@ -521,10 +521,10 @@ bool check_cond(string line) {
 
 			if (contains(keywords, get_kw(KW_AND))) {
 				cond = Conds::AND;
-			} else if (contains(keywords, get_kw(KW_OR))) {
-				cond = Conds::OR;
 			} else if (contains(keywords, get_kw(KW_XOR))) {
 				cond = Conds::XOR;
+			} else if (contains(keywords, get_kw(KW_OR))) {
+				cond = Conds::OR;
 			}
 		}
 
