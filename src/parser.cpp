@@ -514,7 +514,7 @@ bool check_cond(string line) {
 
 		int beginnext = line.find('(', pos + 1);
 
-		Conds cond;
+		Conds cond = Conds::AND;
 
 		if (beginnext != (signed int) string::npos) {
 			string keywords = trim(line.substr(second + 1, beginnext - second - 1));
