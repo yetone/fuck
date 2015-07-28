@@ -561,7 +561,6 @@ bool check_cond(string line) {
 	}
 
 	for (bool bs : b) {
-		cout << bs << endl;
 		if (bs) {
 			istrue = bs;
 			break;
