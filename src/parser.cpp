@@ -542,7 +542,15 @@ bool check_cond(string line) {
 
 	bool istrue = false;
 
-	for (pair<Conds, bool> p : conds) {
+	for (unsigned int i = 0; i < conds.size(); i++) {
+		pair<Conds, bool> p = conds[i];
+
+		istrue = p.second;
+
+		if (!p.second) {
+			break;
+		}
+
 		if (p.first == Conds::AND) {
 
 		} else if (p.first == Conds::OR) {
