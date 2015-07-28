@@ -58,3 +58,11 @@ end
 if ($val1 == $val2) and ($val2 == $val1)
 	out "\$val1 == \$val2"
 end
+
+if ($val1 == $val2) or ($val1 != $val2)
+	out "test or"
+end 
+
+if ($val1 == $val2) and ($val1 != $val2)
+	out "test or 2"
+end 
