@@ -505,7 +505,7 @@ bool check_cond(string line) {
 		}
 	}
 
-	vector<pair<Conds, string>> conds;
+	vector<pair<Conds, bool>> conds;
 
 	int pos = 0;
 	while (true) {
@@ -533,25 +533,22 @@ bool check_cond(string line) {
 		}
 
 		string s = line.substr(first + 1, second - 1);
-
-		conds.push_back(make_pair(cond, s));
-
 		pos += s.length();
+
+		bool result = check_cond_compare(s);
+
+		conds.push_back(make_pair(cond, result));
 	}
 
-	bool istrue = DEFAULT_COND;
+	bool istrue = false;
 
-	for (pair<Conds, string> p : conds) {
-		string cond = p.second;
+	for (pair<Conds, bool> p : conds) {
+		if (p.first == Conds::AND) {
 
-		bool result = check_cond_compare(cond);
+		} else if (p.first == Conds::OR) {
 
-		cout << "Checking " << cond << ", got back " << result << endl;
+		} else if (p.first == Conds::XOR) {
 
-		istrue = result;
-
-		if (!result) {
-			break;
 		}
 	}
 
