@@ -2,6 +2,35 @@
 
 This is the default keywords in fulang. You will be able to modify all these without recompiling
 
+```
+if
+elif
+else
+while
+for
+end
+method
+namespace
+out
+err
+call
+goto
+label
+true
+false
+and
+or
+xor
+break
+continue
+return
+from
+to
+do
+```
+
+***
+
 ## Booleans
 
 ```go
