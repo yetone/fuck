@@ -1,0 +1,7 @@
+# converts fahrenheit to celsius
+
+$fahrenheit := 100
+
+$val := ($fahrenheit - 32) * 5 / 9
+
+out "$fahrenheit is $val celcius"
