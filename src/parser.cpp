@@ -56,18 +56,6 @@ void parse(Code &code) {
 			}
 		}
 
-		if (is_label(line)) {
-			// Get label from line, remove KW_GOTO_LABEL in beginning
-			string label = line.substr(1, line.length());
-
-			printverbose("Adding label " + color(VERBOSE_HL) + "\"" + label + "\"" + color(VERBOSE) + " on line #" + to_string(rl));
-
-			// Add pair to goto_labels list
-
-			currentmethod->labels.push_back(make_pair(label, currentmethod->lines.size()));
-			continue;
-		}
-
 		unsigned int firstsep = line.find_first_of(KEYWORD_SEPARATOR);
 		string keyword = firstsep == string::npos ? line : line.substr(0, firstsep);
 		line = line.substr(firstsep + 1, line.length());
@@ -748,10 +736,6 @@ Variable setvar(string name, string statement, StackPos pos) {
 	}
 
 	return var;
-}
-
-inline bool is_label(string s) {
-	return startswith(s, get_kw(KW_GOTO_LABEL_KEY, KW_GOTO_LABEL));
 }
 
 inline bool is_comment(string s) {
