@@ -96,7 +96,7 @@ endif
 
 #### While loop
 
-```
+```c
 $var := true
 
 while $var
