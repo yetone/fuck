@@ -163,14 +163,12 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 	} else if (keyword == get_kw(KW_PRINT_ERR)) {
 		cerr << color(ERROR) << parse_set_statement(line) << reset() << endl;
 	} else if (keyword == get_kw(KW_GOTO)) {
-		goto_labels goto_lines = method->labels;
-		for (unsigned int s = 0; s < goto_lines.size(); s++) {
-			goto_pair pair = goto_lines[s];
+		vector<string> lines = method->getlines();
 
-			if (pair.first == line) {
-				printverbose(color(COLOR_MAGENTA) + "Jumping back to line " + color(VERBOSE_HL) + "#" + to_string(pair.second));
-				*i = pair.second - 1;
-				break;
+		for (unsigned int l = 0; l < lines.size(); i++) {
+			if (lines[l].find_first_of(line) != string::npos)  {
+				*i = l;
+				return ReturnType::NONE;
 			}
 		}
 	} else if (keyword == get_kw(KW_IF)) {
