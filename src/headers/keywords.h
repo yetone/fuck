@@ -23,8 +23,7 @@ using namespace std;
 
 #define KW_CALL_METHOD "call"
 
-#define KW_GOTO_LABEL ":"
-#define KW_GOTO_LABEL_KEY "goto-label"
+#define KW_LABEL "label"
 #define KW_GOTO "goto"
 
 #define KW_PUSH_VAR "push"
