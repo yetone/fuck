@@ -1,5 +1,5 @@
 # create label and print text, then repeat
 
-:label
+label lbl
 out loop
-goto label
+goto lbl
