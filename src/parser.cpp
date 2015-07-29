@@ -165,8 +165,8 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 	} else if (keyword == get_kw(KW_GOTO)) {
 		vector<string> lines = method->getlines();
 
-		for (unsigned int l = 0; l < lines.size(); i++) {
-			if (lines[l].find_first_of(line) != string::npos)  {
+		for (unsigned int l = 0; l < lines.size(); l++) {
+			if (lines[l] == get_kw(KW_LABEL) + " " + line)  {
 				*i = l;
 				return ReturnType::NONE;
 			}
