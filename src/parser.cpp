@@ -222,6 +222,8 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 		}
 
 		setvar(name, statement, pos);
+	} else if (keyword == get_kw(KW_LABEL)) {
+		printverbose("Ignoring label at line #" + to_string(*i));
 	} else {
 		printerror("Unknown instruction " + color(ERROR_HL) + keyword + " (" + line + ")" + color(ERROR) + " on line #" + to_string(*i));
 	}
