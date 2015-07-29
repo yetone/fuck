@@ -1,5 +1,5 @@
 # create label and print text, then repeat
 
 label lbl
-out loop
+out "loop"
 goto lbl
