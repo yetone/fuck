@@ -391,13 +391,15 @@ ReturnType parsewhile(Method* method, string line, unsigned int* i, int indent, 
 			*i = conds.start + 1;
 			exec:
 			ReturnType type = execrange(method, i, conds.end, indent + 1, var);
+
 			if (type == ReturnType::BREAK) {
+				*i = conds.end;
 				continue;
+			} else if (type == ReturnType::RETURN && var != NULL) {
+				return type;
 			} else if (check_cond(cond) || type == ReturnType::CONTINUE) {
 				*i = conds.start + 1;
 				goto exec;
-			} else if (type == ReturnType::RETURN && var != NULL) {
-				return type;
 			}
 			break;
 		}
@@ -463,7 +465,7 @@ ReturnType parseif(Method* method, string line, unsigned int* i, int indent, Var
 		if (check_cond(cond)) {
 			*i = conds.start + 1;
 			ReturnType type = execrange(method, i, conds.end, indent + 1, var);
-			if (type == ReturnType::RETURN) {
+			if (type != ReturnType::NONE) {
 				return type;
 			}
 			break;
