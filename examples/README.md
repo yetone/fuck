@@ -50,6 +50,10 @@ Tests mathematical expressions
 
 Contains tests of returning values from methods using the ```return``` keyword
 
+## [namespace.fu](namespace.fu)
+
+Contains example of calling a method in a namespace
+
 ## [vars.fu](vars.fu)
 
 Contains test of setting variables and parsing variables in strings
