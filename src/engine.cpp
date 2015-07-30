@@ -47,7 +47,7 @@ void parse(Code &code) {
 
 		rl++;
 
-		bool end = line.substr(0, line.find_first_of(' ')) == get_kw(KW_END);
+		bool end = line == get_kw(KW_END) || line.substr(0, line.find_first_of(' ')) == get_kw(KW_END);
 
 		if (end) {
 			if (line.length() > strlen(KW_END)) {
