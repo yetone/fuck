@@ -53,3 +53,7 @@ Contains tests of returning values from methods using the ```return``` keyword
 ## [vars.fu](vars.fu)
 
 Contains test of setting variables and parsing variables in strings
+
+## [read.fu](read.fu)
+
+Contains reading input examples
