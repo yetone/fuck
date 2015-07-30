@@ -46,7 +46,7 @@ Test of keywords ```if``` ```elif``` ```else``` ```end```
 
 Tests mathematical expressions
 
-## [return.fu](return.fu)
+## [method.fu](method.fu)
 
 Contains tests of returning values from methods using the ```return``` keyword
 
