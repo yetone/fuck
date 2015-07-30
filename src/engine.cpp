@@ -1,3 +1,5 @@
+#include "headers/engine.h"
+
 #include <fstream>
 #include <iostream>
 #include <vector>
@@ -7,7 +9,6 @@
 #include <stdlib.h>
 #include <typeinfo>
 
-#include "headers/parser.h"
 #include "headers/keywords.h"
 #include "headers/code.h"
 #include "headers/utils.h"
@@ -165,10 +166,8 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 	} else if (keyword == get_kw(KW_GOTO)) {
 		vector<string> lines = method->getlines();
 
-		for (unsigned int l = 0; l < lines.size(); i++) {
-			cout << "Line: " << line << ", " << "Label:" << lines[l] << ":" << endl;
-
-			if (lines[l] == "label " + line)  {
+		for (unsigned int l = 0; l < lines.size(); l++) {
+			if (lines[l] == get_kw(KW_LABEL) + " " + line)  {
 				*i = l;
 				return ReturnType::NONE;
 			}
@@ -226,6 +225,18 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 		setvar(name, statement, pos);
 	} else if (keyword == get_kw(KW_LABEL)) {
 		printverbose("Ignoring label at line #" + to_string(*i));
+	} else if (keyword == get_kw(KW_READ)) {
+		string s;
+
+		getline(cin, s);
+
+		if (line.length() > 0) {
+			vector<string> vars = split(line, ' ');
+
+			for (string var : vars) {
+				setvar(var, "\"" + s + "\"");
+			}
+		}
 	} else {
 		printerror("Unknown instruction " + color(ERROR_HL) + keyword + " (" + line + ")" + color(ERROR) + " on line #" + to_string(*i));
 	}
