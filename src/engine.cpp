@@ -168,19 +168,19 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 
 		for (unsigned int l = 0; l < lines.size(); l++) {
 			if (lines[l] == get_kw(KW_LABEL) + " " + line)  {
-				*i = l;
+				*i = l + 1;
 				return ReturnType::NONE;
 			}
 		}
 	} else if (keyword == get_kw(KW_IF)) {
-		// TODO parse return
-		parseif(method, untrimmed, i, indent, var);
+		ReturnType type = parseif(method, untrimmed, i, indent, var);
+		return type;
 	} else if (keyword == get_kw(KW_WHILE)) {
-		// TODO parse return
-		parsewhile(method, untrimmed, i, indent, var);
+		ReturnType type = parsewhile(method, untrimmed, i, indent, var);
+		return type;
 	} else if (keyword == get_kw(KW_FOR)) {
-		// TODO parse return
-		parsefor(method, untrimmed, i, indent, var);
+		ReturnType type = parsefor(method, untrimmed, i, indent, var);
+		return type;
 	} else if (keyword == get_kw(KW_HALT)) {
 		exit(get_exit_code(line));
 	} else if (keyword == get_kw(KW_BREAK)) {
