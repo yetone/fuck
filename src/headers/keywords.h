@@ -18,6 +18,7 @@ using namespace std;
 
 #define KW_METHOD "method"
 
+#define KW_READ "read"
 #define KW_PRINT "out"
 #define KW_PRINT_ERR "err"
 

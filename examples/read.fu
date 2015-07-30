@@ -1,0 +1,5 @@
+# Read one line from stdin and set it to the variables separated by space
+
+read $var
+
+out "$var"
