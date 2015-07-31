@@ -23,7 +23,7 @@ Code::Code(string file, vector<string> lines): file(file), lines(lines) {
 
 }
 
-vector<string> Code::getlines() {
+vector<string>& Code::getlines() {
 	return this->lines;
 }
 

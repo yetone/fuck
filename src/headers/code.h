@@ -27,7 +27,7 @@ public:
 	Code(string file);
 	Code(string file, vector<string> lines);
 
-	vector<string> getlines();
+	vector<string>& getlines();
 	string getfile();
 };
 
