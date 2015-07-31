@@ -45,7 +45,7 @@ void printverbose(string s, bool star) {
 }
 
 void printerror(string s) {
-	cout << color(ERROR) << "ERROR: " << s << reset() << endl;
+	cout << color(ERROR_COLOR) << "ERROR: " << s << reset() << endl;
 }
 
 void printwarning(string s) {
@@ -70,7 +70,7 @@ string parsevars(string s) {
 			Variable* returned = invoke(m);
 
 			if (returned == NULL) {
-				printerror("Function " + color(ERROR_HL) + m->getname() + color(ERROR) + " did not return any value");
+				printerror("Function " + color(ERROR_HL) + m->getname() + color(ERROR_COLOR) + " did not return any value");
 			} else {
 				s = s.replace(f, find.length(), returned->var);
 				f += returned->var.length();

@@ -162,7 +162,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 	} else if (keyword == get_kw(KW_PRINT)) {
 		cout << parse_set_statement(line) << endl;
 	} else if (keyword == get_kw(KW_PRINT_ERR)) {
-		cerr << color(ERROR) << parse_set_statement(line) << reset() << endl;
+		cerr << color(ERROR_COLOR) << parse_set_statement(line) << reset() << endl;
 	} else if (keyword == get_kw(KW_GOTO)) {
 		vector<string> lines = method->getlines();
 
@@ -238,7 +238,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 			}
 		}
 	} else {
-		printerror("Unknown instruction " + color(ERROR_HL) + keyword + " (" + line + ")" + color(ERROR) + " on line #" + to_string(*i));
+		printerror("Unknown instruction " + color(ERROR_HL) + keyword + " (" + line + ")" + color(ERROR_COLOR) + " on line #" + to_string(*i));
 	}
 
 	return ReturnType::NONE;
