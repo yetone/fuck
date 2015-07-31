@@ -562,7 +562,6 @@ bool check_cond(string line) {
 		bool first = b[0];
 
 		for (int i = 0; i < pos; i++) {
-			//cout << "first: " << first << ", i: " << b[i] << endl;
 			if (b[i] != first) {
 				istrue = true;
 				break;
