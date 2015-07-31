@@ -493,19 +493,9 @@ bool check_cond(string line) {
 		return true;
 	}
 
-	printverbose("Checking condition " + color(VERBOSE_HL) + line);
-
-	bool var = startswith(line, get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN));
+	bool var = startswith(line.substr(0), get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN));
 	if (var) {
-		line = line.substr(1);
-
-		for (unsigned int i = 0; i < stackMap.size(); i++) {
-			Variable v = stackMap[i];
-			if (v.name == line) {
-				printverbose("Matched single variable");
-				return v.var == get_kw(KW_TRUE);
-			}
-		}
+		line = "(" + line + ")";
 	}
 
 	vector<pair<Conds, bool>> conds;
