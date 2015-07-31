@@ -9,6 +9,12 @@
 #include <stdlib.h>
 #include <typeinfo>
 
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <unistd.h>
+#endif
+
 #include "headers/keywords.h"
 #include "headers/code.h"
 #include "headers/utils.h"
@@ -237,6 +243,12 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 				setvar(var, "\"" + s + "\"");
 			}
 		}
+	} else if (keyword == get_kw(KW_SLEEP)) {
+		#ifdef _WIN32
+		Sleep(atoi(line.c_str()));
+		#else
+		usleep(atoi(line.c_str()) * 1000);
+		#endif
 	} else {
 		printerror("Unknown instruction " + color(ERROR_HL) + keyword + " (" + line + ")" + color(ERROR_COLOR) + " on line #" + to_string(*i));
 	}

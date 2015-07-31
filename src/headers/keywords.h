@@ -54,6 +54,8 @@ using namespace std;
 #define KW_CONTINUE "continue"
 #define KW_RETURN "return"
 
+#define KW_SLEEP "sleep"
+
 #define KW_EQUALS "=="
 #define KW_NOT_EQ "!="
 #define KW_LESS_THAN "<"
