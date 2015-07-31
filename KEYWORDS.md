@@ -17,7 +17,7 @@ This is the default keywords in fulang. You will be able to modify all these wit
 | Boolean Operations    | [and or xor](examples/conds.fu) |
 | Used in for loops     | [from to do](examples/for.fu) |
 | Pause execution		| [sleep](examples/sleep.fu) | 
-
+| Variables				| [push front back incr decr](examples/vars.fu) |
 ***
 
 ## Booleans
@@ -199,3 +199,25 @@ end
 ```sleep 1000``` Will sleep for one second
 
 Requires ```windows.h``` on Windows and ```unistd.h``` on *nix
+
+## Increase or decrease
+
+### Synopsis
+
+```
+decr $var [expr]
+incr $var [expr]
+```
+
+**expr** will default to 1 if not found
+
+### Example
+
+```
+$var := 10
+# Will print "10"
+out "$var" 
+incr $var
+# Will print 11
+out "$var"
+```
