@@ -36,3 +36,13 @@ $var2 := 20
 # Might parse "$var2" as $var + 2
 # can result in 10, 102
 out "$var, $var2"
+
+$va2 := 20
+
+incr $var
+decr $va2
+
+incr $var 2
+decr $va2 2
+
+out "$var, $va2"
