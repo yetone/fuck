@@ -98,7 +98,7 @@ call ns.name()
 out "returned value is ns.name()"
 ```
 
-#### If constructs
+## If constructs
 
 ```go
 $var := 5
@@ -112,7 +112,7 @@ else
 endif
 ```
 
-#### While loop
+## While loop
 
 ```c
 $var := true
@@ -122,7 +122,15 @@ while $var
 end
 ```
 
-#### For loop
+## For loop
+
+### Synopsis
+
+```c
+for <init>; from <start value>; to <end value>; do <change value>;
+...
+end
+```
 
 ```i``` is the variable
 
@@ -132,12 +140,21 @@ end
 
 ```do $i + 1``` is the increase value (equal to ```$i := $i + 1```)
 
+### Example
 ```go
 for $i; from 2; to 30; do $i + 1;
   out $i
 end
 ```
 
-#### Sleeping
+## Sleeping
+
+### Synopsis
 
 ```sleep <ms>```
+
+### Example:
+
+```sleep 1000``` Will sleep for one second
+
+Requires ```windows.h``` on Windows and ```unistd.h``` on *nix
