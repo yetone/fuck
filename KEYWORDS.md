@@ -84,6 +84,16 @@ $var := "string"
 
 ## Declaring new namespace
 
+### Synopsis
+
+```cpp
+namespace <name>
+
+end namespace
+```
+
+### Example
+
 ```cpp
 namespace ns
   method name
@@ -105,6 +115,20 @@ out "returned value is ns.name()"
 ```
 
 ## If constructs
+
+### Synopsis
+
+```go
+if <expr>
+
+elif <expr>
+
+else <expr
+
+end
+```
+
+### Example
 
 ```go
 $var := 5
