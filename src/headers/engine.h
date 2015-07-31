@@ -33,7 +33,10 @@ enum class Relational {
 	MORE_THAN,
 	LESS_THAN,
 	MORE_OR_EQUALS,
-	LESS_OR_EQUALS
+	LESS_OR_EQUALS,
+
+	// Check if single variable is true
+	SINGLE,
 };
 
 // Check if line is comment

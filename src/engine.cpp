@@ -612,6 +612,8 @@ bool check_cond_compare(string cond) {
 	} else if (contains(cond, get_kw(KW_MORE_OR_EQUALS))) {
 		splitat = get_kw(KW_MORE_OR_EQUALS);
 		ret = Relational::MORE_OR_EQUALS;
+	} else {
+		ret = Relational::SINGLE;
 	}
 
 	int index = cond.find(splitat);
@@ -619,11 +621,18 @@ bool check_cond_compare(string cond) {
 	string stat1 = parse_set_statement(trim(cond.substr(0, index)));
 	string stat2 = parse_set_statement(trim(cond.substr(index + splitat.length())));
 
+	if (stat1.length() == 0) {
+		stat1 = stat2;
+		stat2 = "";
+	}
+
 	return check_cond_compare(stat1, stat2, ret);
 }
 
 bool check_cond_compare(const string& var1, const string& var2, Relational ret) {
-	if (ret == Relational::EQUALS) {
+	if (ret == Relational::SINGLE) {
+		return var1 == get_kw(KW_TRUE);
+	} else if (ret == Relational::EQUALS) {
 		return var1 == var2;
 	} else if (ret == Relational::NOT_EQUAL) {
 		return var1 != var2;
