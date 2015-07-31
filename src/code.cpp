@@ -27,6 +27,6 @@ vector<string>& Code::getlines() {
 	return this->lines;
 }
 
-string Code::getfile() {
+const string& Code::getfile() {
 	return this->file;
 }

@@ -19,7 +19,7 @@ struct Chunk {
 
 class Code {
 public:
-	string file;
+	const string file;
 	vector<string> lines;
 	/*
 	 * Loads line list from file
@@ -28,7 +28,7 @@ public:
 	Code(string file, vector<string> lines);
 
 	vector<string>& getlines();
-	string getfile();
+	const string& getfile();
 };
 
 #endif
