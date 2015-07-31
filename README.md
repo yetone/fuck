@@ -1,7 +1,7 @@
 ![logo](fulang-logo.png)
 ***
 
-Experimental programming language with intepreter written in C++
+Experimental programming language with intepreter written in C++ inspired by golang and tcl
 
 __fulang__ is an acronym for **fuck you language** and short for **fucklang**
 
