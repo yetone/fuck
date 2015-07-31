@@ -114,10 +114,21 @@ endif
 
 ## While loop
 
+### Synopsis
+
+```c
+while <condition>
+  ...
+end
+```
+
+### Example
+
 ```c
 $var := true
+$another := false
 
-while $var
+while ($var) and ($another == false)
   out "\$var is true"
 end
 ```
