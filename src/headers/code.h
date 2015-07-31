@@ -24,8 +24,8 @@ public:
 	/*
 	 * Loads line list from file
 	 */
-	Code(string file);
-	Code(string file, vector<string> lines);
+	Code(const string& file);
+	Code(const string& file, vector<string>& lines);
 
 	vector<string>& getlines();
 	const string& getfile();

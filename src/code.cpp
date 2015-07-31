@@ -6,7 +6,7 @@
 
 using namespace std;
 
-Code::Code(string file): file(file) {
+Code::Code(const string& file): file(file) {
 	vector<string> lines;
 
 	ifstream input(file.c_str());
@@ -19,7 +19,7 @@ Code::Code(string file): file(file) {
 	this->lines = lines;
 }
 
-Code::Code(string file, vector<string> lines): file(file), lines(lines) {
+Code::Code(const string& file, vector<string>& lines): file(file), lines(lines) {
 
 }
 
