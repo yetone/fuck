@@ -263,8 +263,6 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 			statement = name + (incr ? " + " : " - ") + statement;
 		}
 
-		cout << "Name: " << name << " Statement: " << statement << " incr " << incr << endl << endl;
-
 		setvar(name, statement);
 	} else {
 		printerror("Unknown instruction " + color(ERROR_HL) + keyword + " (" + line + ")" + color(ERROR_COLOR) + " on line #" + to_string(*i));
