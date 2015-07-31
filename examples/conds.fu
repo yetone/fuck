@@ -7,6 +7,17 @@ end
 $val1 := 10
 $val2 := 50
 
+$bool := true
+$false := false
+
+if ($bool)
+	out "\$bool is true"
+end
+
+if ($false)
+	out "what the hell"
+end
+
 if ($val1 < $val2)
 	out "\$val1 is less than \$val2"
 end
