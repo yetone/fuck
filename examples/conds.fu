@@ -14,8 +14,8 @@ if ($bool)
 	out "\$bool is true"
 end
 
-if ($false)
-	out "what the hell"
+if ($false == false)
+	out "\$false is $false"
 end
 
 if ($val1 < $val2)
