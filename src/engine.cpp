@@ -249,6 +249,23 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 		#else
 		usleep(atoi(line.c_str()) * 1000);
 		#endif
+	} else if (keyword == get_kw(KW_INCR) || keyword == get_kw(KW_DECR)) {
+		int f = line.find_first_of(" ");
+
+		string name = line.substr(0, f);
+		string statement = line.substr(f + 1);
+
+		bool incr = keyword == get_kw(KW_INCR);
+
+		if (statement == name) {
+			statement = name + (incr ? " + " : " - ") + "1";
+		} else {
+			statement = name + (incr ? " + " : " - ") + statement;
+		}
+
+		cout << "Name: " << name << " Statement: " << statement << " incr " << incr << endl << endl;
+
+		setvar(name, statement);
 	} else {
 		printerror("Unknown instruction " + color(ERROR_HL) + keyword + " (" + line + ")" + color(ERROR_COLOR) + " on line #" + to_string(*i));
 	}
@@ -699,7 +716,7 @@ string parse_set_statement(string s) {
 			}
 		}
 
-	} else if (s != get_kw(KW_TRUE) && s != get_kw(KW_FALSE)){
+	} else if (s != get_kw(KW_TRUE) && s != get_kw(KW_FALSE)) {
 		s = parsevars(s);
 
 		if (isstring) {
