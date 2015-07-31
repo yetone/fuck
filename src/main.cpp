@@ -73,6 +73,9 @@ int main(int argc, char* argv[]) {
 		return NORMAL_EXIT;
 	}
 
+	Method main(ENTRY_POINT);
+	unsigned int i = 0;
+
 	while (true) {
 		cout << ">> ";
 
@@ -82,6 +85,13 @@ int main(int argc, char* argv[]) {
 		if (s == EXIT) {
 			return NORMAL_EXIT;
 		}
+
+		Variable *var;
+
+		main.lines.push_back(s);
+
+		execline(&main, &i, 0, var);
+		i++;
 	}
 
 	return NORMAL_EXIT;
