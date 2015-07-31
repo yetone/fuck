@@ -12,23 +12,23 @@ Method::Method(string ns, string name): ns(ns), name(name) {
 
 }
 
-Method::Method(string ns, string name, vector<string> lines): ns(ns), name(name), lines(lines) {
+Method::Method(string ns, string name, vector<string>& lines): ns(ns), name(name), lines(lines) {
 
 }
 
-vector<string> Method::getlines() {
+vector<string>& Method::getlines() {
 	return this->lines;
 }
 
-string Method::getname() {
+const string& Method::getname() {
 	return this->name;
 }
 
-string Method::getnamespace() {
+const string& Method::getnamespace() {
 	return this->ns;
 }
 
-string Method::getdisplayname() {
+const string Method::getdisplayname() {
 	if (this->ns.length() == 0) {
 		return this->name;
 	} else {
