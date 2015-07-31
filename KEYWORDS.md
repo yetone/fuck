@@ -27,7 +27,7 @@ true
 false
 ```
 
-#### Setting variable
+#### Setting variable with boolean value
 
 ```go
 push var false
@@ -39,6 +39,12 @@ $var := true
 ## Pushing variable to stack
 
 ```push back``` is the default mode
+
+### Synopsis
+
+```push <position> <variable name> <expression>```
+
+### Examples
 
 ```go
 push
