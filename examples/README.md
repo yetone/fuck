@@ -61,3 +61,7 @@ Contains test of setting variables and parsing variables in strings
 ## [read.fu](read.fu)
 
 Contains reading input examples
+
+## [sleep.fu](sleep.fu)
+
+Contains pausing/sleeping script examples

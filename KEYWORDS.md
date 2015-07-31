@@ -16,6 +16,7 @@ This is the default keywords in fulang. You will be able to modify all these wit
 | Boolean Constants     | [true false](examples/bools.fu) |
 | Boolean Operations    | [and or xor](examples/conds.fu) |
 | Used in for loops     | [from to do](examples/for.fu) |
+| Pause execution		| [sleep](examples/sleep.fu) | 
 
 ***
 
@@ -136,3 +137,7 @@ for $i; from 2; to 30; do $i + 1;
   out $i
 end
 ```
+
+#### Sleeping
+
+```sleep <ms>```
