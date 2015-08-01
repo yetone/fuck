@@ -8,8 +8,8 @@ using namespace std;
 
 class Variable {
 public:
-	string var;
-	string name;
+	wstring var;
+	wstring name;
 };
 
 #endif

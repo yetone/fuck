@@ -4,23 +4,35 @@
 
 using namespace std;
 
-#define TRIM "\t\r\n "
-
 bool startswith(string, string);
 bool contains(string s, string find);
+bool startswith(wstring, wstring);
+bool contains(wstring s, wstring find);
 
-string trim(string);
+wstring trim(wstring);
 
-void printverbose(string, bool star = true);
+void printverbose(wstring, bool star = true);
 
 void printerror(string);
 
 void printwarning(string);
 
-string parsevars(string);
+void printerror(wstring);
 
-string replaceAll(string str, string from, string to);
+void printwarning(wstring);
 
-vector<string> split(string&, char delim = ' ');
+wstring parsevars(wstring);
 
-int get_exit_code(string);
+wstring replaceAll(wstring str, wstring from, wstring to);
+
+vector<wstring> split(wstring&, wchar_t delim = ' ');
+
+int get_exit_code(wstring);
+
+int wtoi(wstring);
+
+double wtod(wstring);
+
+wstring stow(string);
+
+string wtos(wstring);

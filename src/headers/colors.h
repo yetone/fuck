@@ -37,5 +37,8 @@ using namespace std;
 
 #define COMMENT COLOR_LIGHT_GREEN
 
-string reset();
-string color(string);
+string resetstr();
+wstring reset();
+
+string colorstr(string);
+wstring color(string);

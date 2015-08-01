@@ -4,34 +4,34 @@
 
 using namespace std;
 
-Method::Method(string name): name(name) {
+Method::Method(wstring name): name(name) {
 
 }
 
-Method::Method(string ns, string name): ns(ns), name(name) {
+Method::Method(wstring ns, wstring name): ns(ns), name(name) {
 
 }
 
-Method::Method(string ns, string name, vector<string>& lines): ns(ns), name(name), lines(lines) {
+Method::Method(wstring ns, wstring name, vector<wstring>& lines): ns(ns), name(name), lines(lines) {
 
 }
 
-vector<string>& Method::getlines() {
+vector<wstring>& Method::getlines() {
 	return this->lines;
 }
 
-const string& Method::getname() {
+const wstring& Method::getname() {
 	return this->name;
 }
 
-const string& Method::getnamespace() {
+const wstring& Method::getnamespace() {
 	return this->ns;
 }
 
-const string Method::getdisplayname() {
+const wstring Method::getdisplayname() {
 	if (this->ns.length() == 0) {
 		return this->name;
 	} else {
-		return this->ns + "." + this->name;
+		return this->ns + L"." + this->name;
 	}
 }

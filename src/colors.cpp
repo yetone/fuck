@@ -2,10 +2,18 @@
 
 extern bool colors;
 
-string reset() {
-	return colors ? COLOR_RESET : "";
+string resetstr() {
+	return colorstr(COLOR_RESET);
 }
 
-string color(string color) {
-	return colors ? color : "";
+wstring reset() {
+	return color(COLOR_RESET);
+}
+
+string colorstr(string color) {
+	return colors ?  color : "";
+}
+
+wstring color(string color) {
+	return colors ? wstring(color.begin(), color.end()) : L"";
 }

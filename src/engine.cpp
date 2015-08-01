@@ -29,22 +29,22 @@ extern methodmap methodMap;
 extern stackmap stackMap;
 
 void parse(Code &code) {
-	printverbose("Parsing " + code.getfile());
+	printverbose(L"Parsing " + stow(code.getfile()));
 
-	vector<string> lines = code.getlines();
+	vector<wstring> lines = code.getlines();
 
 	// Current namespace, might be empty
-	string currentns = "";
+	wstring currentns = L"";
 
-	// Current method name, if no method, should be "main"
+	// Current method name, if no method, should be L"main"
 	Method *currentmethod;
-	Method main(ENTRY_POINT);
+	Method main(L"main");
 	methodMap.push_back(&main);
 	currentmethod = &main;
 
 	int rl = 0;
 	for (unsigned int i = 0; i < lines.size(); i++) {
-		string line = lines[i];
+		wstring line = lines[i];
 
 		line = trim(line);
 
@@ -60,25 +60,25 @@ void parse(Code &code) {
 			if (line.length() > strlen(KW_END)) {
 				line = line.substr(strlen(KW_END) + 1, line.size());
 			} else {
-				line = "";
+				line = L"";
 			}
 		}
 
 		unsigned int firstsep = line.find_first_of(KEYWORD_SEPARATOR);
-		string keyword = firstsep == string::npos ? line : line.substr(0, firstsep);
+		wstring keyword = firstsep == wstring::npos ? line : line.substr(0, firstsep);
 		line = line.substr(firstsep + 1, line.length());
 
-		printverbose("Keyword " + color(VERBOSE_HL) + keyword + color(VERBOSE) + ", line #" + to_string(rl) + color(VERBOSE_HL) + " \"" + line + "\"");
+		printverbose(L"Keyword " + color(VERBOSE_HL) + keyword + color(VERBOSE) + L", line #" + to_wstring(rl) + color(VERBOSE_HL) + L" \"" + line + L"\"");
 
 		if (keyword == get_kw(KW_NAMESPACE)) {
 			if (end) {
-				currentns = "";
+				currentns = L"";
 			} else {
 				currentns = line;
 			}
 		} else if (keyword == get_kw(KW_METHOD)) {
 			if (end) {
-				printverbose("Method " + color(VERBOSE_HL) + currentmethod->getdisplayname() + color(VERBOSE) + " finished");
+				printverbose(L"Method " + color(VERBOSE_HL) + currentmethod->getdisplayname() + color(VERBOSE) + L" finished");
 				methodMap.push_back(currentmethod);
 
 				currentmethod->chunk.end = rl + 1;
@@ -87,23 +87,23 @@ void parse(Code &code) {
 			} else {
 				currentmethod = new Method(currentns, line);
 				currentmethod->chunk.start = rl + 1;
-				printverbose("Method " + color(VERBOSE_HL) + currentmethod->getdisplayname() + color(VERBOSE) + " initialized");
+				printverbose(L"Method " + color(VERBOSE_HL) + currentmethod->getdisplayname() + color(VERBOSE) + L" initialized");
 			}
 		} else {
 			currentmethod->lines.push_back(lines[i]);
 		}
 	}
 
-	printverbose(color(COLOR_GREEN) + "Parsing complete");
+	printverbose(color(COLOR_GREEN) + L"Parsing complete");
 
 	invoke();
 }
 
 void invoke() {
-	invoke(ENTRY_POINT);
+	invoke(L"main");
 }
 
-Variable* invoke(string s) {
+Variable* invoke(wstring s) {
 	Method* method = nullptr;
 
 	for (unsigned int i = 0; i < methodMap.size(); i++) {
@@ -116,7 +116,7 @@ Variable* invoke(string s) {
 	}
 
 	if (method == nullptr) {
-		printerror("Could not find method " + color(COLOR_LIGHT_RED) + s);
+		printerror(L"Could not find method " + color(COLOR_LIGHT_RED) + s);
 		return nullptr;
 	}
 
@@ -124,9 +124,9 @@ Variable* invoke(string s) {
 }
 
 Variable* invoke(Method* method) {
-	printverbose("Invoking " + color(VERBOSE_HL) + method->getdisplayname() + color(VERBOSE) + " on line " + color(VERBOSE_HL) + "#" + to_string(method->chunk.start));
+	printverbose(L"Invoking " + color(VERBOSE_HL) + method->getdisplayname() + color(VERBOSE) + L" on line " + color(VERBOSE_HL) + L"#" + to_wstring(method->chunk.start));
 
-	vector<string> lines = method->getlines();
+	vector<wstring> lines = method->getlines();
 
 	for (unsigned int i = 0; i < lines.size(); i++) {
 		Variable* var = nullptr;
@@ -142,8 +142,8 @@ Variable* invoke(Method* method) {
 }
 
 ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var) {
-	string line = trim(method->getlines()[*i]);
-	string untrimmed = method->getlines()[*i];
+	wstring line = trim(method->getlines()[*i]);
+	wstring untrimmed = method->getlines()[*i];
 
 	if (is_comment(line)) {
 		printverbose(color(COMMENT) + line, false);
@@ -151,30 +151,30 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 	}
 
 	unsigned int firstsep = line.find_first_of(KEYWORD_SEPARATOR);
-	string keyword = firstsep == string::npos ? line : line.substr(0, firstsep);
+	wstring keyword = firstsep == wstring::npos ? line : line.substr(0, firstsep);
 	line = line.substr(firstsep + 1, line.length());
 
 	if (line == keyword) {
-		line = "";
+		line = L"";
 	}
 
-	printverbose("Executing keyword " + color(VERBOSE_HL) + keyword + color(VERBOSE) + ", line #" + to_string(*i) + " " + color(VERBOSE_HL) + "\"" + line + "\"");
+	printverbose(L"Executing keyword " + color(VERBOSE_HL) + keyword + color(VERBOSE) + L", line #" + to_wstring(*i) + L" " + color(VERBOSE_HL) + L"\"" + line + L"\"");
 
 	if (keyword == get_kw(KW_CALL_METHOD)) {
 		Variable* returned = invoke(line);
 
 		if (returned != nullptr) {
-			printverbose(color(COLOR_MAGENTA) + "Returned value " + returned->var);
+			printverbose(color(COLOR_MAGENTA) + L"Returned value " + returned->var);
 		}
 	} else if (keyword == get_kw(KW_PRINT)) {
-		cout << parse_set_statement(line) << endl;
+		wcout << parse_set_statement(line) << endl;
 	} else if (keyword == get_kw(KW_PRINT_ERR)) {
-		cerr << color(ERROR_COLOR) << parse_set_statement(line) << reset() << endl;
+		wcerr << color(ERROR_COLOR) << parse_set_statement(line) << reset() << endl;
 	} else if (keyword == get_kw(KW_GOTO)) {
-		vector<string> lines = method->getlines();
+		vector<wstring> lines = method->getlines();
 
 		for (unsigned int l = 0; l < lines.size(); l++) {
-			if (lines[l] == get_kw(KW_LABEL) + " " + line)  {
+			if (lines[l] == get_kw(KW_LABEL) + L" L" + line)  {
 				*i = l + 1;
 				return ReturnType::NONE;
 			}
@@ -194,22 +194,22 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 		return ReturnType::BREAK;
 	} else if (keyword == get_kw(KW_RETURN)) {
 		if (line.length() > 0) {
-			printverbose("Returning " + color(VERBOSE_HL) + line);
-			string set = parse_set_statement(line);
-			Variable v = setvar("temp", line);
+			printverbose(L"Returning L" + color(VERBOSE_HL) + line);
+			wstring set = parse_set_statement(line);
+			Variable v = setvar(L"temp", line);
 			var = &v;
 		} else {
 			var = nullptr;
-			printverbose("Returning...");
+			printverbose(L"Returning...");
 		}
 		return ReturnType::RETURN;
 	} else if (keyword == get_kw(KW_CONTINUE)) {
 		return ReturnType::CONTINUE;
 	} else if (keyword == get_kw(KW_PUSH_VAR) || (startswith(keyword, get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN)) && startswith(line, get_kw(KW_PUSH_VAR_SIMPLE_KEY, KW_PUSH_VAR_SIMPLE)))) {
 		// get type
-		int f = line.find_first_of(" ");
-		string name;
-		string statement;
+		int f = line.find_first_of(L" L");
+		wstring name;
+		wstring statement;
 		StackPos pos = StackPos::END;
 
 		if (startswith(keyword, get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN))) {
@@ -220,8 +220,8 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 			statement = line.substr(f + 1);
 
 			if (name == get_kw(KW_PUSH_FRONT) || name == get_kw(KW_PUSH_BACK)) {
-				name = statement.substr(0, statement.find_first_of(" "));
-				statement = statement.substr(statement.find_first_of(" ") + 1);
+				name = statement.substr(0, statement.find_first_of(L" L"));
+				statement = statement.substr(statement.find_first_of(L" L") + 1);
 
 				if (name == get_kw(KW_PUSH_FRONT)) {
 					pos = StackPos::FRONT;
@@ -231,89 +231,89 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 
 		setvar(name, statement, pos);
 	} else if (keyword == get_kw(KW_LABEL)) {
-		printverbose("Ignoring label at line #" + to_string(*i));
+		printverbose(L"Ignoring label at line #" + to_wstring(*i));
 	} else if (keyword == get_kw(KW_READ)) {
-		string s;
+		wstring s;
 
-		getline(cin, s);
+		getline(wcin, s);
 
 		if (line.length() > 0) {
-			vector<string> vars = split(line, ' ');
+			vector<wstring> vars = split(line, ' ');
 
-			for (string var : vars) {
-				setvar(var, "\"" + s + "\"");
+			for (wstring var : vars) {
+				setvar(var, L"\"" + s + L"\"");
 			}
 		}
 	} else if (keyword == get_kw(KW_SLEEP)) {
 		#ifdef _WIN32
-		Sleep(atoi(line.c_str()));
+		Sleep(wtoi(line));
 		#else
-		usleep(atoi(line.c_str()) * 1000);
+		usleep(wtoi(line) * 1000);
 		#endif
 	} else if (keyword == get_kw(KW_INCR) || keyword == get_kw(KW_DECR)) {
-		int f = line.find_first_of(" ");
+		int f = line.find_first_of(L" L");
 
-		string name = line.substr(0, f);
-		string statement = line.substr(f + 1);
+		wstring name = line.substr(0, f);
+		wstring statement = line.substr(f + 1);
 
 		bool incr = keyword == get_kw(KW_INCR);
 
 		if (statement == name) {
-			statement = name + (incr ? " + " : " - ") + "1";
+			statement = name + (incr ? L" + L" : L" - L") + L"1";
 		} else {
-			statement = name + (incr ? " + " : " - ") + statement;
+			statement = name + (incr ? L" + L" : L" - L") + statement;
 		}
 
 		setvar(name, statement);
 	} else {
-		printerror("Unknown instruction " + color(ERROR_HL) + keyword + " (" + line + ")" + color(ERROR_COLOR) + " on line #" + to_string(*i));
+		printerror(L"Unknown instruction " + color(ERROR_HL) + keyword + L" (" + line + L")" + color(ERROR_COLOR) + L" on line #" + to_wstring(*i));
 	}
 
 	return ReturnType::NONE;
 }
 
-ReturnType parsefor(Method* method, string line, unsigned int* i, int indent, Variable*& var) {
-	printverbose("Checking " + color(VERBOSE_HL) + "for" + color(VERBOSE) + ", condition " + color(VERBOSE_HL) + line);
+ReturnType parsefor(Method* method, wstring line, unsigned int* i, int indent, Variable*& var) {
+	printverbose(L"Checking L" + color(VERBOSE_HL) + L"for" + color(VERBOSE) + L", condition L" + color(VERBOSE_HL) + line);
 
 	int totalend;
 
-	vector<string> keywords;
+	vector<wstring> keywords;
 	keywords.push_back(get_kw(KW_FOR));
 
 	vector<Chunk> chunks = parse_chunks(method, i, indent, &totalend, keywords);
 
 	for (Chunk chunk : chunks) {
-		string line = trim(method->getlines()[chunk.start]);
+		wstring line = trim(method->getlines()[chunk.start]);
 
-		string cond = line.substr(line.find_first_of(" ") + 1);
-		vector<string> spl = split(cond, ';');
+		wstring cond = line.substr(line.find_first_of(L" L") + 1);
+		vector<wstring> spl = split(cond, ';');
 
-		string first = cond.substr(0, cond.find_first_of(";"));
+		wstring first = cond.substr(0, cond.find_first_of(L";"));
 		if (first[0] == get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN)[0]) {
 			first = first.substr(1);
 		}
 
 		Variable from;
 		int to;
-		string dos;
+		wstring dos;
 
 		for (unsigned int in = 1; in < spl.size(); in++) {
-			string s = trim(spl[in]);
-			string word = s.substr(0, s.find_first_of(' '));
-			string w = s.substr(s.find_first_of(' ') + 1);
+			wstring s = trim(spl[in]);
+			wstring word = s.substr(0, s.find_first_of(' '));
+			wstring w = s.substr(s.find_first_of(' ') + 1);
 
 			if (startswith(s, get_kw(KW_FOR_FROM))) {
 				from = setvar(first, w);
 			} else if (startswith(s, get_kw(KW_FOR_TO))) {
-				to = atoi(w.c_str());
+				to = wtoi(w);
 			} else if (startswith(s, get_kw(KW_FOR_DO))) {
 				dos = w;
 			} else {
-				printwarning("Unknown " + s);
+				printwarning(L"Unknown L" + s);
 			}
 		}
 
-		int f = atoi(from.var.c_str());
+		int f = wtoi(from.var);
 
 		if (f != to) {
 			*i = chunk.start + 1;
@@ -325,7 +325,7 @@ ReturnType parsefor(Method* method, string line, unsigned int* i, int indent, Va
 				*i = chunk.start + 1;
 
 				Variable temp = setvar(from.name, dos);
-				f = atoi(temp.var.c_str());
+				f = wtoi(temp.var);
 				goto exec;
 			} else if (type == ReturnType::RETURN && var != nullptr) {
 				return type;
@@ -338,20 +338,20 @@ ReturnType parsefor(Method* method, string line, unsigned int* i, int indent, Va
 	return ReturnType::NONE;
 }
 
-ReturnType parsewhile(Method* method, string line, unsigned int* i, int indent, Variable*& var) {
-	printverbose("Checking " + color(VERBOSE_HL) + "while" + color(VERBOSE) + ", condition " + color(VERBOSE_HL) + line);
+ReturnType parsewhile(Method* method, wstring line, unsigned int* i, int indent, Variable*& var) {
+	printverbose(L"Checking L" + color(VERBOSE_HL) + L"while" + color(VERBOSE) + L", condition L" + color(VERBOSE_HL) + line);
 
 	int totalend;
 
-	vector<string> keywords;
+	vector<wstring> keywords;
 	keywords.push_back(get_kw(KW_WHILE));
 
 	vector<Chunk> chunks = parse_chunks(method, i, indent, &totalend, keywords);
 
 	for (Chunk chunk : chunks) {
-		string line = trim(method->getlines()[chunk.start]);
+		wstring line = trim(method->getlines()[chunk.start]);
 
-		string cond = line.substr(line.find_first_of(" ") + 1);
+		wstring cond = line.substr(line.find_first_of(L" L") + 1);
 
 		if (check_cond(cond)) {
 			*i = chunk.start + 1;
@@ -374,12 +374,12 @@ ReturnType parsewhile(Method* method, string line, unsigned int* i, int indent, 
 	return ReturnType::NONE;
 }
 
-ReturnType parseif(Method* method, string line, unsigned int* i, int indent, Variable*& var) {
-	printverbose("Checking " + color(VERBOSE_HL) + "if" + color(VERBOSE) + ", condition " + color(VERBOSE_HL) + line);
+ReturnType parseif(Method* method, wstring line, unsigned int* i, int indent, Variable*& var) {
+	printverbose(L"Checking L" + color(VERBOSE_HL) + L"if" + color(VERBOSE) + L", condition L" + color(VERBOSE_HL) + line);
 
 	int totalend;
 
-	vector<string> keywords;
+	vector<wstring> keywords;
 	keywords.push_back(get_kw(KW_IF));
 	keywords.push_back(get_kw(KW_ELSEIF));
 	keywords.push_back(get_kw(KW_ELSE));
@@ -387,7 +387,7 @@ ReturnType parseif(Method* method, string line, unsigned int* i, int indent, Var
 	vector<Chunk> chunks = parse_chunks(method, i, indent, &totalend, keywords);
 
 	for (Chunk conds : chunks) {
-		string line = trim(method->getlines()[conds.start]);
+		wstring line = trim(method->getlines()[conds.start]);
 
 		// Is else, we have passed by everything else
 		if (line == get_kw(KW_ELSE)) {
@@ -399,7 +399,7 @@ ReturnType parseif(Method* method, string line, unsigned int* i, int indent, Var
 			break;
 		}
 
-		string cond = line.substr(line.find_first_of(" ") + 1);
+		wstring cond = line.substr(line.find_first_of(L" L") + 1);
 
 		if (check_cond(cond)) {
 			*i = conds.start + 1;
@@ -427,14 +427,14 @@ ReturnType execrange(Method* method, unsigned int* i, unsigned int to, int inden
 	return ReturnType::NONE;
 }
 
-bool check_cond(string line) {
+bool check_cond(wstring line) {
 	if (line == get_kw(KW_ELSE)) {
 		return true;
 	}
 
 	bool var = startswith(line.substr(0), get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN));
 	if (var) {
-		line = "(" + line + ")";
+		line = L"(L" + line + L")";
 	}
 
 	vector<pair<Conds, bool>> conds;
@@ -448,8 +448,8 @@ bool check_cond(string line) {
 
 		Conds cond = Conds::AND;
 
-		if (beginnext != (signed int) string::npos) {
-			string keywords = trim(line.substr(second + 1, beginnext - second - 1));
+		if (beginnext != (signed int) wstring::npos) {
+			wstring keywords = trim(line.substr(second + 1, beginnext - second - 1));
 
 			if (contains(keywords, get_kw(KW_AND)) || contains(keywords, get_kw(OP_AND))) {
 				cond = Conds::AND;
@@ -460,11 +460,11 @@ bool check_cond(string line) {
 			}
 		}
 
-		if (first == (signed int) string::npos || second == (signed int) string::npos) {
+		if (first == (signed int) wstring::npos || second == (signed int) wstring::npos) {
 			break;
 		}
 
-		string s = line.substr(first + 1, second - 1);
+		wstring s = line.substr(first + 1, second - 1);
 		pos += s.length();
 
 		bool result = check_cond_compare(s);
@@ -518,8 +518,8 @@ bool check_cond(string line) {
 	return istrue;
 }
 
-bool check_cond_compare(string cond) {
-	string splitat;
+bool check_cond_compare(wstring cond) {
+	wstring splitat;
 	Relational ret;
 
 	if (contains(cond, get_kw(OP_EQUALS))) {
@@ -546,18 +546,18 @@ bool check_cond_compare(string cond) {
 
 	int index = cond.find(splitat);
 
-	string stat1 = parse_set_statement(trim(cond.substr(0, index)));
-	string stat2 = parse_set_statement(trim(cond.substr(index + splitat.length())));
+	wstring stat1 = parse_set_statement(trim(cond.substr(0, index)));
+	wstring stat2 = parse_set_statement(trim(cond.substr(index + splitat.length())));
 
 	if (stat1.length() == 0) {
 		stat1 = stat2;
-		stat2 = "";
+		stat2 = L"";
 	}
 
 	return check_cond_compare(stat1, stat2, ret);
 }
 
-bool check_cond_compare(const string& var1, const string& var2, Relational ret) {
+bool check_cond_compare(const wstring& var1, const wstring& var2, Relational ret) {
 	if (ret == Relational::SINGLE) {
 		return var1 == get_kw(KW_TRUE);
 	} else if (ret == Relational::EQUALS) {
@@ -566,8 +566,8 @@ bool check_cond_compare(const string& var1, const string& var2, Relational ret) 
 		return var1 != var2;
 	}
 
-	double i1 = atof(var1.c_str());
-	double i2 = atof(var2.c_str());
+	double i1 = wtod(var1);
+	double i2 = wtod(var2);
 
 	if (ret == Relational::LESS_THAN) {
 		return i1 < i2;
@@ -582,7 +582,7 @@ bool check_cond_compare(const string& var1, const string& var2, Relational ret) 
 	return DEFAULT_COND;
 }
 
-Variable* getvar(string name) {
+Variable* getvar(wstring name) {
 	if (name[0] == get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN)[0]) {
 		name = name.substr(1);
 	}
@@ -597,8 +597,8 @@ Variable* getvar(string name) {
 	return nullptr;
 }
 
-string parse_set_statement(string s) {
-	printverbose("Checking variable set statement " + color(VERBOSE_HL) + s);
+wstring parse_set_statement(wstring s) {
+	printverbose(L"Checking variable set statement " + color(VERBOSE_HL) + s);
 
 	if (s.length() == 0) {
 		return s;
@@ -606,14 +606,14 @@ string parse_set_statement(string s) {
 
 	s = trim(s);
 
-	bool opposite = s[0] == '!';
-	bool var = s[opposite ? 1 : 0] == '$';
+	bool opposite = s[0] == L'!';
+	bool var = s[opposite ? 1 : 0] == L'$';
 
-	bool isstring = s[0] == '\"' && s[s.length() - 1] == '\"';
+	bool iswstring = s[0] == L'\"' && s[s.length() - 1] == L'\"';
 
 	// Single variable
-	if (!isstring && var && s.find(" ") == string::npos) {
-		string name = s.substr(opposite ? 2 : 1);
+	if (!iswstring && var && s.find(L" ") == wstring::npos) {
+		wstring name = s.substr(opposite ? 2 : 1);
 
 		Variable v = *getvar(name);
 		if (v.name == name) {
@@ -629,17 +629,17 @@ string parse_set_statement(string s) {
 	} else if (s != get_kw(KW_TRUE) && s != get_kw(KW_FALSE)) {
 		s = parsevars(s);
 
-		if (isstring) {
+		if (iswstring) {
 			s = s.substr(1, s.length() - 2);
 		} else {
-			s = replaceAll(s, " ", "");
-			double val = eval(s);
+			s = replaceAll(s, L" ", L"");
+			double val = eval(wtos(s));
 
-			s = to_string(val);
+			s = to_wstring(val);
 
 			unsigned int f = s.find_last_of('.');
 
-			if (f != string::npos && s.substr(f + 1).find_first_not_of('0') == string::npos) {
+			if (f != wstring::npos && s.substr(f + 1).find_first_not_of('0') == wstring::npos) {
 				// If absolute value, remove dot and zeros
 				s = s.substr(0, f);
 			} else {
@@ -652,8 +652,8 @@ string parse_set_statement(string s) {
 	return s;
 }
 
-Variable setvar(string name, string statement, StackPos pos) {
-	printverbose("Setting variable " + color(VERBOSE_HL) + name + color(VERBOSE) + " to " + color(VERBOSE_HL) + "\"" + statement + "\"");
+Variable setvar(wstring name, wstring statement, StackPos pos) {
+	printverbose(L"Setting variable " + color(VERBOSE_HL) + name + color(VERBOSE) + L" to " + color(VERBOSE_HL) + L"\"" + statement + L"\"");
 
 	if (name[0] == get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN)[0]) {
 		name = name.substr(1);
@@ -673,23 +673,23 @@ Variable setvar(string name, string statement, StackPos pos) {
 	var.var = parse_set_statement(statement);
 
 	if (index != -1) {
-		printverbose("Updated " + color(VERBOSE_HL) + name + color(VERBOSE) + " on stack with value " + var.var);
+		printverbose(L"Updated " + color(VERBOSE_HL) + name + color(VERBOSE) + L" on stack with value " + var.var);
 		stackMap.at(index) = var;
 	} else {
-		printverbose("Added " + color(VERBOSE_HL) + name + color(VERBOSE) + " to stack with value " + var.var);
+		printverbose(L"Added " + color(VERBOSE_HL) + name + color(VERBOSE) + L" to stack with value " + var.var);
 
 		if (pos == StackPos::FRONT) {
 			stackMap.insert(stackMap.begin(), var);
 		} else if (pos == StackPos::END) {
 			stackMap.push_back(var);
 		} else {
-			printerror("Invalid stack position");
+			printerror(L"Invalid stack position");
 		}
 	}
 
 	return var;
 }
 
-inline bool is_comment(string s) {
+inline bool is_comment(wstring s) {
 	return startswith(s, COMMENT_1) || startswith(s, COMMENT_2);
 }

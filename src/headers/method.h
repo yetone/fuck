@@ -11,18 +11,18 @@ using namespace std;
 class Method {
 public:
 	struct Chunk chunk;
-	const string ns;
-	const string name;
-	vector<string> lines;
+	const wstring ns;
+	const wstring name;
+	vector<wstring> lines;
 	goto_labels labels;
 
-	Method(string name);
-	Method(string ns, string name);
-	Method(string ns, string name, vector<string>& lines);
-	vector<string>& getlines();
-	const string& getname();
-	const string& getnamespace();
-	const string getdisplayname();
+	Method(wstring name);
+	Method(wstring ns, wstring name);
+	Method(wstring ns, wstring name, vector<wstring>& lines);
+	vector<wstring>& getlines();
+	const wstring& getname();
+	const wstring& getnamespace();
+	const wstring getdisplayname();
 };
 
 #endif

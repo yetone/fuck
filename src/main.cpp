@@ -17,7 +17,7 @@ using namespace std;
 #define ARG_VERBOSE_SHORT "-v"
 #define ARG_COLORS "--colors"
 #define ARG_COLORS_SHORT "-c"
-#define EXIT "exit"
+#define EXIT L"exit"
 
 bool verbose = false;
 bool colors = false;
@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
 
 			string file = argv[i];
 
-			ifstream input(argv[i]);
+			wifstream input(argv[i]);
 
 			if (!input.good()) {
 				printerror("Failed to read file " + file);
@@ -73,14 +73,14 @@ int main(int argc, char* argv[]) {
 
 	printinfo();
 
-	Method main(ENTRY_POINT);
+	Method main(L"main");
 	unsigned int i = 0;
 
 	while (true) {
 		cout << ">> ";
 
-		string s;
-		getline(cin, s);
+		wstring s;
+		getline(wcin, s);
 
 		if (s == EXIT) {
 			return NORMAL_EXIT;

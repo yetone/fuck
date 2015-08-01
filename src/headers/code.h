@@ -4,7 +4,7 @@
 
 using namespace std;
 
-typedef pair<string, int> goto_pair;
+typedef pair<wstring, int> goto_pair;
 typedef vector<goto_pair> goto_labels;
 
 #ifndef H_CODE
@@ -20,14 +20,14 @@ struct Chunk {
 class Code {
 public:
 	const string file;
-	vector<string> lines;
+	vector<wstring> lines;
 	/*
 	 * Loads line list from file
 	 */
 	Code(const string& file);
-	Code(const string& file, vector<string>& lines);
+	Code(const string& file, vector<wstring>& lines);
 
-	vector<string>& getlines();
+	vector<wstring>& getlines();
 	const string& getfile();
 };
 

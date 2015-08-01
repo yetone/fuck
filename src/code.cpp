@@ -7,11 +7,11 @@
 using namespace std;
 
 Code::Code(const string& file): file(file) {
-	vector<string> lines;
+	vector<wstring> lines;
 
-	ifstream input(file.c_str());
+	wifstream input(file);
 
-	string line;
+	wstring line;
 	while (getline(input, line)) {
 		lines.push_back(line);
 	}
@@ -19,11 +19,11 @@ Code::Code(const string& file): file(file) {
 	this->lines = lines;
 }
 
-Code::Code(const string& file, vector<string>& lines): file(file), lines(lines) {
+Code::Code(const string& file, vector<wstring>& lines): file(file), lines(lines) {
 
 }
 
-vector<string>& Code::getlines() {
+vector<wstring>& Code::getlines() {
 	return this->lines;
 }
 

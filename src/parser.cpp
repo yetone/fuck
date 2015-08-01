@@ -8,24 +8,24 @@
 
 using namespace std;
 
-vector<Chunk> parse_chunks(Method* method, unsigned int* i, int indent, int* totalend, vector<string> keywords) {
+vector<Chunk> parse_chunks(Method* method, unsigned int* i, int indent, int* totalend, vector<wstring> keywords) {
 	unsigned int end = *i;
 
-	string line;
+	wstring line;
 
 	vector<Chunk> chunks;
 
 	Chunk *current = nullptr;
 
 	while (end < method->getlines().size()) {
-		string temp = method->getlines()[end];
+		wstring temp = method->getlines()[end];
 
 		int s = temp.find_first_not_of('\t');
 
 		bool word = false;
 
-		for (string s : keywords) {
-			if (startswith(trim(temp), get_kw(s))) {
+		for (wstring str : keywords) {
+			if (startswith(trim(temp), get_kw(str))) {
 				word = true;
 			}
 		}
@@ -42,7 +42,7 @@ vector<Chunk> parse_chunks(Method* method, unsigned int* i, int indent, int* tot
 		} else if (s == indent && startswith(trim(temp), get_kw(KW_END))) {
 			if (current != nullptr) {
 				line = method->getlines()[current->start];
-				string cond = line.substr(line.find_first_of(" ") + 1);
+				wstring cond = line.substr(line.find_first_of(L" ") + 1);
 
 				current->end = end - 1;
 				chunks.push_back(*current);

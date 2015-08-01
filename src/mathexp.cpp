@@ -177,7 +177,7 @@ double calculate(const char* expr, std::map<std::string, double>* vars) {
 			} else if (!str.compare("%")) {
 				evaluation.push((int) left % (int) right);
 			} else {
-				printerror("Invalid operator " + color(ERROR_HL) + str);
+				printerror("Invalid operator " + colorstr(ERROR_HL) + str);
 				break;
 			}
 		} else if (doubleTok) {
@@ -193,7 +193,7 @@ double calculate(const char* expr, std::map<std::string, double>* vars) {
 }
 
 double eval(string s) {
-	printverbose("Evaluating mathematical expression " + color(VERBOSE_HL) + s);
+	printverbose(L"Evaluating mathematical expression " + color(VERBOSE_HL) + wstring(s.begin(), s.end()));
 	std::map<std::string, double> vars;
 
 	vars["pi"] = 3.14;

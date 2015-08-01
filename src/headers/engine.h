@@ -40,19 +40,19 @@ enum class Relational {
 };
 
 // Check if line is comment
-inline bool is_comment(string);
+inline bool is_comment(wstring);
 
-Variable* getvar(string);
+Variable* getvar(wstring);
 
-Variable setvar(string name, string statement, StackPos pos = StackPos::END);
+Variable setvar(wstring name, wstring statement, StackPos pos = StackPos::END);
 
 void parse(Code&);
 
 // Invoke main method
 void invoke();
 
-// Invoke method from string
-Variable* invoke(string);
+// Invoke method from wstring
+Variable* invoke(wstring);
 
 // Invoke method
 Variable* invoke(Method*);
@@ -64,19 +64,19 @@ ReturnType execline(Method*, unsigned int*, int indent, Variable*&);
 ReturnType execrange(Method*, unsigned int*, unsigned int, int indent, Variable*&);
 
 // check if something is true
-bool check_cond(string);
+bool check_cond(wstring);
 
-bool check_cond_compare(string cond);
-bool check_cond_compare(const string& var1, const string& var2, Relational ret);
+bool check_cond_compare(wstring cond);
+bool check_cond_compare(const wstring& var1, const wstring& var2, Relational ret);
 
 // used when set keyword is used, create new variable
-string parse_set_statement(string statement);
+wstring parse_set_statement(wstring statement);
 
-ReturnType parseif(Method* method, string line, unsigned int* i, int, Variable*&);
+ReturnType parseif(Method* method, wstring line, unsigned int* i, int, Variable*&);
 
-ReturnType parsewhile(Method* method, string, unsigned int* i, int, Variable*&);
+ReturnType parsewhile(Method* method, wstring, unsigned int* i, int, Variable*&);
 
-ReturnType parsefor(Method* method, string, unsigned int* i, int, Variable*&);
+ReturnType parsefor(Method* method, wstring, unsigned int* i, int, Variable*&);
 
 typedef Chunk If;
 typedef Chunk While;

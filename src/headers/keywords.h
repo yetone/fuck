@@ -2,10 +2,10 @@
 
 using namespace std;
 
-#define COMMENT_1 "#"
-#define COMMENT_2 "//"
+#define COMMENT_1 L"#"
+#define COMMENT_2 L"//"
 
-#define ENTRY_POINT "main"
+#define LENTRY_POINT "main"
 
 #define KEYWORD_SEPARATOR ' '
 
@@ -75,5 +75,7 @@ using namespace std;
 
 void load();
 
-string get_kw(string key);
-string get_kw(string key, string def);
+wstring get_kw(wstring key);
+wstring get_kw(string key);
+wstring get_kw(string key, string def);
+wstring get_kw(string key, wstring def);
