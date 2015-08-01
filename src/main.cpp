@@ -29,8 +29,6 @@ void printinfo() {
 }
 
 int main(int argc, char* argv[]) {
-	printinfo();
-
 	cout.setf(ios::boolalpha);
 
 	if (argc <= 1) {
@@ -72,6 +70,8 @@ int main(int argc, char* argv[]) {
 		// We have processed all input files, exit
 		return NORMAL_EXIT;
 	}
+
+	printinfo();
 
 	Method main(ENTRY_POINT);
 	unsigned int i = 0;
