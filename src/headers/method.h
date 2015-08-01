@@ -5,6 +5,9 @@
 
 using namespace std;
 
+#ifndef H_METHOD
+#define H_METHOD
+
 class Method {
 public:
 	struct Chunk chunk;
@@ -21,3 +24,5 @@ public:
 	const string& getnamespace();
 	const string getdisplayname();
 };
+
+#endif
