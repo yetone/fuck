@@ -21,6 +21,7 @@
 #include "headers/var.h"
 #include "headers/colors.h"
 #include "headers/mathexp.h"
+#include "headers/parser.h"
 
 using namespace std;
 
@@ -274,46 +275,15 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 ReturnType parsefor(Method* method, string line, unsigned int* i, int indent, Variable*& var) {
 	printverbose("Checking " + color(VERBOSE_HL) + "for" + color(VERBOSE) + ", condition " + color(VERBOSE_HL) + line);
 
-	unsigned int end = *i;
-
-	vector<For> fors;
-
-	For *current = nullptr;
-
 	int totalend;
 
-	while (end < method->getlines().size()) {
-		string temp = method->getlines()[end];
+	vector<string> keywords;
+	keywords.push_back(get_kw(KW_FOR));
 
-		int s = temp.find_first_not_of('\t');
+	vector<Chunk> chunks = parse_chunks(method, i, indent, &totalend, keywords);
 
-		if (s == indent && startswith(trim(temp), get_kw(KW_FOR))) {
-			if (current != nullptr) {
-				current->end = end - 1;
-				fors.push_back(*current);
-			}
-
-			current = new For;
-			current->start = end;
-			*i = end;
-		} else if (s == indent && startswith(trim(temp), get_kw(KW_END))) {
-			if (current != nullptr) {
-				line = method->getlines()[current->start];
-				string cond = line.substr(line.find_first_of(" ") + 1);
-
-				current->end = end - 1;
-				fors.push_back(*current);
-				*i = end;
-				totalend = end;
-				break;
-			}
-		}
-
-		end++;
-	}
-
-	for (For conds : fors) {
-		string line = trim(method->getlines()[conds.start]);
+	for (Chunk chunk : chunks) {
+		string line = trim(method->getlines()[chunk.start]);
 
 		string cond = line.substr(line.find_first_of(" ") + 1);
 		vector<string> spl = split(cond, ';');
@@ -346,13 +316,13 @@ ReturnType parsefor(Method* method, string line, unsigned int* i, int indent, Va
 		int f = atoi(from.var.c_str());
 
 		if (f != to) {
-			*i = conds.start + 1;
+			*i = chunk.start + 1;
 			exec:
-			ReturnType type = execrange(method, i, conds.end, indent + 1, var);
+			ReturnType type = execrange(method, i, chunk.end, indent + 1, var);
 			if (type == ReturnType::BREAK) {
 				continue;
 			} else if (f != to || type == ReturnType::CONTINUE) {
-				*i = conds.start + 1;
+				*i = chunk.start + 1;
 
 				Variable temp = setvar(from.name, dos);
 				f = atoi(temp.var.c_str());
@@ -371,61 +341,29 @@ ReturnType parsefor(Method* method, string line, unsigned int* i, int indent, Va
 ReturnType parsewhile(Method* method, string line, unsigned int* i, int indent, Variable*& var) {
 	printverbose("Checking " + color(VERBOSE_HL) + "while" + color(VERBOSE) + ", condition " + color(VERBOSE_HL) + line);
 
-	unsigned int end = *i;
-
-	vector<While> whiles;
-
-	While *current = nullptr;
-
 	int totalend;
 
-	while (end < method->getlines().size()) {
-		string temp = method->getlines()[end];
+	vector<string> keywords;
+	keywords.push_back(get_kw(KW_WHILE));
 
-		int s = temp.find_first_not_of('\t');
+	vector<Chunk> chunks = parse_chunks(method, i, indent, &totalend, keywords);
 
-		if (s == indent && startswith(trim(temp), get_kw(KW_WHILE))) {
-			if (current != nullptr) {
-				current->end = end - 1;
-				whiles.push_back(*current);
-			}
-
-			current = new While;
-			current->start = end;
-			*i = end;
-		} else if (s == indent && startswith(trim(temp), get_kw(KW_END))) {
-			if (current != nullptr) {
-				line = method->getlines()[current->start];
-				string cond = line.substr(line.find_first_of(" ") + 1);
-
-				current->end = end - 1;
-				whiles.push_back(*current);
-				*i = end;
-				totalend = end;
-				break;
-			}
-		}
-
-		end++;
-	}
-
-	for (While conds : whiles) {
-		string line = trim(method->getlines()[conds.start]);
+	for (Chunk chunk : chunks) {
+		string line = trim(method->getlines()[chunk.start]);
 
 		string cond = line.substr(line.find_first_of(" ") + 1);
 
 		if (check_cond(cond)) {
-			*i = conds.start + 1;
-			exec:
-			ReturnType type = execrange(method, i, conds.end, indent + 1, var);
+			*i = chunk.start + 1;
+			exec: ReturnType type = execrange(method, i, chunk.end, indent + 1, var);
 
 			if (type == ReturnType::BREAK) {
-				*i = conds.end;
+				*i = chunk.end;
 				continue;
 			} else if (type == ReturnType::RETURN && var != nullptr) {
 				return type;
 			} else if (check_cond(cond) || type == ReturnType::CONTINUE) {
-				*i = conds.start + 1;
+				*i = chunk.start + 1;
 				goto exec;
 			}
 			break;
@@ -439,42 +377,16 @@ ReturnType parsewhile(Method* method, string line, unsigned int* i, int indent, 
 ReturnType parseif(Method* method, string line, unsigned int* i, int indent, Variable*& var) {
 	printverbose("Checking " + color(VERBOSE_HL) + "if" + color(VERBOSE) + ", condition " + color(VERBOSE_HL) + line);
 
-	unsigned int end = *i;
-
-	vector<If> ifs;
-
-	If *current = nullptr;
-
 	int totalend;
 
-	while (end < method->getlines().size()) {
-		string temp = method->getlines()[end];
+	vector<string> keywords;
+	keywords.push_back(get_kw(KW_IF));
+	keywords.push_back(get_kw(KW_ELSEIF));
+	keywords.push_back(get_kw(KW_ELSE));
 
-		int s = temp.find_first_not_of('\t');
+	vector<Chunk> chunks = parse_chunks(method, i, indent, &totalend, keywords);
 
-		if (s == indent && (startswith(trim(temp), get_kw(KW_IF)) || startswith(trim(temp), get_kw(KW_ELSEIF)) || startswith(trim(temp), get_kw(KW_ELSE)))) {
-			if (current != nullptr) {
-				current->end = end - 1;
-				ifs.push_back(*current);
-			}
-
-			current = new If;
-			current->start = end;
-			*i = end;
-		} else if (s == indent && startswith(trim(temp), get_kw(KW_END))) {
-			if (current != nullptr) {
-				current->end = end - 1;
-				ifs.push_back(*current);
-				*i = end;
-				totalend = end;
-				break;
-			}
-		}
-
-		end++;
-	}
-
-	for (If conds : ifs) {
+	for (Chunk conds : chunks) {
 		string line = trim(method->getlines()[conds.start]);
 
 		// Is else, we have passed by everything else
