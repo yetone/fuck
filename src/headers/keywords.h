@@ -56,12 +56,12 @@ using namespace std;
 
 #define KW_SLEEP "sleep"
 
-#define KW_EQUALS "=="
-#define KW_NOT_EQ "!="
-#define KW_LESS_THAN "<"
-#define KW_MORE_THAN ">"
-#define KW_LESS_OR_EQUALS "<="
-#define KW_MORE_OR_EQUALS "=>"
+#define OP_EQUALS "=="
+#define OP_NOT_EQ "!="
+#define OP_LESS_THAN "<"
+#define OP_MORE_THAN ">"
+#define OP_LESS_OR_EQUALS "<="
+#define OP_MORE_OR_EQUALS "=>"
 
 #define KW_INCR "incr"
 #define KW_DECR "decr"

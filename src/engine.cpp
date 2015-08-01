@@ -610,23 +610,23 @@ bool check_cond_compare(string cond) {
 	string splitat;
 	Relational ret;
 
-	if (contains(cond, get_kw(KW_EQUALS))) {
-		splitat = get_kw(KW_EQUALS);
+	if (contains(cond, get_kw(OP_EQUALS))) {
+		splitat = get_kw(OP_EQUALS);
 		ret = Relational::EQUALS;
-	} else if (contains(cond, get_kw(KW_NOT_EQ))) {
-		splitat = get_kw(KW_NOT_EQ);
+	} else if (contains(cond, get_kw(OP_NOT_EQ))) {
+		splitat = get_kw(OP_NOT_EQ);
 		ret = Relational::NOT_EQUAL;
-	} else if (contains(cond, get_kw(KW_LESS_THAN))) {
-		splitat = get_kw(KW_LESS_THAN);
+	} else if (contains(cond, get_kw(OP_LESS_THAN))) {
+		splitat = get_kw(OP_LESS_THAN);
 		ret = Relational::LESS_THAN;
-	} else if (contains(cond, get_kw(KW_MORE_THAN))) {
-		splitat = get_kw(KW_MORE_THAN);
+	} else if (contains(cond, get_kw(OP_MORE_THAN))) {
+		splitat = get_kw(OP_MORE_THAN);
 		ret = Relational::MORE_THAN;
-	} else if (contains(cond, get_kw(KW_LESS_OR_EQUALS))) {
-		splitat = get_kw(KW_LESS_OR_EQUALS);
+	} else if (contains(cond, get_kw(OP_LESS_OR_EQUALS))) {
+		splitat = get_kw(OP_LESS_OR_EQUALS);
 		ret = Relational::LESS_OR_EQUALS;
-	} else if (contains(cond, get_kw(KW_MORE_OR_EQUALS))) {
-		splitat = get_kw(KW_MORE_OR_EQUALS);
+	} else if (contains(cond, get_kw(OP_MORE_OR_EQUALS))) {
+		splitat = get_kw(OP_MORE_OR_EQUALS);
 		ret = Relational::MORE_OR_EQUALS;
 	} else {
 		ret = Relational::SINGLE;
