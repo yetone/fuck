@@ -539,11 +539,11 @@ bool check_cond(string line) {
 		if (beginnext != (signed int) string::npos) {
 			string keywords = trim(line.substr(second + 1, beginnext - second - 1));
 
-			if (contains(keywords, get_kw(KW_AND))) {
+			if (contains(keywords, get_kw(KW_AND)) || contains(keywords, get_kw(OP_AND))) {
 				cond = Conds::AND;
-			} else if (contains(keywords, get_kw(KW_XOR))) {
+			} else if (contains(keywords, get_kw(KW_XOR)) || contains(keywords, get_kw(OP_XOR))) {
 				cond = Conds::XOR;
-			} else if (contains(keywords, get_kw(KW_OR))) {
+			} else if (contains(keywords, get_kw(KW_OR)) || contains(keywords, get_kw(OP_OR))) {
 				cond = Conds::OR;
 			}
 		}

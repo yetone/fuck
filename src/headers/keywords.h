@@ -66,8 +66,11 @@ using namespace std;
 #define KW_INCR "incr"
 #define KW_DECR "decr"
 
+#define OP_AND "&&"
 #define KW_AND "and"
+#define OP_OR "||"
 #define KW_OR "or"
+#define OP_XOR "^^"
 #define KW_XOR "xor"
 
 void load();
