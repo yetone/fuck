@@ -71,17 +71,29 @@ if ($val1 == $val2) and ($val2 == $val1)
 end
 
 if ($val1 == $val2) or ($val1 != $val2)
-	out "test or"
+	out "test or with or"
+end 
+
+if ($val1 == $val2) || ($val1 != $val2)
+	out "test or with ||"
 end 
 
 if ($val1 == $val2) and ($val1 != $val2)
-	out "test or 2"
+	out "test and"
+end 
+
+if ($val1 == $val2) && ($val1 != $val2)
+	out "test or 2 with &&"
 end 
 
 if ($val1 == $val2) xor ($val1 == $val2)
-	out "test xor"
+	out "test xor 1 with xor"
 end 
 
 if ($val1 == $val2) xor ($val1 != $val2)
-	out "test xor 2"
+	out "test xor 2 with xor"
+end 
+
+if ($val1 == $val2) ^^ ($val1 != $val2)
+	out "test xor 2 with ^^"
 end 
