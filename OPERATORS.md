@@ -16,3 +16,9 @@
 | Less than                         | a < b 
 | More than or equal                | a >= b
 | Less than or equal                | a <= b
+
+| Logical operators		| Syntax
+| :----------			| :-----
+| Logical and			| &&
+| Logical or			| ||
+| Logical xor			| ^^
