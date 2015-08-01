@@ -103,7 +103,7 @@ void invoke() {
 }
 
 Variable* invoke(string s) {
-	Method* method = NULL;
+	Method* method = nullptr;
 
 	for (unsigned int i = 0; i < methodMap.size(); i++) {
 		Method *m = methodMap.at(i);
@@ -114,9 +114,9 @@ Variable* invoke(string s) {
 		}
 	}
 
-	if (method == NULL) {
+	if (method == nullptr) {
 		printerror("Could not find method " + color(COLOR_LIGHT_RED) + s);
-		return NULL;
+		return nullptr;
 	}
 
 	return invoke(method);
@@ -128,16 +128,16 @@ Variable* invoke(Method* method) {
 	vector<string> lines = method->getlines();
 
 	for (unsigned int i = 0; i < lines.size(); i++) {
-		Variable* var = NULL;
+		Variable* var = nullptr;
 
 		ReturnType type = execline(method, &i, 0, var);
 
-		if (type == ReturnType::RETURN && var != NULL) {
+		if (type == ReturnType::RETURN && var != nullptr) {
 			return var;
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var) {
@@ -162,7 +162,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 	if (keyword == get_kw(KW_CALL_METHOD)) {
 		Variable* returned = invoke(line);
 
-		if (returned != NULL) {
+		if (returned != nullptr) {
 			printverbose(color(COLOR_MAGENTA) + "Returned value " + returned->var);
 		}
 	} else if (keyword == get_kw(KW_PRINT)) {
@@ -198,7 +198,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 			Variable v = setvar("temp", line);
 			var = &v;
 		} else {
-			var = NULL;
+			var = nullptr;
 			printverbose("Returning...");
 		}
 		return ReturnType::RETURN;
@@ -278,7 +278,7 @@ ReturnType parsefor(Method* method, string line, unsigned int* i, int indent, Va
 
 	vector<For> fors;
 
-	For *current = NULL;
+	For *current = nullptr;
 
 	int totalend;
 
@@ -288,7 +288,7 @@ ReturnType parsefor(Method* method, string line, unsigned int* i, int indent, Va
 		int s = temp.find_first_not_of('\t');
 
 		if (s == indent && startswith(trim(temp), get_kw(KW_FOR))) {
-			if (current != NULL) {
+			if (current != nullptr) {
 				current->end = end - 1;
 				fors.push_back(*current);
 			}
@@ -297,7 +297,7 @@ ReturnType parsefor(Method* method, string line, unsigned int* i, int indent, Va
 			current->start = end;
 			*i = end;
 		} else if (s == indent && startswith(trim(temp), get_kw(KW_END))) {
-			if (current != NULL) {
+			if (current != nullptr) {
 				line = method->getlines()[current->start];
 				string cond = line.substr(line.find_first_of(" ") + 1);
 
@@ -357,7 +357,7 @@ ReturnType parsefor(Method* method, string line, unsigned int* i, int indent, Va
 				Variable temp = setvar(from.name, dos);
 				f = atoi(temp.var.c_str());
 				goto exec;
-			} else if (type == ReturnType::RETURN && var != NULL) {
+			} else if (type == ReturnType::RETURN && var != nullptr) {
 				return type;
 			}
 			break;
@@ -375,7 +375,7 @@ ReturnType parsewhile(Method* method, string line, unsigned int* i, int indent, 
 
 	vector<While> whiles;
 
-	While *current = NULL;
+	While *current = nullptr;
 
 	int totalend;
 
@@ -385,7 +385,7 @@ ReturnType parsewhile(Method* method, string line, unsigned int* i, int indent, 
 		int s = temp.find_first_not_of('\t');
 
 		if (s == indent && startswith(trim(temp), get_kw(KW_WHILE))) {
-			if (current != NULL) {
+			if (current != nullptr) {
 				current->end = end - 1;
 				whiles.push_back(*current);
 			}
@@ -394,7 +394,7 @@ ReturnType parsewhile(Method* method, string line, unsigned int* i, int indent, 
 			current->start = end;
 			*i = end;
 		} else if (s == indent && startswith(trim(temp), get_kw(KW_END))) {
-			if (current != NULL) {
+			if (current != nullptr) {
 				line = method->getlines()[current->start];
 				string cond = line.substr(line.find_first_of(" ") + 1);
 
@@ -422,7 +422,7 @@ ReturnType parsewhile(Method* method, string line, unsigned int* i, int indent, 
 			if (type == ReturnType::BREAK) {
 				*i = conds.end;
 				continue;
-			} else if (type == ReturnType::RETURN && var != NULL) {
+			} else if (type == ReturnType::RETURN && var != nullptr) {
 				return type;
 			} else if (check_cond(cond) || type == ReturnType::CONTINUE) {
 				*i = conds.start + 1;
@@ -443,7 +443,7 @@ ReturnType parseif(Method* method, string line, unsigned int* i, int indent, Var
 
 	vector<If> ifs;
 
-	If *current = NULL;
+	If *current = nullptr;
 
 	int totalend;
 
@@ -453,7 +453,7 @@ ReturnType parseif(Method* method, string line, unsigned int* i, int indent, Var
 		int s = temp.find_first_not_of('\t');
 
 		if (s == indent && (startswith(trim(temp), get_kw(KW_IF)) || startswith(trim(temp), get_kw(KW_ELSEIF)) || startswith(trim(temp), get_kw(KW_ELSE)))) {
-			if (current != NULL) {
+			if (current != nullptr) {
 				current->end = end - 1;
 				ifs.push_back(*current);
 			}
@@ -462,7 +462,7 @@ ReturnType parseif(Method* method, string line, unsigned int* i, int indent, Var
 			current->start = end;
 			*i = end;
 		} else if (s == indent && startswith(trim(temp), get_kw(KW_END))) {
-			if (current != NULL) {
+			if (current != nullptr) {
 				current->end = end - 1;
 				ifs.push_back(*current);
 				*i = end;
@@ -682,7 +682,7 @@ Variable* getvar(string name) {
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 string parse_set_statement(string s) {
