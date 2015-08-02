@@ -17,6 +17,8 @@ using namespace std;
 #define ARG_VERBOSE_SHORT "-v"
 #define ARG_COLORS "--colors"
 #define ARG_COLORS_SHORT "-c"
+#define ARG_HELP "--help"
+
 #define EXIT L"exit"
 
 bool verbose = false;
@@ -25,7 +27,17 @@ methodmap methodMap;
 stackmap stackMap;
 
 void printinfo() {
-	cout << "fulang " << VERSION << endl;
+	cout << "fulang, version " << VERSION << endl;
+}
+
+void printusage() {
+	printinfo();
+
+	cout << "Usage:\tfulang [options] script ..." << endl;
+	cout << "Options:" << endl;
+	cout << "\t--help" << endl;
+	cout << "\t-c, --colors" << endl;
+	cout << "\t-v, --verbose" << endl;
 }
 
 int main(int argc, char* argv[]) {
@@ -45,8 +57,11 @@ int main(int argc, char* argv[]) {
 	for (int i = 1; i < argc; i++) {
 		if (!strcmp(argv[i], ARG_VERBOSE) || !strcmp(argv[i], ARG_VERBOSE_SHORT)) {
 			verbose = true;
-		} else if (!strcmp(argv[i], ARG_COLORS)|| !strcmp(argv[i], ARG_COLORS_SHORT)) {
+		} else if (!strcmp(argv[i], ARG_COLORS) || !strcmp(argv[i], ARG_COLORS_SHORT)) {
 			colors = true;
+		} else if (!strcmp(argv[i], ARG_HELP)) {
+			printusage();
+			exit(0);
 		} else if (!startswith(argv[i], "-")){
 			gotfiles = true;
 
