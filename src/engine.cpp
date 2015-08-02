@@ -194,7 +194,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 		return ReturnType::BREAK;
 	} else if (keyword == get_kw(KW_RETURN)) {
 		if (line.length() > 0) {
-			printverbose(L"Returning L" + color(VERBOSE_HL) + line);
+			printverbose(L"Returning " + color(VERBOSE_HL) + line);
 			wstring set = parse_set_statement(line);
 			Variable v = setvar(L"temp", line);
 			var = &v;
@@ -207,7 +207,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 		return ReturnType::CONTINUE;
 	} else if (keyword == get_kw(KW_SET_VAR) || (startswith(keyword, get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN)) && startswith(line, get_kw(KW_PUSH_VAR_SIMPLE_KEY, KW_PUSH_VAR_SIMPLE)))) {
 		// get type
-		int f = line.find_first_of(L" L");
+		int f = line.find_first_of(L" ");
 		wstring name;
 		wstring statement;
 		StackPos pos = StackPos::END;
@@ -251,7 +251,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 		usleep(wtoi(line) * 1000);
 		#endif
 	} else if (keyword == get_kw(KW_INCR) || keyword == get_kw(KW_DECR)) {
-		int f = line.find_first_of(L" L");
+		int f = line.find_first_of(L" ");
 
 		wstring name = line.substr(0, f);
 		wstring statement = line.substr(f + 1);
@@ -259,9 +259,9 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 		bool incr = keyword == get_kw(KW_INCR);
 
 		if (statement == name) {
-			statement = name + (incr ? L" + L" : L" - L") + L"1";
+			statement = name + (incr ? L" + " : L" - ") + L"1";
 		} else {
-			statement = name + (incr ? L" + L" : L" - L") + statement;
+			statement = name + (incr ? L" + " : L" - ") + statement;
 		}
 
 		setvar(name, statement);
@@ -273,7 +273,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 }
 
 ReturnType parsefor(Method* method, wstring line, unsigned int* i, int indent, Variable*& var) {
-	printverbose(L"Checking L" + color(VERBOSE_HL) + L"for" + color(VERBOSE) + L", condition L" + color(VERBOSE_HL) + line);
+	printverbose(L"Checking " + color(VERBOSE_HL) + L"for" + color(VERBOSE) + L", condition " + color(VERBOSE_HL) + line);
 
 	int totalend;
 
@@ -309,7 +309,7 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, int indent, V
 			} else if (startswith(s, get_kw(KW_FOR_DO))) {
 				dos = w;
 			} else {
-				printwarning(L"Unknown L" + s);
+				printwarning(L"Unknown " + s);
 			}
 		}
 
@@ -339,7 +339,7 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, int indent, V
 }
 
 ReturnType parsewhile(Method* method, wstring line, unsigned int* i, int indent, Variable*& var) {
-	printverbose(L"Checking L" + color(VERBOSE_HL) + L"while" + color(VERBOSE) + L", condition L" + color(VERBOSE_HL) + line);
+	printverbose(L"Checking " + color(VERBOSE_HL) + L"while" + color(VERBOSE) + L", condition " + color(VERBOSE_HL) + line);
 
 	int totalend;
 
@@ -375,7 +375,7 @@ ReturnType parsewhile(Method* method, wstring line, unsigned int* i, int indent,
 }
 
 ReturnType parseif(Method* method, wstring line, unsigned int* i, int indent, Variable*& var) {
-	printverbose(L"Checking L" + color(VERBOSE_HL) + L"if" + color(VERBOSE) + L", condition L" + color(VERBOSE_HL) + line);
+	printverbose(L"Checking " + color(VERBOSE_HL) + L"if" + color(VERBOSE) + L", condition " + color(VERBOSE_HL) + line);
 
 	int totalend;
 
@@ -434,7 +434,7 @@ bool check_cond(wstring line) {
 
 	bool var = startswith(line.substr(0), get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN));
 	if (var) {
-		line = L"(L" + line + L")";
+		line = L"(" + line + L")";
 	}
 
 	vector<pair<Conds, bool>> conds;
