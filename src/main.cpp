@@ -97,7 +97,7 @@ int main(int argc, char* argv[]) {
 			return NORMAL_EXIT;
 		}
 
-		Variable *var;
+		variable *var;
 
 		main.lines.push_back(s);
 

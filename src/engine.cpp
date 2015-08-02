@@ -103,7 +103,7 @@ void invoke() {
 	invoke(L"main");
 }
 
-Variable* invoke(wstring s) {
+variable* invoke(wstring s) {
 	Method* method = nullptr;
 
 	for (unsigned int i = 0; i < methodMap.size(); i++) {
@@ -123,13 +123,13 @@ Variable* invoke(wstring s) {
 	return invoke(method);
 }
 
-Variable* invoke(Method* method) {
+variable* invoke(Method* method) {
 	printverbose(L"Invoking " + color(VERBOSE_HL) + method->getdisplayname() + color(VERBOSE) + L" on line " + color(VERBOSE_HL) + L"#" + to_wstring(method->chunk.start));
 
 	vector<wstring> lines = method->getlines();
 
 	for (unsigned int i = 0; i < lines.size(); i++) {
-		Variable* var = nullptr;
+		variable* var = nullptr;
 
 		ReturnType type = execline(method, &i, 0, var);
 
@@ -141,7 +141,7 @@ Variable* invoke(Method* method) {
 	return nullptr;
 }
 
-ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var) {
+ReturnType execline(Method* method, unsigned int* i, int indent, variable*& var) {
 	wstring line = trim(method->getlines()[*i]);
 	wstring untrimmed = method->getlines()[*i];
 
@@ -161,7 +161,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 	printverbose(L"Executing keyword " + color(VERBOSE_HL) + keyword + color(VERBOSE) + L", line #" + to_wstring(*i) + L" " + color(VERBOSE_HL) + L"\"" + line + L"\"");
 
 	if (keyword == get_kw(KW_CALL_METHOD)) {
-		Variable* returned = invoke(line);
+		variable* returned = invoke(line);
 
 		if (returned != nullptr) {
 			printverbose(color(COLOR_MAGENTA) + L"Returned value " + returned->var);
@@ -196,7 +196,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 		if (line.length() > 0) {
 			printverbose(L"Returning " + color(VERBOSE_HL) + line);
 			wstring set = parse_set_statement(line);
-			Variable v = setvar(L"temp", line);
+			variable v = setvar(L"temp", line);
 			var = &v;
 		} else {
 			var = nullptr;
@@ -272,7 +272,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 	return ReturnType::NONE;
 }
 
-ReturnType parsefor(Method* method, wstring line, unsigned int* i, int indent, Variable*& var) {
+ReturnType parsefor(Method* method, wstring line, unsigned int* i, int indent, variable*& var) {
 	printverbose(L"Checking " + color(VERBOSE_HL) + L"for" + color(VERBOSE) + L", condition " + color(VERBOSE_HL) + line);
 
 	int totalend;
@@ -293,7 +293,7 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, int indent, V
 			first = first.substr(1);
 		}
 
-		Variable from;
+		variable from;
 		int to;
 		wstring dos;
 
@@ -324,7 +324,7 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, int indent, V
 			} else if (f != to || type == ReturnType::CONTINUE) {
 				*i = chunk.start + 1;
 
-				Variable temp = setvar(from.name, dos);
+				variable temp = setvar(from.name, dos);
 				f = wtoi(temp.var);
 				goto exec;
 			} else if (type == ReturnType::RETURN && var != nullptr) {
@@ -338,7 +338,7 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, int indent, V
 	return ReturnType::NONE;
 }
 
-ReturnType parsewhile(Method* method, wstring line, unsigned int* i, int indent, Variable*& var) {
+ReturnType parsewhile(Method* method, wstring line, unsigned int* i, int indent, variable*& var) {
 	printverbose(L"Checking " + color(VERBOSE_HL) + L"while" + color(VERBOSE) + L", condition " + color(VERBOSE_HL) + line);
 
 	int totalend;
@@ -374,7 +374,7 @@ ReturnType parsewhile(Method* method, wstring line, unsigned int* i, int indent,
 	return ReturnType::NONE;
 }
 
-ReturnType parseif(Method* method, wstring line, unsigned int* i, int indent, Variable*& var) {
+ReturnType parseif(Method* method, wstring line, unsigned int* i, int indent, variable*& var) {
 	printverbose(L"Checking " + color(VERBOSE_HL) + L"if" + color(VERBOSE) + L", condition " + color(VERBOSE_HL) + line);
 
 	int totalend;
@@ -415,7 +415,7 @@ ReturnType parseif(Method* method, wstring line, unsigned int* i, int indent, Va
 	return ReturnType::NONE;
 }
 
-ReturnType execrange(Method* method, unsigned int* i, unsigned int to, int indent, Variable*& var) {
+ReturnType execrange(Method* method, unsigned int* i, unsigned int to, int indent, variable*& var) {
 	for (unsigned int from = *i; from <= to; from++) {
 		ReturnType type = execline(method, &from, indent, var);
 
@@ -582,13 +582,13 @@ bool check_cond_compare(const wstring& var1, const wstring& var2, Relational ret
 	return DEFAULT_COND;
 }
 
-Variable* getvar(wstring name) {
+variable* getvar(wstring name) {
 	if (name[0] == get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN)[0]) {
 		name = name.substr(1);
 	}
 
 	for (unsigned int i = 0; i < stackMap.size(); i++) {
-		Variable v = stackMap[i];
+		variable v = stackMap[i];
 		if (v.name == name) {
 			return &stackMap[i];
 		}
@@ -615,7 +615,7 @@ wstring parse_set_statement(wstring s) {
 	if (!iswstring && var && s.find(L" ") == wstring::npos) {
 		wstring name = s.substr(opposite ? 2 : 1);
 
-		Variable v = *getvar(name);
+		variable v = *getvar(name);
 		if (v.name == name) {
 			if (opposite) {
 				bool yes = v.var == get_kw(KW_TRUE);
@@ -652,7 +652,7 @@ wstring parse_set_statement(wstring s) {
 	return s;
 }
 
-Variable setvar(wstring name, wstring statement, StackPos pos) {
+variable setvar(wstring name, wstring statement, StackPos pos) {
 	printverbose(L"Setting variable " + color(VERBOSE_HL) + name + color(VERBOSE) + L" to " + color(VERBOSE_HL) + L"\"" + statement + L"\"");
 
 	if (name[0] == get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN)[0]) {
@@ -661,14 +661,14 @@ Variable setvar(wstring name, wstring statement, StackPos pos) {
 
 	int index = -1;
 	for (unsigned int k = 0; k < stackMap.size(); k++) {
-		Variable v = stackMap[k];
+		variable v = stackMap[k];
 		if (v.name == name) {
 			index = k;
 			break;
 		}
 	}
 
-	Variable var;
+	variable var;
 	var.name = name;
 	var.var = parse_set_statement(statement);
 

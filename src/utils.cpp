@@ -71,7 +71,7 @@ void printwarning(wstring s) {
 }
 
 wstring parsevars(wstring s) {
-	for (Variable v : stackMap) {
+	for (variable v : stackMap) {
 		int f = s.find(L"$" + v.name);
 
 		if (f != (signed int) wstring::npos) {
@@ -85,7 +85,7 @@ wstring parsevars(wstring s) {
 		int f = 0;
 
 		while ((f = s.find(find, f)) != (signed int) wstring::npos) {
-			Variable* returned = invoke(m);
+			variable* returned = invoke(m);
 
 			if (returned == NULL) {
 				printerror(L"Function " + color(ERROR_HL) + m->getname() + color(ERROR_COLOR) + L" did not return any value");
