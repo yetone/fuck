@@ -205,7 +205,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 		return ReturnType::RETURN;
 	} else if (keyword == get_kw(KW_CONTINUE)) {
 		return ReturnType::CONTINUE;
-	} else if (keyword == get_kw(KW_PUSH_VAR) || (startswith(keyword, get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN)) && startswith(line, get_kw(KW_PUSH_VAR_SIMPLE_KEY, KW_PUSH_VAR_SIMPLE)))) {
+	} else if (keyword == get_kw(KW_SET_VAR) || (startswith(keyword, get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN)) && startswith(line, get_kw(KW_PUSH_VAR_SIMPLE_KEY, KW_PUSH_VAR_SIMPLE)))) {
 		// get type
 		int f = line.find_first_of(L" L");
 		wstring name;
@@ -219,11 +219,11 @@ ReturnType execline(Method* method, unsigned int* i, int indent, Variable*& var)
 			name = line.substr(0, f);
 			statement = line.substr(f + 1);
 
-			if (name == get_kw(KW_PUSH_FRONT) || name == get_kw(KW_PUSH_BACK)) {
+			if (name == get_kw(KW_SET_FRONT) || name == get_kw(KW_SET_BACK)) {
 				name = statement.substr(0, statement.find_first_of(L" L"));
 				statement = statement.substr(statement.find_first_of(L" L") + 1);
 
-				if (name == get_kw(KW_PUSH_FRONT)) {
+				if (name == get_kw(KW_SET_FRONT)) {
 					pos = StackPos::FRONT;
 				}
 			}

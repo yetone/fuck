@@ -2,7 +2,7 @@ method method
 	return "ok"
 end method
 
-push var "method() method()"
+set var "method() method()"
 
 out $var
 $va2 := "method()"

@@ -1,6 +1,6 @@
-push var true
+set var true
 
-push halt false
+set halt false
 
 while $var
 	out "first"
@@ -11,13 +11,13 @@ while $var
 			#halt normal
 			break
 		else
-			push halt true
-			push var false
+			set halt true
+			set var false
 		end
 	end
 end
 
-push var true
+set var true
 
 while $var
 	out "breaking..."

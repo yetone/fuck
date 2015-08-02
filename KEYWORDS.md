@@ -17,7 +17,7 @@ This is the default keywords in fulang. You will be able to modify all these wit
 | Boolean Operations    | [and or xor](examples/conds.fu) |
 | Used in for loops     | [from to do](examples/for.fu) |
 | Pause execution		| [sleep](examples/sleep.fu) | 
-| Variables				| [push front back incr decr](examples/vars.fu) |
+| Variables				| [set front back incr decr](examples/vars.fu) |
 ***
 
 ## Booleans
@@ -30,38 +30,38 @@ false
 #### Setting variable with boolean value
 
 ```go
-push var false
-push var true
+set var false
+set var true
 $var := false
 $var := true
 ```
 
 ## Pushing variable to stack
 
-```push back``` is the default mode
+```set back``` is the default mode
 
 ### Synopsis
 
-```push <position> <variable name> <expression>```
+```set <position> <variable name> <expression>```
 
 ### Examples
 
 ```go
-push
-push front
-push back
+set
+set front
+set back
 ```
 
 #### Setting variable
 
 ```go
-push variable_name statement
+set variable_name statement
 ```
 
 is equal to
 
 ```go
-push back variable_name statement
+set back variable_name statement
 ```
 
 and

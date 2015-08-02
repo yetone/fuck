@@ -1,8 +1,8 @@
 
 # syntax highlighting test
 
-push back var1 10
-push front var2 20
+set back var1 10
+set front var2 20
 $var3 := 30
 $var4 := 40
 

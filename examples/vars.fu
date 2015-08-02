@@ -1,13 +1,13 @@
-# push 3 different variables and print them
+# set 3 different variables and print them
 
-push a 5
-push b 10
+set a 5
+set b 10
 
-# same as just writing "push" (back is default)
-push back var 15
+# same as just writing "set" (back is default)
+set back var 15
 
-# pushing variable to first index in stack
-push front first 50
+# seting variable to first index in stack
+set front first 50
 
 out "printing variable values"
 out "\$a=$a \$b=$b \$var=$var \$first=$first"
@@ -16,15 +16,15 @@ out "\$a=$a \$b=$b \$var=$var \$first=$first"
 out
 
 out "printing \$a+\$b+\$var"
-push val "$a + $b + $var"
+set val "$a + $b + $var"
 out $val
 
 out "printing above as values"
-push val $a + $b + $var
+set val $a + $b + $var
 out $val
 
 out "printing 10 + 5 + 1"
-push val 10 + 5 + 1
+set val 10 + 5 + 1
 out $val
 
 $another := 40
