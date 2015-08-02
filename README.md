@@ -11,5 +11,6 @@ __fulang__ is an acronym for **fuck you language** and short for **fucklang**
 | --------    		| -----------                           |
 | --verbose, -v   	| Prints what the intepreter is doing   |
 | --colors, -c		| Colors stderr and verbose output      |
+| --help			| Prints usage							|
 
 Every other argument is being parsed as input file
