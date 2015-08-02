@@ -39,6 +39,8 @@ int main(int argc, char* argv[]) {
 	// If we has gotten any files to parse
 	bool gotfiles = false;
 
+	vector<string> files;
+
 	// Skip first in argument list
 	for (int i = 1; i < argc; i++) {
 		if (!strcmp(argv[i], ARG_VERBOSE) || !strcmp(argv[i], ARG_VERBOSE_SHORT)) {
@@ -60,10 +62,14 @@ int main(int argc, char* argv[]) {
 
 			input.close();
 
-			Code code(argv[i]);
-
-			parse(code);
+			files.push_back(file);
 		}
+	}
+
+	for (string file : files) {
+		Code code(file);
+
+		parse(code);
 	}
 
 	if (gotfiles) {
