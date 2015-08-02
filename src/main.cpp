@@ -94,7 +94,7 @@ int main(int argc, char* argv[]) {
 
 	printinfo();
 
-	Method main(L"main");
+	Method main(ENTRY_POINT);
 	unsigned int i = 0;
 
 	while (true) {

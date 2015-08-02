@@ -5,7 +5,7 @@ using namespace std;
 #define COMMENT_1 L"#"
 #define COMMENT_2 L"//"
 
-#define LENTRY_POINT "main"
+#define ENTRY_POINT L"main"
 
 #define KEYWORD_SEPARATOR ' '
 

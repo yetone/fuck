@@ -38,7 +38,7 @@ void parse(Code &code) {
 
 	// Current method name, if no method, should be L"main"
 	Method *currentmethod;
-	Method main(L"main");
+	Method main(ENTRY_POINT);
 	methodMap.push_back(&main);
 	currentmethod = &main;
 
