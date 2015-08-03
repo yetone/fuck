@@ -46,3 +46,8 @@ incr $var 2
 decr $va2 2
 
 out "$var, $va2"
+
+unset $var
+unset $va2
+
+out "$var, $va2"

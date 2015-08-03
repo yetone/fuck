@@ -17,7 +17,7 @@ This is the default keywords in fulang. You will be able to modify all these wit
 | Boolean Operations    | [and or xor](examples/conds.fu) |
 | Used in for loops     | [from to do](examples/for.fu) |
 | Pause execution		| [sleep](examples/sleep.fu) | 
-| Variables				| [set front back incr decr](examples/vars.fu) |
+| Variables				| [set front back incr decr unset](examples/vars.fu) |
 ***
 
 ## Booleans
