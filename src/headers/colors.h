@@ -35,7 +35,7 @@ using namespace std;
 
 #define WARNING COLOR_LIGHT_YELLOW
 
-#define COMMENT COLOR_LIGHT_GREEN
+#define COLOR_COMMENT COLOR_LIGHT_GREEN
 
 string resetstr();
 wstring reset();

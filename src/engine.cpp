@@ -146,7 +146,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent, variable*& var)
 	wstring untrimmed = method->getlines()[*i];
 
 	if (is_comment(line)) {
-		printverbose(color(COMMENT) + line, false);
+		printverbose(line, verbose_mode::COMMENT);
 		return ReturnType::NONE;
 	}
 
@@ -655,7 +655,7 @@ wstring parse_set_statement(wstring s) {
 }
 
 variable* setvar(wstring name, wstring statement, StackPos pos) {
-	printverbose(L"Setting variable " + color(VERBOSE_HL) + name + color(VERBOSE) + L" to " + color(VERBOSE_HL) + L"\"" + statement + L"\"");
+	printverbose(L"Setting variable " + color(VERBOSE_HL) + name + color(VERBOSE) + L" to " + color(VERBOSE_HL) + L"\"" + statement + L"\"", verbose_mode::ADDITION);
 
 	if (name[0] == get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN)[0]) {
 		name = name.substr(1);
@@ -675,10 +675,10 @@ variable* setvar(wstring name, wstring statement, StackPos pos) {
 	var->set(parse_set_statement(statement));
 
 	if (index != -1) {
-		printverbose(L"Updated " + color(VERBOSE_HL) + name + color(VERBOSE) + L" on stack with value " + var->get());
+		printverbose(L"Updated " + color(VERBOSE_HL) + name + color(VERBOSE) + L" on stack with value " + var->get(), verbose_mode::ADDITION);
 		stackMap.at(index) = var;
 	} else {
-		printverbose(L"Added " + color(VERBOSE_HL) + name + color(VERBOSE) + L" to stack with value " + var->get());
+		printverbose(L"Added " + color(VERBOSE_HL) + name + color(VERBOSE) + L" to stack with value " + var->get(), verbose_mode::ADDITION);
 
 		if (pos == StackPos::FRONT) {
 			stackMap.insert(stackMap.begin(), var);
@@ -706,6 +706,8 @@ void unset(variable* var) {
 				break;
 			}
 		}
+
+		printverbose(L"Deleting " + var->name, verbose_mode::DELETION);
 
 		delete var;
 	}

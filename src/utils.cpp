@@ -48,9 +48,20 @@ wstring trim(wstring s) {
 	return s;
 }
 
-void printverbose(wstring s, bool star) {
+void printverbose(wstring s, verbose_mode mode) {
 	if (verbose) {
-		wcout << (star ? "* " : "") << color(VERBOSE) << s << reset() << endl;
+		wstring c;
+
+		if (mode == verbose_mode::ADDITION) {
+			c = color(COLOR_GREEN) + L"+ ";
+		} else if (mode == verbose_mode::DELETION) {
+			c = color(COLOR_RED) + L"- ";
+		} else if (mode == verbose_mode::COMMENT) {
+			c = color(COLOR_COMMENT) + L"# ";
+		} else {
+			c = L"* ";
+		}
+		wcout << c << color(VERBOSE) << s << reset() << endl;
 	}
 }
 

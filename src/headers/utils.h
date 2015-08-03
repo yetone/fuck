@@ -4,6 +4,14 @@
 
 using namespace std;
 
+
+enum class verbose_mode {
+	NORMAL,
+	DELETION,
+	ADDITION,
+	COMMENT
+};
+
 bool startswith(string, string);
 bool contains(string s, string find);
 bool startswith(wstring, wstring);
@@ -11,7 +19,7 @@ bool contains(wstring s, wstring find);
 
 wstring trim(wstring);
 
-void printverbose(wstring, bool star = true);
+void printverbose(wstring s, verbose_mode mode = verbose_mode::NORMAL);
 
 void printerror(string);
 
