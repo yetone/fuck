@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <memory>
 
 using namespace std;
 
@@ -11,16 +12,38 @@ typedef map<wstring, wstring> array_t;
 
 class variable {
 public:
+	virtual ~variable() { }
 	wstring name;
-	wstring var;
+
+	virtual wstring get(const wstring& key) { }
+	virtual wstring get() { }
+
+	virtual void set(const wstring& key, const wstring& value) { }
+	virtual void set(const wstring& value) { }
 };
 
-class array {
+class str : public variable {
 public:
-	wstring name;
-	array_t arr;
+	wstring var;
+
+	wstring get(const wstring& key) { }
+	virtual wstring get();
+
+	void set(const wstring& key, const wstring& value) { }
+	void set(const wstring& value);
+};
+
+class arrays : public variable {
+public:
+	array_t var;
+
+	wstring get(const wstring& key);
+	wstring get();
+
+	void set(const wstring& key, const wstring& value);
+	void set(const wstring& value);
 };
 
 #endif
 
-typedef vector<variable> stackmap;
+typedef vector<variable*> stackmap;

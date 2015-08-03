@@ -164,7 +164,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent, variable*& var)
 		variable* returned = invoke(line);
 
 		if (returned != nullptr) {
-			printverbose(color(COLOR_MAGENTA) + L"Returned value " + returned->var);
+			printverbose(color(COLOR_MAGENTA) + L"Returned value " + returned->get());
 		}
 	} else if (keyword == get_kw(KW_PRINT)) {
 		wcout << parse_set_statement(line) << endl;
@@ -196,8 +196,8 @@ ReturnType execline(Method* method, unsigned int* i, int indent, variable*& var)
 		if (line.length() > 0) {
 			printverbose(L"Returning " + color(VERBOSE_HL) + line);
 			wstring set = parse_set_statement(line);
-			variable v = setvar(L"temp", line);
-			var = &v;
+			variable* v = setvar(L"temp", line);
+			var = v;
 		} else {
 			var = nullptr;
 			printverbose(L"Returning...");
@@ -293,7 +293,7 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, int indent, v
 			first = first.substr(1);
 		}
 
-		variable from;
+		variable* from;
 		int to;
 		wstring dos;
 
@@ -313,7 +313,7 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, int indent, v
 			}
 		}
 
-		int f = wtoi(from.var);
+		int f = wtoi(from->get());
 
 		if (f != to) {
 			*i = chunk.start + 1;
@@ -324,8 +324,8 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, int indent, v
 			} else if (f != to || type == ReturnType::CONTINUE) {
 				*i = chunk.start + 1;
 
-				variable temp = setvar(from.name, dos);
-				f = wtoi(temp.var);
+				variable* temp = setvar(from->name, dos);
+				f = wtoi(temp->get());
 				goto exec;
 			} else if (type == ReturnType::RETURN && var != nullptr) {
 				return type;
@@ -588,9 +588,9 @@ variable* getvar(wstring name) {
 	}
 
 	for (unsigned int i = 0; i < stackMap.size(); i++) {
-		variable v = stackMap[i];
-		if (v.name == name) {
-			return &stackMap[i];
+		variable* v = stackMap[i];
+		if (v->name == name) {
+			return stackMap[i];
 		}
 	}
 
@@ -615,14 +615,14 @@ wstring parse_set_statement(wstring s) {
 	if (!iswstring && var && s.find(L" ") == wstring::npos) {
 		wstring name = s.substr(opposite ? 2 : 1);
 
-		variable v = *getvar(name);
-		if (v.name == name) {
+		variable* v = getvar(name);
+		if (v->name == name) {
 			if (opposite) {
-				bool yes = v.var == get_kw(KW_TRUE);
+				bool yes = v->get() == get_kw(KW_TRUE);
 
 				s = yes ? get_kw(KW_FALSE) : get_kw(KW_TRUE);
 			} else {
-				s = v.var;
+				s = v->get();
 			}
 		}
 
@@ -652,7 +652,7 @@ wstring parse_set_statement(wstring s) {
 	return s;
 }
 
-variable setvar(wstring name, wstring statement, StackPos pos) {
+variable* setvar(wstring name, wstring statement, StackPos pos) {
 	printverbose(L"Setting variable " + color(VERBOSE_HL) + name + color(VERBOSE) + L" to " + color(VERBOSE_HL) + L"\"" + statement + L"\"");
 
 	if (name[0] == get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN)[0]) {
@@ -661,22 +661,22 @@ variable setvar(wstring name, wstring statement, StackPos pos) {
 
 	int index = -1;
 	for (unsigned int k = 0; k < stackMap.size(); k++) {
-		variable v = stackMap[k];
-		if (v.name == name) {
+		variable* v = stackMap[k];
+		if (v->name == name) {
 			index = k;
 			break;
 		}
 	}
 
-	variable var;
-	var.name = name;
-	var.var = parse_set_statement(statement);
+	str* var = new str;
+	var->name = name;
+	var->set(parse_set_statement(statement));
 
 	if (index != -1) {
-		printverbose(L"Updated " + color(VERBOSE_HL) + name + color(VERBOSE) + L" on stack with value " + var.var);
+		printverbose(L"Updated " + color(VERBOSE_HL) + name + color(VERBOSE) + L" on stack with value " + var->get());
 		stackMap.at(index) = var;
 	} else {
-		printverbose(L"Added " + color(VERBOSE_HL) + name + color(VERBOSE) + L" to stack with value " + var.var);
+		printverbose(L"Added " + color(VERBOSE_HL) + name + color(VERBOSE) + L" to stack with value " + var->get());
 
 		if (pos == StackPos::FRONT) {
 			stackMap.insert(stackMap.begin(), var);

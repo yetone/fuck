@@ -71,11 +71,11 @@ void printwarning(wstring s) {
 }
 
 wstring parsevars(wstring s) {
-	for (variable v : stackMap) {
-		int f = s.find(L"$" + v.name);
+	for (variable* v : stackMap) {
+		int f = s.find(L"$" + v->name);
 
 		if (f != (signed int) wstring::npos) {
-			s = replaceAll(s, L"$" + v.name, v.var);
+			s = replaceAll(s, L"$" + v->name, v->get());
 		}
 	}
 
@@ -90,8 +90,8 @@ wstring parsevars(wstring s) {
 			if (returned == NULL) {
 				printerror(L"Function " + color(ERROR_HL) + m->getname() + color(ERROR_COLOR) + L" did not return any value");
 			} else {
-				s = s.replace(f, find.length(), returned->var);
-				f += returned->var.length();
+				s = s.replace(f, find.length(), returned->get());
+				f += returned->get().length();
 			}
 		}
 	}
