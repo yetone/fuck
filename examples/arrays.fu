@@ -1,0 +1,3 @@
+array $arr
+
+$arr(key) := "value"
