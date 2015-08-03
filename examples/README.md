@@ -2,6 +2,10 @@
 
 This directory contains some examples of the key features of fulang
 
+## [arrays.fu](arrays.fu)
+
+Array examples
+
 ## [bools.fu](bools.fu)
 
 Tests basic boolean operations (not advanced if conditions)
@@ -65,3 +69,7 @@ Contains reading input examples
 ## [sleep.fu](sleep.fu)
 
 Contains pausing/sleeping script examples
+
+## [scope.fu](scope.fu)
+
+Example of variables in scopes and how they work
