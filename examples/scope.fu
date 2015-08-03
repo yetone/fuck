@@ -1,0 +1,10 @@
+method m
+	$inside := "what"
+	
+	out "$inside"
+	out "$var"
+end method
+
+$var := "ok"
+
+call m
