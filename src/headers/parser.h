@@ -5,3 +5,5 @@
 using namespace std;
 
 vector<Chunk> parse_chunks(Method* method, unsigned int* i, int indent, int* totalend, vector<wstring> keywords);
+
+wstring parsevars(wstring);

@@ -1,12 +1,17 @@
 #include <vector>
 #include <string>
 
+#include "headers/engine.h"
 #include "headers/parser.h"
 #include "headers/utils.h"
 #include "headers/code.h"
 #include "headers/keywords.h"
+#include "headers/colors.h"
 
 using namespace std;
+
+extern methodmap methodMap;
+extern stackmap stackMap;
 
 vector<Chunk> parse_chunks(Method* method, unsigned int* i, int indent, int* totalend, vector<wstring> keywords) {
 	unsigned int end = *i;
@@ -56,4 +61,34 @@ vector<Chunk> parse_chunks(Method* method, unsigned int* i, int indent, int* tot
 	}
 
 	return chunks;
+}
+
+
+wstring parsevars(wstring s) {
+	for (variable* v : stackMap) {
+		int f = s.find(L"$" + v->name);
+
+		if (f != (signed int) wstring::npos) {
+			s = replaceAll(s, L"$" + v->name, v->get());
+		}
+	}
+
+	for (Method* m : methodMap) {
+		wstring find = m->getname() + L"()";
+
+		int f = 0;
+
+		while ((f = s.find(find, f)) != (signed int) wstring::npos) {
+			variable* returned = invoke(m);
+
+			if (returned == NULL) {
+				printerror(L"Function " + color(ERROR_HL) + m->getname() + color(ERROR_COLOR) + L" did not return any value");
+			} else {
+				s = s.replace(f, find.length(), returned->get());
+				f += returned->get().length();
+			}
+		}
+	}
+
+	return s;
 }

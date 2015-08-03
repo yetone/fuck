@@ -29,8 +29,6 @@ void printerror(wstring);
 
 void printwarning(wstring);
 
-wstring parsevars(wstring);
-
 wstring replaceAll(wstring str, wstring from, wstring to);
 
 vector<wstring> split(wstring&, wchar_t delim = ' ');
