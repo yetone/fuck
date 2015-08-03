@@ -32,6 +32,8 @@ using namespace std;
 #define KW_SET_FRONT /* set */ "front"
 #define KW_SET_BACK /* set */ "back"
 
+#define KW_ARRAY "array"
+
 #define KW_PUSH_VAR_SIMPLE ":="
 #define KW_PUSH_VAR_SIMPLE_KEY "push-simple"
 
