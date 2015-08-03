@@ -78,6 +78,9 @@ ReturnType parsewhile(Method* method, wstring, unsigned int* i, int, variable*&)
 
 ReturnType parsefor(Method* method, wstring, unsigned int* i, int, variable*&);
 
+void unset(wstring);
+void unset(variable*);
+
 typedef Chunk If;
 typedef Chunk While;
 typedef Chunk For;

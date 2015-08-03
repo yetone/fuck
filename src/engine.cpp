@@ -205,6 +205,8 @@ ReturnType execline(Method* method, unsigned int* i, int indent, variable*& var)
 		return ReturnType::RETURN;
 	} else if (keyword == get_kw(KW_CONTINUE)) {
 		return ReturnType::CONTINUE;
+	} else if (keyword == get_kw(KW_UNSET_VAR)) {
+		unset(trim(line));
 	} else if (keyword == get_kw(KW_SET_VAR) || (startswith(keyword, get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN)) && startswith(line, get_kw(KW_PUSH_VAR_SIMPLE_KEY, KW_PUSH_VAR_SIMPLE)))) {
 		// get type
 		int f = line.find_first_of(L" ");
@@ -616,7 +618,7 @@ wstring parse_set_statement(wstring s) {
 		wstring name = s.substr(opposite ? 2 : 1);
 
 		variable* v = getvar(name);
-		if (v->name == name) {
+		if (v != nullptr && v->name == name) {
 			if (opposite) {
 				bool yes = v->get() == get_kw(KW_TRUE);
 
@@ -688,6 +690,25 @@ variable* setvar(wstring name, wstring statement, StackPos pos) {
 	}
 
 	return var;
+}
+
+void unset(wstring name) {
+	unset(getvar(name));
+}
+
+void unset(variable* var) {
+	if (var != nullptr) {
+		for (unsigned int i = 0; i < stackMap.size(); i++) {
+			variable* var2 = stackMap[i];
+
+			if (var2->name == var->name) {
+				stackMap.erase(stackMap.begin() + i);
+				break;
+			}
+		}
+
+		delete var;
+	}
 }
 
 inline bool is_comment(wstring s) {

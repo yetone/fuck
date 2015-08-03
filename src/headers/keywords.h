@@ -27,6 +27,7 @@ using namespace std;
 #define KW_LABEL "label"
 #define KW_GOTO "goto"
 
+#define KW_UNSET_VAR "unset"
 #define KW_SET_VAR "set"
 #define KW_SET_FRONT /* set */ "front"
 #define KW_SET_BACK /* set */ "back"
