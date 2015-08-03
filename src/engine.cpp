@@ -222,8 +222,8 @@ ReturnType execline(Method* method, unsigned int* i, int indent, variable*& var)
 			statement = line.substr(f + 1);
 
 			if (name == get_kw(KW_SET_FRONT) || name == get_kw(KW_SET_BACK)) {
-				name = statement.substr(0, statement.find_first_of(L" L"));
-				statement = statement.substr(statement.find_first_of(L" L") + 1);
+				name = statement.substr(0, statement.find_first_of(L" "));
+				statement = statement.substr(statement.find_first_of(L" ") + 1);
 
 				if (name == get_kw(KW_SET_FRONT)) {
 					pos = StackPos::FRONT;
