@@ -31,9 +31,11 @@ void printwarning(wstring);
 
 wstring replaceAll(wstring str, wstring from, wstring to);
 
-vector<wstring> split(wstring&, wchar_t delim = ' ');
+vector<wstring> split(wstring, wchar_t delim = ' ');
 
 int get_exit_code(wstring);
+
+wstring itow(int i);
 
 int wtoi(wstring);
 

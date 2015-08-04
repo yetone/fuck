@@ -98,7 +98,7 @@ wstring replaceAll(wstring str, wstring from, wstring to) {
     return str;
 }
 
-vector<wstring> split(wstring& s, wchar_t delim) {
+vector<wstring> split(wstring s, wchar_t delim) {
 	vector<wstring> elems;
 	wstringstream ss(s);
 	wstring item;
@@ -116,6 +116,10 @@ int get_exit_code(wstring s) {
 	} else {
 		return atoi(string(s.begin(), s.end()).c_str());
 	}
+}
+
+wstring itow(int i) {
+	return to_wstring(i);
 }
 
 int wtoi(wstring w) {
