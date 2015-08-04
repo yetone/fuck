@@ -233,6 +233,20 @@ ReturnType execline(Method* method, unsigned int* i, int indent, variable*& var)
 			}
 		}
 
+		unsigned int firstb = name.find(L"(");
+		unsigned int lastb = name.find(L")");
+
+		if (firstb != string::npos && lastb != string::npos) {
+			wstring key = name.substr(firstb + 1, lastb - firstb - 1);
+			name = name.substr(0, firstb);
+
+			//wcout << L"Name: " <<name << endl << L"Key: " << key << endl << L"Value: " << statement << endl;
+
+			statement = key + L" > " + statement;
+
+			t = type::ARRAY;
+		}
+
 		setvar(name, statement, t);
 	} else if (keyword == get_kw(KW_LABEL)) {
 		printverbose(L"Ignoring label at line #" + to_wstring(*i));
@@ -706,8 +720,22 @@ variable* setvar(wstring name, vector<wstring> statements, type t) {
 		}
 
 		for (unsigned int i = 0; i < statements.size(); i++) {
-			printverbose(L"Adding " + statements[i] + L" at index " + itow(i), verbose_mode::ADDITION);
-			arr->var[itow(i)] = parse_set_statement(trim(statements[i]));
+			vector<wstring> kw = split(statements[i], L'>');
+
+			wstring key;
+			wstring statement;
+
+			if (kw.size() == 1) {
+				key = itow(arr->var.size());
+				statement = kw[0];
+			} else {
+				key = kw[0];
+				statement = kw[1];
+			}
+
+			printverbose(L"Setting " + key + L" to " + statement, verbose_mode::ADDITION);
+
+			arr->var[parse_set_statement(trim(key))] = parse_set_statement(trim(statement));
 		}
 
 		var = arr;
