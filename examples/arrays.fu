@@ -1,3 +1,7 @@
 array $arr ["first", "second"]
 
+out "$arr"
+
 $arr("key") := "third"
+
+out "$arr"

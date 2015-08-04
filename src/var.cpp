@@ -21,7 +21,13 @@ wstring arrays::get(const wstring& key) {
 }
 
 wstring arrays::get() {
-	return L"";
+	wstring s;
+
+	for (array_t::iterator iter = this->var.begin(); iter != this->var.end(); ++iter) {
+		s += iter->first + L"=" + iter->second + L", ";
+	}
+
+	return s.substr(0, s.length() - 2);
 }
 
 void arrays::set(const wstring& key, const wstring& value) {
