@@ -26,9 +26,14 @@ public:
 	virtual wstring get() {
 		return L"";
 	}
+	virtual array_t* getpairs() {
+		return nullptr;
+	}
 
 	virtual void set(const wstring& key, const wstring& value) { }
 	virtual void set(const wstring& value) { }
+
+	virtual type gettype() { return type::DEFAULT; }
 };
 
 class str : public variable {
@@ -53,9 +58,12 @@ public:
 
 	wstring get(const wstring& key);
 	wstring get();
+	array_t* getpairs();
 
 	void set(const wstring& key, const wstring& value);
 	void set(const wstring& value);
+
+	type gettype();
 };
 
 #endif

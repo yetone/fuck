@@ -37,3 +37,11 @@ void arrays::set(const wstring& key, const wstring& value) {
 void arrays::set(const wstring& value) {
 
 }
+
+type arrays::gettype() {
+	return type::ARRAY;
+}
+
+array_t* arrays::getpairs() {
+	return &this->var;
+}
