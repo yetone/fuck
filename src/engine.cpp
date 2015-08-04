@@ -213,7 +213,6 @@ ReturnType execline(Method* method, unsigned int* i, int indent, variable*& var)
 		int f = line.find_first_of(L" ");
 		wstring name;
 		wstring statement;
-		StackPos pos = StackPos::END;
 		type t = type::DEFAULT;
 
 		if (startswith(keyword, get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN))) {
@@ -228,7 +227,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent, variable*& var)
 				statement = statement.substr(statement.find_first_of(L" ") + 1);
 
 				if (name == get_kw(KW_SET_FRONT)) {
-					pos = StackPos::FRONT;
+					// TODO variable should be pushed to bottom of stack (first
 				}
 			}
 		}
