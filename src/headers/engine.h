@@ -44,7 +44,8 @@ inline bool is_comment(wstring);
 
 variable* getvar(wstring);
 
-variable* setvar(wstring name, wstring statement, StackPos pos = StackPos::END);
+variable* setvar(wstring name, wstring statement, type t = type::DEFAULT);
+variable* setvar(wstring name, vector<wstring> statements, type t);
 
 void parse(Code&);
 

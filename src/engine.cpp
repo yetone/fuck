@@ -8,6 +8,7 @@
 #include <map>
 #include <stdlib.h>
 #include <typeinfo>
+#include <utility>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -213,6 +214,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent, variable*& var)
 		wstring name;
 		wstring statement;
 		StackPos pos = StackPos::END;
+		type t = type::DEFAULT;
 
 		if (startswith(keyword, get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN))) {
 			name = keyword.substr(1);
@@ -231,7 +233,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent, variable*& var)
 			}
 		}
 
-		setvar(name, statement, pos);
+		setvar(name, statement, t);
 	} else if (keyword == get_kw(KW_LABEL)) {
 		printverbose(L"Ignoring label at line #" + to_wstring(*i));
 	} else if (keyword == get_kw(KW_READ)) {
@@ -267,6 +269,15 @@ ReturnType execline(Method* method, unsigned int* i, int indent, variable*& var)
 		}
 
 		setvar(name, statement);
+	} else if (keyword == get_kw(KW_ARRAY)) {
+		int f = line.find_first_of(L" ");
+
+		wstring name = line.substr(0, f);
+		wstring statementstr = line.substr(f + 2, line.length() - f - 3);
+
+		vector<wstring> statements = split(statementstr, ',');
+
+		setvar(name, statements, type::ARRAY);
 	} else {
 		printerror(L"Unknown instruction " + color(ERROR_HL) + keyword + L" (" + line + L")" + color(ERROR_COLOR) + L" on line #" + to_wstring(*i));
 	}
@@ -654,8 +665,14 @@ wstring parse_set_statement(wstring s) {
 	return s;
 }
 
-variable* setvar(wstring name, wstring statement, StackPos pos) {
-	printverbose(L"Setting variable " + color(VERBOSE_HL) + name + color(VERBOSE) + L" to " + color(VERBOSE_HL) + L"\"" + statement + L"\"", verbose_mode::ADDITION);
+variable* setvar(wstring name, wstring statement, type t) {
+	vector<wstring> statements;
+	statements.push_back(statement);
+	return setvar(name, statements, t);
+}
+
+variable* setvar(wstring name, vector<wstring> statements, type t) {
+	//printverbose(L"Setting variable " + color(VERBOSE_HL) + name + color(VERBOSE) + L" to " + color(VERBOSE_HL) + L"\"" + statement + L"\"", verbose_mode::ADDITION);
 
 	if (name[0] == get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN)[0]) {
 		name = name.substr(1);
@@ -670,9 +687,23 @@ variable* setvar(wstring name, wstring statement, StackPos pos) {
 		}
 	}
 
-	str* var = new str;
+	variable* var;
+
+	if (t == type::DEFAULT) {
+		var = new str;
+		var->set(parse_set_statement(statements[0]));
+	} else if (t == type::ARRAY) {
+		arrays* arr = new arrays;
+
+		for (unsigned int i = 0; i < statements.size(); i++) {
+			printverbose(L"Adding " + statements[i] + L" at index " + itow(i), verbose_mode::ADDITION);
+			arr->var[itow(i)] = parse_set_statement(trim(statements[i]));
+		}
+
+		var = arr;
+	}
+
 	var->name = name;
-	var->set(parse_set_statement(statement));
 
 	if (index != -1) {
 		printverbose(L"Updated " + color(VERBOSE_HL) + name + color(VERBOSE) + L" on stack with value " + var->get(), verbose_mode::ADDITION);
@@ -680,13 +711,7 @@ variable* setvar(wstring name, wstring statement, StackPos pos) {
 	} else {
 		printverbose(L"Added " + color(VERBOSE_HL) + name + color(VERBOSE) + L" to stack with value " + var->get(), verbose_mode::ADDITION);
 
-		if (pos == StackPos::FRONT) {
-			stackMap.insert(stackMap.begin(), var);
-		} else if (pos == StackPos::END) {
-			stackMap.push_back(var);
-		} else {
-			printerror(L"Invalid stack position");
-		}
+		stackMap.insert(stackMap.begin(), var);
 	}
 
 	return var;
