@@ -3,5 +3,6 @@ array $arr ["first", "second"]
 out "$arr"
 
 $arr("key") := "third"
+set $arr("key2") "fourth"
 
 out "$arr"
