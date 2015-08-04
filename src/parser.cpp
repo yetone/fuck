@@ -66,10 +66,27 @@ vector<Chunk> parse_chunks(Method* method, unsigned int* i, int indent, int* tot
 
 wstring parsevars(wstring s) {
 	for (variable* v : stackMap) {
-		int f = s.find(L"$" + v->name);
+		if (v->gettype() == type::ARRAY) {
+			array_t* map = v->getpairs();
 
-		if (f != (signed int) wstring::npos) {
-			s = replaceAll(s, L"$" + v->name, v->get());
+			for (array_t::iterator it = map->begin(); it != map->end(); ++it) {
+				wstring replace = L"$" + v->name + L"(" + it->first + L")";
+
+				printverbose(color(COLOR_MAGENTA) + L"Want to replace " + replace);
+
+				unsigned int f = s.find(replace);
+
+				if (f != wstring::npos) {
+					s = replaceAll(s, replace, it->second);
+				}
+			}
+		} else {
+			wstring replace = L"$" + v->name;
+			unsigned int f = s.find(replace);
+
+			if (f != wstring::npos) {
+				s = replaceAll(s, replace, v->get());
+			}
 		}
 	}
 
