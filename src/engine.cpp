@@ -678,22 +678,32 @@ variable* setvar(wstring name, vector<wstring> statements, type t) {
 		name = name.substr(1);
 	}
 
+	variable* var = nullptr;
+
 	int index = -1;
 	for (unsigned int k = 0; k < stackMap.size(); k++) {
 		variable* v = stackMap[k];
 		if (v->name == name) {
+			var = v;
 			index = k;
 			break;
 		}
 	}
 
-	variable* var;
-
 	if (t == type::DEFAULT) {
-		var = new str;
+		if (var == nullptr) {
+			var = new str;
+		}
+
 		var->set(parse_set_statement(statements[0]));
 	} else if (t == type::ARRAY) {
-		arrays* arr = new arrays;
+		arrays* arr;
+
+		if (var == nullptr) {
+			arr = new arrays;
+		} else {
+			arr = (arrays*) var;
+		}
 
 		for (unsigned int i = 0; i < statements.size(); i++) {
 			printverbose(L"Adding " + statements[i] + L" at index " + itow(i), verbose_mode::ADDITION);
