@@ -143,8 +143,9 @@ variable* invoke(Method* method) {
 }
 
 ReturnType execline(Method* method, unsigned int* i, int indent, variable*& var) {
-	wstring line = trim(method->getlines()[*i]);
 	wstring untrimmed = method->getlines()[*i];
+
+	wstring line = trim(untrimmed);
 
 	if (is_comment(line)) {
 		printverbose(line, verbose_mode::COMMENT);
