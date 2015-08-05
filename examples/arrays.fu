@@ -5,6 +5,8 @@ out "$arr"
 $arr("key") := "third"
 set $arr("key2") "fourth"
 
+set $arr() "fifth"
+
 out "$arr"
 
 out "$arr(key) $arr(0)"
