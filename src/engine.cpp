@@ -634,7 +634,7 @@ wstring parse_set_statement(wstring s) {
 	s = trim(s);
 
 	bool opposite = s[0] == L'!';
-	bool var = s[opposite ? 1 : 0] == get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN);
+	bool var = s[opposite ? 1 : 0] == get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN)[0];
 
 	bool iswstring = s[0] == L'\"' && s[s.length() - 1] == L'\"';
 
