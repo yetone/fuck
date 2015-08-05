@@ -72,8 +72,6 @@ wstring parsevars(wstring s) {
 			for (array_t::iterator it = map->begin(); it != map->end(); ++it) {
 				wstring replace = L"$" + v->name + L"(" + it->first + L")";
 
-				printverbose(color(COLOR_MAGENTA) + L"Want to replace " + replace);
-
 				unsigned int f = s.find(replace);
 
 				if (f != wstring::npos) {
