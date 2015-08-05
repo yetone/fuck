@@ -78,13 +78,13 @@ wstring parsevars(wstring s) {
 					s = replaceAll(s, replace, it->second);
 				}
 			}
-		} else {
-			wstring replace = get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN) + v->name;
-			unsigned int f = s.find(replace);
+		}
 
-			if (f != wstring::npos) {
-				s = replaceAll(s, replace, v->get());
-			}
+		wstring replace = get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN) + v->name;
+		unsigned int f = s.find(replace);
+
+		if (f != wstring::npos) {
+			s = replaceAll(s, replace, v->get());
 		}
 	}
 
