@@ -19,6 +19,7 @@ This is the default keywords in fulang. You will be able to modify all these wit
 | Pause execution		| [sleep](examples/sleep.fu) | 
 | Variables				| [set front back incr decr unset](examples/vars.fu) |
 | Arrays				| [array](examples/arrays.fu) |
+| In	todo				| [in](examples/for.fu)	|
 
 ***
 
@@ -175,6 +176,15 @@ for <init>; from <start value>; to <end value>; do <change value>;
 end
 ```
 
+you can also loop an array
+
+```
+array $arr [ "first", "second", "third" ]
+for <init>; in $arr
+...
+end
+```
+
 ```i``` is the variable
 
 ```from 2``` declares the start value
@@ -182,6 +192,8 @@ end
 ```to 30``` declares the end value
 
 ```do $i + 1``` is the increase value (equal to ```$i := $i + 1```)
+
+```in $arr``` loops all keys/values in array
 
 ### Example
 ```go
