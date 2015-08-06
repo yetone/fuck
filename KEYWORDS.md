@@ -223,3 +223,21 @@ incr $var
 # Will print 11
 out "$var"
 ```
+
+## Create array
+
+### Synopsis
+
+```php
+array $var [item1, item2, key > expr]
+```
+
+### Example
+
+```php
+array $var [item1, key > item2]
+
+out "$var"
+out "$var(0)"
+out "$var(key)"
+```
