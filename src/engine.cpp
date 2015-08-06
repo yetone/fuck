@@ -235,10 +235,10 @@ ReturnType execline(Method* method, unsigned int* i, int indent, variable*& var,
 			}
 		}
 
-		unsigned int firstb = name.find(L"(");
-		unsigned int lastb = name.find(L")");
+		int firstb = name.find(L"(");
+		int lastb = name.find(L")");
 
-		if (firstb != string::npos && lastb != string::npos) {
+		if (firstb != (signed int) string::npos && lastb != (signed int) string::npos) {
 			wstring key = name.substr(firstb + 1, lastb - firstb - 1);
 			name = name.substr(0, firstb);
 
