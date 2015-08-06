@@ -96,7 +96,7 @@ wstring parsevars(wstring s) {
 		while ((f = s.find(find, f)) != (signed int) wstring::npos) {
 			variable* returned = invoke(m);
 
-			if (returned == NULL) {
+			if (returned == nullptr) {
 				printerror(L"Function " + color(ERROR_HL) + m->getname() + color(ERROR_COLOR) + L" did not return any value");
 			} else {
 				s = s.replace(f, find.length(), returned->get());
