@@ -134,7 +134,14 @@ variable* invoke(Method* method) {
 	for (unsigned int i = 0; i < lines.size(); i++) {
 		variable* var = nullptr;
 
-		ReturnType type = execline(method, &i, 0, var, map);
+		ReturnType type;
+
+		try {
+			type = execline(method, &i, 0, var, map);
+		} catch (exception& e) {
+			printerror(string(e.what()) + ", line #" + to_string(i));
+			break;
+		}
 
 		if (type == ReturnType::RETURN && var != nullptr) {
 			return var;
