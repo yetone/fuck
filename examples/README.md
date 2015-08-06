@@ -4,7 +4,7 @@ This directory contains some examples of the key features of fulang
 
 ## [arrays.fu](arrays.fu)
 
-Array examples
+```array``` examples
 
 ## [bools.fu](bools.fu)
 
