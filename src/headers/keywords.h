@@ -59,6 +59,8 @@ using namespace std;
 
 #define KW_SLEEP "sleep"
 
+#define KW_EXPR "expr"
+
 #define OP_EQUALS "=="
 #define OP_NOT_EQ "!="
 #define OP_LESS_THAN "<"

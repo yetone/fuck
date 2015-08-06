@@ -65,6 +65,28 @@ vector<Chunk> parse_chunks(Method* method, unsigned int* i, int indent, int* tot
 
 
 wstring parsevars(wstring s) {
+	int f = 0;
+
+	printverbose(L"In " + s);
+	while ((f = s.find(L"[", f)) != (signed int) wstring::npos) {
+		int f2 = s.find(L"]", f);
+
+		wstring replace = s.substr(f, f2 - f + 1);
+		wstring expr = trim(replace.substr(1, replace.length() - 2));
+
+		if (startswith(expr, get_kw(KW_EXPR))) {
+			expr = expr.substr(5);
+		}
+
+		printverbose(expr);
+
+		expr = parse_set_statement(expr);
+		s = s.replace(f, replace.length(), expr);
+		f += expr.length();
+	}
+	printverbose(L"Out " + s);
+
+
 	for (variable* v : stackMap) {
 		if (v->gettype() == type::ARRAY) {
 			array_t* map = v->getpairs();
