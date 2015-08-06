@@ -20,5 +20,5 @@
 | Logical operators		| Syntax
 | :----------			| :-----
 | Logical and			| &&
-| Logical or			| ||
+| Logical or			| ```|| ```
 | Logical xor			| ^^
