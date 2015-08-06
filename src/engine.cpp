@@ -129,10 +129,12 @@ variable* invoke(Method* method) {
 
 	vector<wstring> lines = method->getlines();
 
+	stackmap map;
+
 	for (unsigned int i = 0; i < lines.size(); i++) {
 		variable* var = nullptr;
 
-		ReturnType type = execline(method, &i, 0, var);
+		ReturnType type = execline(method, &i, 0, var, map);
 
 		if (type == ReturnType::RETURN && var != nullptr) {
 			return var;
@@ -142,7 +144,7 @@ variable* invoke(Method* method) {
 	return nullptr;
 }
 
-ReturnType execline(Method* method, unsigned int* i, int indent, variable*& var) {
+ReturnType execline(Method* method, unsigned int* i, int indent, variable*& var, stackmap& map) {
 	wstring untrimmed = method->getlines()[*i];
 
 	wstring line = trim(untrimmed);
@@ -182,13 +184,13 @@ ReturnType execline(Method* method, unsigned int* i, int indent, variable*& var)
 			}
 		}
 	} else if (keyword == get_kw(KW_IF)) {
-		ReturnType type = parseif(method, untrimmed, i, indent, var);
+		ReturnType type = parseif(method, untrimmed, i, indent, var, map);
 		return type;
 	} else if (keyword == get_kw(KW_WHILE)) {
-		ReturnType type = parsewhile(method, untrimmed, i, indent, var);
+		ReturnType type = parsewhile(method, untrimmed, i, indent, var, map);
 		return type;
 	} else if (keyword == get_kw(KW_FOR)) {
-		ReturnType type = parsefor(method, untrimmed, i, indent, var);
+		ReturnType type = parsefor(method, untrimmed, i, indent, var, map);
 		return type;
 	} else if (keyword == get_kw(KW_HALT)) {
 		exit(get_exit_code(line));
@@ -299,7 +301,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent, variable*& var)
 	return ReturnType::NONE;
 }
 
-ReturnType parsefor(Method* method, wstring line, unsigned int* i, int indent, variable*& var) {
+ReturnType parsefor(Method* method, wstring line, unsigned int* i, int indent, variable*& var, stackmap& map) {
 	printverbose(L"Checking " + color(VERBOSE_HL) + L"for" + color(VERBOSE) + L", condition " + color(VERBOSE_HL) + line);
 
 	int totalend;
@@ -345,7 +347,7 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, int indent, v
 		if (f != to) {
 			*i = chunk.start + 1;
 			exec:
-			ReturnType type = execrange(method, i, chunk.end, indent + 1, var);
+			ReturnType type = execrange(method, i, chunk.end, indent + 1, var, map);
 			if (type == ReturnType::BREAK) {
 				continue;
 			} else if (f != to || type == ReturnType::CONTINUE) {
@@ -365,7 +367,7 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, int indent, v
 	return ReturnType::NONE;
 }
 
-ReturnType parsewhile(Method* method, wstring line, unsigned int* i, int indent, variable*& var) {
+ReturnType parsewhile(Method* method, wstring line, unsigned int* i, int indent, variable*& var, stackmap& map) {
 	printverbose(L"Checking " + color(VERBOSE_HL) + L"while" + color(VERBOSE) + L", condition " + color(VERBOSE_HL) + line);
 
 	int totalend;
@@ -382,7 +384,8 @@ ReturnType parsewhile(Method* method, wstring line, unsigned int* i, int indent,
 
 		if (check_cond(cond)) {
 			*i = chunk.start + 1;
-			exec: ReturnType type = execrange(method, i, chunk.end, indent + 1, var);
+			exec:
+			ReturnType type = execrange(method, i, chunk.end, indent + 1, var, map);
 
 			if (type == ReturnType::BREAK) {
 				*i = chunk.end;
@@ -401,7 +404,7 @@ ReturnType parsewhile(Method* method, wstring line, unsigned int* i, int indent,
 	return ReturnType::NONE;
 }
 
-ReturnType parseif(Method* method, wstring line, unsigned int* i, int indent, variable*& var) {
+ReturnType parseif(Method* method, wstring line, unsigned int* i, int indent, variable*& var, stackmap& map) {
 	printverbose(L"Checking " + color(VERBOSE_HL) + L"if" + color(VERBOSE) + L", condition " + color(VERBOSE_HL) + line);
 
 	int totalend;
@@ -419,7 +422,7 @@ ReturnType parseif(Method* method, wstring line, unsigned int* i, int indent, va
 		// Is else, we have passed by everything else
 		if (line == get_kw(KW_ELSE)) {
 			*i = conds.start + 1;
-			ReturnType type = execrange(method, i, conds.end, indent + 1, var);
+			ReturnType type = execrange(method, i, conds.end, indent + 1, var, map);
 			if (type == ReturnType::RETURN) {
 				return type;
 			}
@@ -430,7 +433,7 @@ ReturnType parseif(Method* method, wstring line, unsigned int* i, int indent, va
 
 		if (check_cond(cond)) {
 			*i = conds.start + 1;
-			ReturnType type = execrange(method, i, conds.end, indent + 1, var);
+			ReturnType type = execrange(method, i, conds.end, indent + 1, var, map);
 			if (type != ReturnType::NONE) {
 				return type;
 			}
@@ -442,9 +445,9 @@ ReturnType parseif(Method* method, wstring line, unsigned int* i, int indent, va
 	return ReturnType::NONE;
 }
 
-ReturnType execrange(Method* method, unsigned int* i, unsigned int to, int indent, variable*& var) {
+ReturnType execrange(Method* method, unsigned int* i, unsigned int to, int indent, variable*& var, stackmap& map) {
 	for (unsigned int from = *i; from <= to; from++) {
-		ReturnType type = execline(method, &from, indent, var);
+		ReturnType type = execline(method, &from, indent, var, map);
 
 		if (type != ReturnType::NONE) {
 			return type;

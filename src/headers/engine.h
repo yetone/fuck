@@ -59,10 +59,10 @@ variable* invoke(wstring);
 variable* invoke(Method*);
 
 // Execute line
-ReturnType execline(Method*, unsigned int*, int indent, variable*&);
+ReturnType execline(Method*, unsigned int*, int indent, variable*&, stackmap&);
 
 // Execute range of lines
-ReturnType execrange(Method*, unsigned int*, unsigned int, int indent, variable*&);
+ReturnType execrange(Method*, unsigned int*, unsigned int, int indent, variable*&, stackmap&);
 
 // check if something is true
 bool check_cond(wstring);
@@ -73,11 +73,11 @@ bool check_cond_compare(const wstring& var1, const wstring& var2, Relational ret
 // used when set keyword is used, create new variable
 wstring parse_set_statement(wstring statement);
 
-ReturnType parseif(Method* method, wstring line, unsigned int* i, int, variable*&);
+ReturnType parseif(Method* method, wstring line, unsigned int* i, int, variable*&, stackmap&);
 
-ReturnType parsewhile(Method* method, wstring, unsigned int* i, int, variable*&);
+ReturnType parsewhile(Method* method, wstring, unsigned int* i, int, variable*&, stackmap&);
 
-ReturnType parsefor(Method* method, wstring, unsigned int* i, int, variable*&);
+ReturnType parsefor(Method* method, wstring, unsigned int* i, int, variable*&, stackmap&);
 
 void unset(wstring);
 void unset(variable*);

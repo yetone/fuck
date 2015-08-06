@@ -87,6 +87,8 @@ int main(int argc, char* argv[]) {
 	Method main(ENTRY_POINT);
 	unsigned int i = 0;
 
+	stackmap map;
+
 	while (true) {
 		cout << ">> ";
 
@@ -101,7 +103,7 @@ int main(int argc, char* argv[]) {
 
 		main.lines.push_back(s);
 
-		execline(&main, &i, 0, var);
+		execline(&main, &i, 0, var, map);
 		i++;
 	}
 
