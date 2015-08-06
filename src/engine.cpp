@@ -240,8 +240,6 @@ ReturnType execline(Method* method, unsigned int* i, int indent, variable*& var)
 			wstring key = name.substr(firstb + 1, lastb - firstb - 1);
 			name = name.substr(0, firstb);
 
-			//wcout << L"Name: " <<name << endl << L"Key: " << key << endl << L"Value: " << statement << endl;
-
 			statement = key + L" > " + statement;
 
 			t = type::ARRAY;
