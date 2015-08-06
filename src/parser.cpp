@@ -23,7 +23,7 @@ vector<Chunk> parse_chunks(Method* method, unsigned int* i, int indent, int* tot
 	Chunk *current = nullptr;
 
 	while (end < method->getlines().size()) {
-		wstring temp = method->getlines()[end];
+		wstring temp = method->getlines()[end].second;
 
 		int s = temp.find_first_not_of('\t');
 
@@ -46,7 +46,7 @@ vector<Chunk> parse_chunks(Method* method, unsigned int* i, int indent, int* tot
 			*i = end;
 		} else if (s == indent && startswith(trim(temp), get_kw(KW_END))) {
 			if (current != nullptr) {
-				line = method->getlines()[current->start];
+				line = method->getlines()[current->start].second;
 				wstring cond = line.substr(line.find_first_of(L" ") + 1);
 
 				current->end = end - 1;

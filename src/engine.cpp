@@ -91,7 +91,7 @@ void parse(Code &code) {
 				printverbose(L"Method " + color(VERBOSE_HL) + currentmethod->getdisplayname() + color(VERBOSE) + L" initialized");
 			}
 		} else {
-			currentmethod->lines.push_back(lines[i]);
+			currentmethod->lines.push_back(make_pair(i, lines[i]));
 		}
 	}
 
@@ -127,7 +127,7 @@ variable* invoke(wstring s) {
 variable* invoke(Method* method) {
 	printverbose(L"Invoking " + color(VERBOSE_HL) + method->getdisplayname() + color(VERBOSE) + L" on line " + color(VERBOSE_HL) + L"#" + to_wstring(method->chunk.start));
 
-	vector<wstring> lines = method->getlines();
+	linemap lines = method->getlines();
 
 	stackmap map;
 
@@ -152,7 +152,7 @@ variable* invoke(Method* method) {
 }
 
 ReturnType execline(Method* method, unsigned int* i, int indent, variable*& var, stackmap& map) {
-	wstring untrimmed = method->getlines()[*i];
+	wstring untrimmed = method->getlines()[*i].second;
 
 	wstring line = trim(untrimmed);
 
@@ -182,10 +182,10 @@ ReturnType execline(Method* method, unsigned int* i, int indent, variable*& var,
 	} else if (keyword == get_kw(KW_PRINT_ERR)) {
 		wcerr << color(ERROR_COLOR) << parse_set_statement(line) << reset() << endl;
 	} else if (keyword == get_kw(KW_GOTO)) {
-		vector<wstring> lines = method->getlines();
+		linemap lines = method->getlines();
 
 		for (unsigned int l = 0; l < lines.size(); l++) {
-			if (lines[l] == get_kw(KW_LABEL) + L" L" + line)  {
+			if (lines[l].second == get_kw(KW_LABEL) + L" L" + line)  {
 				*i = l + 1;
 				return ReturnType::NONE;
 			}
@@ -319,7 +319,7 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, int indent, v
 	vector<Chunk> chunks = parse_chunks(method, i, indent, &totalend, keywords);
 
 	for (Chunk chunk : chunks) {
-		wstring line = trim(method->getlines()[chunk.start]);
+		wstring line = trim(method->getlines()[chunk.start].second);
 
 		wstring cond = line.substr(line.find_first_of(L" L") + 1);
 		vector<wstring> spl = split(cond, ';');
@@ -385,7 +385,7 @@ ReturnType parsewhile(Method* method, wstring line, unsigned int* i, int indent,
 	vector<Chunk> chunks = parse_chunks(method, i, indent, &totalend, keywords);
 
 	for (Chunk chunk : chunks) {
-		wstring line = trim(method->getlines()[chunk.start]);
+		wstring line = trim(method->getlines()[chunk.start].second);
 
 		wstring cond = line.substr(line.find_first_of(L" L") + 1);
 
@@ -424,7 +424,7 @@ ReturnType parseif(Method* method, wstring line, unsigned int* i, int indent, va
 	vector<Chunk> chunks = parse_chunks(method, i, indent, &totalend, keywords);
 
 	for (Chunk conds : chunks) {
-		wstring line = trim(method->getlines()[conds.start]);
+		wstring line = trim(method->getlines()[conds.start].second);
 
 		// Is else, we have passed by everything else
 		if (line == get_kw(KW_ELSE)) {

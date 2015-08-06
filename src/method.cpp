@@ -1,6 +1,7 @@
 #include <string>
 
 #include "headers/method.h"
+#include "headers/engine.h"
 
 using namespace std;
 
@@ -12,11 +13,11 @@ Method::Method(wstring ns, wstring name): ns(ns), name(name) {
 
 }
 
-Method::Method(wstring ns, wstring name, vector<wstring>& lines): ns(ns), name(name), lines(lines) {
+Method::Method(wstring ns, wstring name, linemap& lines): ns(ns), name(name), lines(lines) {
 
 }
 
-vector<wstring>& Method::getlines() {
+linemap& Method::getlines() {
 	return this->lines;
 }
 

@@ -5,6 +5,9 @@
 
 using namespace std;
 
+typedef pair<unsigned int, wstring> line;
+typedef vector<line> linemap;
+
 #ifndef H_METHOD
 #define H_METHOD
 
@@ -13,13 +16,13 @@ public:
 	struct Chunk chunk;
 	const wstring ns;
 	const wstring name;
-	vector<wstring> lines;
+	linemap lines;
 	goto_labels labels;
 
 	Method(wstring name);
 	Method(wstring ns, wstring name);
-	Method(wstring ns, wstring name, vector<wstring>& lines);
-	vector<wstring>& getlines();
+	Method(wstring ns, wstring name, linemap& lines);
+	linemap& getlines();
 	const wstring& getname();
 	const wstring& getnamespace();
 	const wstring getdisplayname();

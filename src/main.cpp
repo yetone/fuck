@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstring>
 #include <fstream>
+#include <utility>
 
 #include "headers/keywords.h"
 #include "headers/utils.h"
@@ -101,7 +102,7 @@ int main(int argc, char* argv[]) {
 
 		variable *var;
 
-		main.lines.push_back(s);
+		main.lines.push_back(make_pair(i, s));
 
 		execline(&main, &i, 0, var, map);
 		i++;
