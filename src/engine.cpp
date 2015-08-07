@@ -35,7 +35,7 @@ void parse(Code &code) {
 	vector<wstring> lines = code.getlines();
 
 	// Current namespace, might be empty
-	wstring currentns = L"";
+	wstring currentns = EMPTY;
 
 	// Current method name, if no method, should be L"main"
 	Method *currentmethod;
@@ -61,7 +61,7 @@ void parse(Code &code) {
 			if (line.length() > strlen(KW_END)) {
 				line = line.substr(strlen(KW_END) + 1, line.size());
 			} else {
-				line = L"";
+				line = EMPTY;
 			}
 		}
 
@@ -73,7 +73,7 @@ void parse(Code &code) {
 
 		if (keyword == get_kw(KW_NAMESPACE)) {
 			if (end) {
-				currentns = L"";
+				currentns = EMPTY;
 			} else {
 				currentns = line;
 			}
@@ -166,7 +166,7 @@ ReturnType execline(Method* method, unsigned int* i, int indent, variable*& var,
 	line = line.substr(firstsep + 1, line.length());
 
 	if (line == keyword) {
-		line = L"";
+		line = EMPTY;
 	}
 
 	printverbose(L"Executing keyword " + color(VERBOSE_HL) + keyword + color(VERBOSE) + L", line #" + to_wstring(*i) + L" " + color(VERBOSE_HL) + L"\"" + line + L"\"");
@@ -593,7 +593,7 @@ bool check_cond(wstring line) {
 }
 
 bool check_cond_compare(wstring cond) {
-	wstring splitat = L"";
+	wstring splitat = EMPTY;
 	Relational ret;
 
 	if (contains(cond, get_kw(OP_EQUALS))) {
@@ -625,7 +625,7 @@ bool check_cond_compare(wstring cond) {
 
 	if (stat1.length() == 0) {
 		stat1 = stat2;
-		stat2 = L"";
+		stat2 = EMPTY;
 	}
 
 	return check_cond_compare(stat1, stat2, ret);
@@ -714,7 +714,7 @@ wstring parse_set_statement(wstring s) {
 		if (startstr) {
 			s = s.substr(1, s.length() - 2);
 		} else if (type == ExprType::MATH) {
-			s = replaceAll(s, L" ", L"");
+			s = replaceAll(s, L" ", EMPTY);
 			double val = eval(wtos(s));
 
 			s = to_wstring(val);
