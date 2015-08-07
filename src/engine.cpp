@@ -330,13 +330,16 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, int indent, v
 		}
 
 		variable* from;
-		arrays* arr;
 
-		int to;
-		wstring dos;
-
+		// Range based foor loop
 		bool rangeloop = false;
 		array_t::iterator iter;
+		variable* key = nullptr;
+		arrays* arr = nullptr;
+
+		// Normal for loop
+		int to;
+		wstring dos;
 
 		for (unsigned int in = 1; in < spl.size(); in++) {
 			wstring s = trim(spl[in]);
@@ -353,7 +356,17 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, int indent, v
 				rangeloop = true;
 				arr = (arrays*) getvar(w);
 				iter = arr->var.begin();
+
+				if (first.find('>') != string::npos) {
+					vector<wstring> lines = split(first, L'>');
+
+					first = trim(lines[1]);
+
+					key = setvar(trim(lines[0]), L"\"" + iter->second + L"\"");
+				}
+
 				from = setvar(first, L"\"" + iter->second + L"\"");
+
 				break;
 			} else {
 				printwarning(L"Unknown " + s);
@@ -375,6 +388,11 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, int indent, v
 					if (++iter == arr->var.end()) {
 						break;
 					}
+
+					if (key != nullptr) {
+						setvar(key->name, L"\"" + iter->first + L"\"");
+					}
+
 					setvar(from->name, L"\"" + iter->second + L"\"");
 				} else {
 					variable* temp = setvar(from->name, dos);
