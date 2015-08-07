@@ -14,9 +14,6 @@ using namespace std;
 
 extern bool verbose;
 
-extern methodmap methodMap;
-extern stackmap stackMap;
-
 static const wchar_t* TRIM = L"\t\r\n ";
 
 bool startswith(string s, string s1) {
