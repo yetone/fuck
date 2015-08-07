@@ -22,3 +22,7 @@
 | Logical and			| &&
 | Logical or			| ```|| ```
 | Logical xor			| ^^
+
+| Others				| Syntax
+| :----------			| :-----
+| Pair separator		| =>
