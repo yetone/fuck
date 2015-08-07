@@ -296,11 +296,8 @@ ReturnType execline(Method* method, unsigned int* i, int indent, variable*& var,
 		int f = line.find_first_of(L" ");
 
 		wstring name = line.substr(0, f);
-		wstring statementstr = line.substr(f + 2, line.length() - f - 3);
 
-		vector<wstring> statements = split(statementstr, ',');
-
-		setvar(name, statements, type::ARRAY);
+		setarr(name, line.substr(f));
 	} else {
 		printerror(L"Unknown instruction " + color(ERROR_HL) + keyword + L" (" + line + L")" + color(ERROR_COLOR) + L" on line #" + to_wstring(*i));
 	}
@@ -594,34 +591,44 @@ bool check_cond(wstring line) {
 
 bool check_cond_compare(wstring cond) {
 	wstring splitat = EMPTY;
-	Relational ret;
+	bool_ops ret;
 
 	if (contains(cond, get_kw(OP_EQUALS))) {
 		splitat = get_kw(OP_EQUALS);
-		ret = Relational::EQUALS;
+		ret = bool_ops::EQUALS;
 	} else if (contains(cond, get_kw(OP_NOT_EQ))) {
 		splitat = get_kw(OP_NOT_EQ);
-		ret = Relational::NOT_EQUAL;
+		ret = bool_ops::NOT_EQUAL;
 	} else if (contains(cond, get_kw(OP_LESS_THAN))) {
 		splitat = get_kw(OP_LESS_THAN);
-		ret = Relational::LESS_THAN;
+		ret = bool_ops::LESS_THAN;
 	} else if (contains(cond, get_kw(OP_MORE_THAN))) {
 		splitat = get_kw(OP_MORE_THAN);
-		ret = Relational::MORE_THAN;
+		ret = bool_ops::MORE_THAN;
 	} else if (contains(cond, get_kw(OP_LESS_OR_EQUALS))) {
 		splitat = get_kw(OP_LESS_OR_EQUALS);
-		ret = Relational::LESS_OR_EQUALS;
+		ret = bool_ops::LESS_OR_EQUALS;
 	} else if (contains(cond, get_kw(OP_MORE_OR_EQUALS))) {
 		splitat = get_kw(OP_MORE_OR_EQUALS);
-		ret = Relational::MORE_OR_EQUALS;
+		ret = bool_ops::MORE_OR_EQUALS;
+	} else if (contains(cond, get_kw(KW_IN))) {
+		splitat = get_kw(KW_IN);
+		ret = bool_ops::IN_ARRAY;
+	} else if (contains(cond, get_kw(KW_NOT_IN))) {
+		splitat = get_kw(KW_NOT_IN);
+		ret = bool_ops::NOT_IN_ARRAY;
 	} else {
-		ret = Relational::SINGLE;
+		ret = bool_ops::SINGLE;
 	}
 
 	int index = cond.find(splitat);
 
 	wstring stat1 = parse_set_statement(trim(cond.substr(0, index)));
-	wstring stat2 = parse_set_statement(trim(cond.substr(index + splitat.length())));
+	wstring stat2 = trim(cond.substr(index + splitat.length()));
+
+	if (ret != bool_ops::IN_ARRAY && ret != bool_ops::NOT_IN_ARRAY) {
+		stat2 = parse_set_statement(stat2);
+	}
 
 	if (stat1.length() == 0) {
 		stat1 = stat2;
@@ -631,25 +638,46 @@ bool check_cond_compare(wstring cond) {
 	return check_cond_compare(stat1, stat2, ret);
 }
 
-bool check_cond_compare(const wstring& var1, const wstring& var2, Relational ret) {
-	if (ret == Relational::SINGLE) {
+bool check_cond_compare(const wstring& var1, const wstring& var2, bool_ops ret) {
+	if (ret == bool_ops::IN_ARRAY || ret == bool_ops::NOT_IN_ARRAY) {
+		arrays* arr;
+		if (is_array_expr(var2)) {
+			arr = setarr(EMPTY, var2);
+		} else {
+			arr = (arrays*) getvar(var2);
+		}
+
+		wstring expr = parse_set_statement(var1);
+
+		if (arr->var.size() > 0 && arr != nullptr) {
+			for (array_t::iterator iter = arr->var.begin(); iter != arr->var.end(); ++iter) {
+				if (iter->first == expr || iter->second == expr) {
+					return ret == bool_ops::IN_ARRAY;
+				}
+			}
+		}
+
+		return ret == bool_ops::NOT_IN_ARRAY;
+	}
+
+	if (ret == bool_ops::SINGLE) {
 		return var1 == get_kw(KW_TRUE);
-	} else if (ret == Relational::EQUALS) {
+	} else if (ret == bool_ops::EQUALS) {
 		return var1 == var2;
-	} else if (ret == Relational::NOT_EQUAL) {
+	} else if (ret == bool_ops::NOT_EQUAL) {
 		return var1 != var2;
 	}
 
 	double i1 = wtod(var1);
 	double i2 = wtod(var2);
 
-	if (ret == Relational::LESS_THAN) {
+	if (ret == bool_ops::LESS_THAN) {
 		return i1 < i2;
-	} else if (ret == Relational::MORE_THAN) {
+	} else if (ret == bool_ops::MORE_THAN) {
 		return i1 > i2;
-	} else if (ret == Relational::LESS_OR_EQUALS) {
+	} else if (ret == bool_ops::LESS_OR_EQUALS) {
 		return i1 <= i2;
-	} else if (ret == Relational::MORE_OR_EQUALS) {
+	} else if (ret == bool_ops::MORE_OR_EQUALS) {
 		return i1 >= i2;
 	}
 
@@ -737,6 +765,12 @@ wstring parse_set_statement(wstring s) {
 	return s;
 }
 
+arrays* setarr(wstring name, wstring statement) {
+	vector<wstring> statements = split(trim(statement).substr(1, statement.length() - 2), ',');
+
+	return (arrays*) setvar(name, statements, type::ARRAY);
+}
+
 variable* setvar(wstring name, wstring statement, type t) {
 	vector<wstring> statements;
 	statements.push_back(statement);
@@ -813,7 +847,7 @@ variable* setvar(wstring name, vector<wstring> statements, type t) {
 	return var;
 }
 
-bool is_bool_expr(wstring& expr) {
+bool is_bool_expr(const wstring& expr) {
 	return contains(expr, get_kw(OP_EQUALS))
 		|| contains(expr, get_kw(OP_NOT_EQ))
 		|| contains(expr, get_kw(OP_LESS_THAN))
@@ -825,15 +859,21 @@ bool is_bool_expr(wstring& expr) {
 		|| contains(expr, get_kw(KW_XOR))
 		|| contains(expr, get_kw(OP_OR))
 		|| contains(expr, get_kw(OP_XOR))
-		|| contains(expr, get_kw(OP_AND));
+		|| contains(expr, get_kw(OP_AND))
+		|| contains(expr, get_kw(KW_IN))
+		|| contains(expr, get_kw(KW_NOT_IN));
 }
 
-bool is_math_expr(wstring& expr) {
+bool is_math_expr(const wstring& expr) {
 	return contains(expr, get_kw("+"))
 		|| contains(expr, get_kw("-"))
 		|| contains(expr, get_kw("/"))
 		|| contains(expr, get_kw("%"))
 		|| contains(expr, get_kw("*"));
+}
+
+bool is_array_expr(const wstring& expr) {
+	return expr[0] == '[' && expr[expr.length() - 1] == ']';
 }
 
 void unset(wstring name) {

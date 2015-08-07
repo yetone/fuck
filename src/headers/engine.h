@@ -35,13 +35,15 @@ enum class Conds {
 	XOR
 };
 
-enum class Relational {
+enum class bool_ops {
 	EQUALS,
 	NOT_EQUAL,
 	MORE_THAN,
 	LESS_THAN,
 	MORE_OR_EQUALS,
 	LESS_OR_EQUALS,
+	IN_ARRAY,
+	NOT_IN_ARRAY,
 
 	// Check if single variable is true
 	SINGLE,
@@ -52,6 +54,7 @@ inline bool is_comment(wstring);
 
 variable* getvar(wstring);
 
+arrays* setarr(wstring name, wstring statement);
 variable* setvar(wstring name, wstring statement, type t = type::DEFAULT);
 variable* setvar(wstring name, vector<wstring> statements, type t);
 
@@ -76,7 +79,7 @@ ReturnType execrange(Method*, unsigned int*, unsigned int, int indent, variable*
 bool check_cond(wstring);
 
 bool check_cond_compare(wstring cond);
-bool check_cond_compare(const wstring& var1, const wstring& var2, Relational ret);
+bool check_cond_compare(const wstring& var1, const wstring& var2, bool_ops ret);
 
 // used when set keyword is used, create new variable
 wstring parse_set_statement(wstring statement);
@@ -87,8 +90,9 @@ ReturnType parsewhile(Method* method, wstring, unsigned int* i, int, variable*&,
 
 ReturnType parsefor(Method* method, wstring, unsigned int* i, int, variable*&, stackmap&);
 
-bool is_bool_expr(wstring&);
-bool is_math_expr(wstring&);
+bool is_bool_expr(const wstring&);
+bool is_math_expr(const wstring&);
+bool is_array_expr(const wstring&);
 
 void unset(wstring);
 void unset(variable*);
