@@ -5,6 +5,8 @@ using namespace std;
 #define COMMENT_1 L"#"
 #define COMMENT_2 L"//"
 
+#define PAIR_SEPARATOR "=>"
+
 #define ENTRY_POINT L"main"
 
 #define KEYWORD_SEPARATOR ' '

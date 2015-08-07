@@ -354,15 +354,17 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, int indent, v
 				arr = (arrays*) getvar(w);
 				iter = arr->var.begin();
 
-				if (first.find('>') != string::npos) {
-					vector<wstring> lines = split(first, L'>');
+				int f = first.find(get_kw(PAIR_SEPARATOR));
 
-					first = trim(lines[1]);
+				if (f != (signed int) string::npos) {
+					wstring skey = trim(first.substr(0, f - 1));
+					wstring value = trim(first.substr(f + get_kw(PAIR_SEPARATOR).length()));
 
-					key = setvar(trim(lines[0]), L"\"" + iter->second + L"\"");
+					key = setvar(skey, L"\"" + iter->first + L"\"");
+					from = setvar(value, L"\"" + iter->second + L"\"");
+				} else {
+					from = setvar(first, L"\"" + iter->second + L"\"");
 				}
-
-				from = setvar(first, L"\"" + iter->second + L"\"");
 
 				break;
 			} else {
@@ -766,9 +768,13 @@ wstring parse_set_statement(wstring s) {
 }
 
 arrays* setarr(wstring name, wstring statement) {
-	vector<wstring> statements = split(trim(statement).substr(1, statement.length() - 2), ',');
+	vector<wstring> statements = split(trim(statement).substr(1, statement.length() - 3), ',');
 
 	return (arrays*) setvar(name, statements, type::ARRAY);
+}
+
+variable* setvar(wstring statement, type t) {
+	return setvar(EMPTY, statement, t);
 }
 
 variable* setvar(wstring name, wstring statement, type t) {
@@ -778,8 +784,6 @@ variable* setvar(wstring name, wstring statement, type t) {
 }
 
 variable* setvar(wstring name, vector<wstring> statements, type t) {
-	//printverbose(L"Setting variable " + color(VERBOSE_HL) + name + color(VERBOSE) + L" to " + color(VERBOSE_HL) + L"\"" + statement + L"\"", verbose_mode::ADDITION);
-
 	if (name[0] == get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN)[0]) {
 		name = name.substr(1);
 	}
@@ -812,17 +816,19 @@ variable* setvar(wstring name, vector<wstring> statements, type t) {
 		}
 
 		for (unsigned int i = 0; i < statements.size(); i++) {
-			vector<wstring> kw = split(statements[i], L'>');
+			wstring expr = statements[i];
 
 			wstring key;
 			wstring statement;
 
-			if (kw.size() == 1) {
-				key = itow(arr->var.size());
-				statement = kw[0];
+			int f = expr.find(get_kw(PAIR_SEPARATOR));
+
+			if (f != (signed int) string::npos) {
+				key = trim(expr.substr(0, f - 1));
+				statement = trim(expr.substr(f + get_kw(PAIR_SEPARATOR).length()));
 			} else {
-				key = kw[0];
-				statement = kw[1];
+				key = itow(arr->var.size());
+				statement = expr;
 			}
 
 			printverbose(L"Setting " + key + L" to " + statement, verbose_mode::ADDITION);
