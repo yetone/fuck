@@ -76,8 +76,6 @@ wstring parsevars(wstring s) {
 			expr = expr.substr(5);
 
 			expr = parse_set_statement(expr);
-		} else {
-			throw runtime_error("No action specified");
 		}
 
 		s = s.replace(f, replace.length(), expr);
