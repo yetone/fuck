@@ -10,3 +10,21 @@ set $arr() "fifth"
 out "$arr"
 
 out "$arr(key) $arr(0)"
+
+out "First is in array: " [ expr "first" in $arr ]
+
+if ("first" in $arr)
+	out "first is in \$arr"
+end
+
+if ("not" ni $arr)
+	out "not is not in \$arr"
+end
+
+if ("item" in [ "item" ])
+	out "item exists in array"
+end
+
+if ("item" ni [ "random" ])
+	out "item does not exist in array"
+end
