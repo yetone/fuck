@@ -29,6 +29,16 @@ true
 false
 ```
 
+### Multiple boolean conditions
+
+```
+$var := (true) && (false) || (false) || (true)
+
+if (true) && (false) || (false) || (true)
+...
+end
+```
+
 #### Setting variable with boolean value
 
 ```go
