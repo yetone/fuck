@@ -47,11 +47,18 @@ decr $va2 2
 
 out "$var, $va2"
 
+# Unset test
 unset $var
 unset $va2
-
 out "$var, $va2"
 
+# Expressions in expressions test
 out 1 + [ expr 1 + 1 - 1]
+# out [ 1 + 1 ]
 
-out [ 1 + 1 ]
+# Different set statements
+
+out "string in quote marks"
+out string in no quote
+out 2 / 2
+out (true) && (false) || (false) || (true)
