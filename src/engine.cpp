@@ -330,8 +330,13 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, int indent, v
 		}
 
 		variable* from;
+		arrays* arr;
+
 		int to;
 		wstring dos;
+
+		bool rangeloop = false;
+		array_t::iterator iter;
 
 		for (unsigned int in = 1; in < spl.size(); in++) {
 			wstring s = trim(spl[in]);
@@ -344,6 +349,12 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, int indent, v
 				to = wtoi(w);
 			} else if (startswith(s, get_kw(KW_FOR_DO))) {
 				dos = w;
+			} else if (startswith(s, get_kw(KW_IN))) {
+				rangeloop = true;
+				arr = (arrays*) getvar(w);
+				iter = arr->var.begin();
+				from = setvar(first, L"\"" + iter->second + L"\"");
+				break;
 			} else {
 				printwarning(L"Unknown " + s);
 			}
@@ -351,17 +362,25 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, int indent, v
 
 		int f = wtoi(from->get());
 
-		if (f != to) {
+		if (rangeloop || f != to) {
 			*i = chunk.start + 1;
 			exec:
 			ReturnType type = execrange(method, i, chunk.end, indent + 1, var, map);
 			if (type == ReturnType::BREAK) {
 				continue;
-			} else if (f != to || type == ReturnType::CONTINUE) {
+			} else if (rangeloop || f != to || type == ReturnType::CONTINUE) {
 				*i = chunk.start + 1;
 
-				variable* temp = setvar(from->name, dos);
-				f = wtoi(temp->get());
+				if (rangeloop) {
+					if (++iter == arr->var.end()) {
+						break;
+					}
+					setvar(from->name, L"\"" + iter->second + L"\"");
+				} else {
+					variable* temp = setvar(from->name, dos);
+					f = wtoi(temp->get());
+				}
+
 				goto exec;
 			} else if (type == ReturnType::RETURN && var != nullptr) {
 				return type;
