@@ -58,6 +58,7 @@ void printverbose(wstring s, verbose_mode mode) {
 			c = color(COLOR_RED) + L"- ";
 		} else if (mode == verbose_mode::COMMENT) {
 			c = color(COLOR_COMMENT) + L"# ";
+			s = color(COLOR_COMMENT) + trim(s.substr(1));
 		} else {
 			c = L"* ";
 		}
