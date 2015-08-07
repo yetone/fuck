@@ -7,3 +7,7 @@ array $arr [ "first", "second", "third" ]
 for $key; in $arr
 	out "$key"
 end for
+
+for $key > $val; in $arr
+	out "$key = $val"
+end for
