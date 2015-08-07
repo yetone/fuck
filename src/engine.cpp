@@ -538,7 +538,11 @@ bool check_cond(wstring line) {
 			break;
 		}
 
-		wstring s = line.substr(first + 1, second - 1);
+		wstring s = line.substr(first + 1, second - first - 1);
+		if (s[s.length() - 1] == ')') {
+			s = s.substr(0, s.length() - 1);
+		}
+
 		pos += s.length();
 
 		bool result = check_cond_compare(s);
@@ -560,8 +564,7 @@ bool check_cond(wstring line) {
 		pair<Conds, bool> p = conds[i];
 
 		if (p.first == Conds::AND) {
-			b[pos] = p.second;
-			pos++;
+			b[pos++] = p.second;
 		} else if (p.first == Conds::OR) {
 			b[pos++] = p.second;
 		} else if (p.first == Conds::XOR) {
