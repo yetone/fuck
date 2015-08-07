@@ -15,11 +15,10 @@ This is the default keywords in fulang. You will be able to modify all these wit
 | Call function         | [call](examples/method.fu) |
 | Boolean Constants     | [true false](examples/bools.fu) |
 | Boolean Operations    | [and or xor](examples/conds.fu) |
-| Used in for loops     | [from to do](examples/for.fu) |
+| Used in for loops     | [from to do in](examples/for.fu) |
 | Pause execution		| [sleep](examples/sleep.fu) | 
 | Variables				| [set front back incr decr unset](examples/vars.fu) |
 | Arrays				| [array](examples/arrays.fu) |
-| In	todo				| [in](examples/for.fu)	|
 
 ***
 
