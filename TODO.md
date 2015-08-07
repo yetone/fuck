@@ -6,3 +6,4 @@
 - Do not split , in string when creating array
 - Do not split > when making array
 - Remove stackpos
+- Temp variables with no name
