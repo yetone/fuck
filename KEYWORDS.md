@@ -18,7 +18,7 @@ This is the default keywords in fulang. You will be able to modify all these wit
 | Used in for loops     | [from to do in](examples/for.fu) |
 | Pause execution		| [sleep](examples/sleep.fu) | 
 | Variables				| [set front back incr decr unset](examples/vars.fu) |
-| Arrays				| [array](examples/arrays.fu) |
+| Arrays				| [array in ni](examples/arrays.fu) |
 
 ***
 
