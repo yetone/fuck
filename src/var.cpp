@@ -6,6 +6,18 @@
 
 using namespace std;
 
+variable::variable() {
+	this->name = L"";
+}
+
+variable::variable(wstring name) {
+	this->name = name;
+}
+
+wstring variable::getname() {
+	return this->name;
+}
+
 wstring str::get() {
 	return this->var;
 }

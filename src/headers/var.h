@@ -16,9 +16,12 @@ enum class type {
 };
 
 class variable {
-public:
-	virtual ~variable() { }
+private:
 	wstring name;
+
+public:
+	variable();
+	variable(wstring name);
 
 	virtual wstring get(const wstring& key) {
 		return L"";
@@ -34,10 +37,15 @@ public:
 	virtual void set(const wstring& value) { }
 
 	virtual type gettype() { return type::DEFAULT; }
+
+	wstring getname();
 };
 
 class str : public variable {
 public:
+	str(): variable() { }
+	str(wstring name): variable(name) { }
+
 	wstring var;
 
 	wstring get(const wstring& key) {
@@ -54,6 +62,9 @@ public:
 
 class arrays : public variable {
 public:
+	arrays(): variable() { }
+	arrays(wstring name): variable(name) { }
+
 	array_t var;
 
 	wstring get(const wstring& key);

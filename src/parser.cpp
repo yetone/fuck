@@ -87,7 +87,7 @@ wstring parsevars(wstring s) {
 			array_t* map = v->getpairs();
 
 			for (array_t::iterator it = map->begin(); it != map->end(); ++it) {
-				wstring replace = get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN) + v->name + L"(" + it->first + L")";
+				wstring replace = get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN) + v->getname() + L"(" + it->first + L")";
 
 				unsigned int f = s.find(replace);
 
@@ -97,7 +97,7 @@ wstring parsevars(wstring s) {
 			}
 		}
 
-		wstring replace = get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN) + v->name;
+		wstring replace = get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN) + v->getname();
 		unsigned int f = s.find(replace);
 
 		if (f != wstring::npos) {

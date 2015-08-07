@@ -389,12 +389,12 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, int indent, v
 					}
 
 					if (key != nullptr) {
-						setvar(key->name, L"\"" + iter->first + L"\"");
+						setvar(key->getname(), L"\"" + iter->first + L"\"");
 					}
 
-					setvar(from->name, L"\"" + iter->second + L"\"");
+					setvar(from->getname(), L"\"" + iter->second + L"\"");
 				} else {
-					variable* temp = setvar(from->name, dos);
+					variable* temp = setvar(from->getname(), dos);
 					f = wtoi(temp->get());
 				}
 
@@ -693,7 +693,7 @@ variable* getvar(wstring name) {
 
 	for (unsigned int i = 0; i < stackMap.size(); i++) {
 		variable* v = stackMap[i];
-		if (v->name == name) {
+		if (v->getname() == name) {
 			return stackMap[i];
 		}
 	}
@@ -728,7 +728,7 @@ wstring parse_set_statement(wstring s) {
 		wstring name = s.substr(opposite ? 2 : 1);
 
 		variable* v = getvar(name);
-		if (v != nullptr && v->name == name) {
+		if (v != nullptr && v->getname() == name) {
 			if (opposite) {
 				bool yes = v->get() == get_kw(KW_TRUE);
 
@@ -793,7 +793,7 @@ variable* setvar(wstring name, vector<wstring> statements, type t) {
 	int index = -1;
 	for (unsigned int k = 0; k < stackMap.size(); k++) {
 		variable* v = stackMap[k];
-		if (v->name == name) {
+		if (v->getname() == name) {
 			var = v;
 			index = k;
 			break;
@@ -802,7 +802,7 @@ variable* setvar(wstring name, vector<wstring> statements, type t) {
 
 	if (t == type::DEFAULT) {
 		if (var == nullptr) {
-			var = new str;
+			var = new str(name);
 		}
 
 		var->set(parse_set_statement(statements[0]));
@@ -810,7 +810,7 @@ variable* setvar(wstring name, vector<wstring> statements, type t) {
 		arrays* arr;
 
 		if (var == nullptr) {
-			arr = new arrays;
+			arr = new arrays(name);
 		} else {
 			arr = (arrays*) var;
 		}
@@ -838,8 +838,6 @@ variable* setvar(wstring name, vector<wstring> statements, type t) {
 
 		var = arr;
 	}
-
-	var->name = name;
 
 	if (index != -1) {
 		printverbose(L"Updated " + color(VERBOSE_HL) + name + color(VERBOSE) + L" on stack with value " + var->get(), verbose_mode::ADDITION);
@@ -891,13 +889,13 @@ void unset(variable* var) {
 		for (unsigned int i = 0; i < stackMap.size(); i++) {
 			variable* var2 = stackMap[i];
 
-			if (var2->name == var->name) {
+			if (var2->getname() == var->getname()) {
 				stackMap.erase(stackMap.begin() + i);
 				break;
 			}
 		}
 
-		printverbose(L"Deleting " + var->name, verbose_mode::DELETION);
+		printverbose(L"Deleting " + var->getname(), verbose_mode::DELETION);
 
 		delete var;
 	}
