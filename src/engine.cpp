@@ -683,10 +683,18 @@ wstring parse_set_statement(wstring s) {
 	bool opposite = s[0] == L'!';
 	bool var = s[opposite ? 1 : 0] == get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN)[0];
 
-	bool iswstring = s[0] == L'\"' && s[s.length() - 1] == L'\"';
+	ExprType type = ExprType::NONE;
+
+	bool startstr = s[0] == L'\"' && s[s.length() - 1] == L'\"';
+
+	if (!startstr && is_bool_expr(s)) {
+		type = ExprType::BOOLEAN;
+	} else if (!startstr && is_math_expr(s)) {
+		type = ExprType::MATH;
+	}
 
 	// Single variable
-	if (!iswstring && var && s.find(L" ") == wstring::npos) {
+	if (!startstr && var && s.find(L" ") == wstring::npos) {
 		wstring name = s.substr(opposite ? 2 : 1);
 
 		variable* v = getvar(name);
@@ -703,9 +711,9 @@ wstring parse_set_statement(wstring s) {
 	} else if (s != get_kw(KW_TRUE) && s != get_kw(KW_FALSE)) {
 		s = parsevars(s);
 
-		if (iswstring) {
+		if (startstr) {
 			s = s.substr(1, s.length() - 2);
-		} else {
+		} else if (type == ExprType::MATH) {
 			s = replaceAll(s, L" ", L"");
 			double val = eval(wtos(s));
 
@@ -720,6 +728,9 @@ wstring parse_set_statement(wstring s) {
 				// Remove zeros
 				s = s.substr(0, s.find_last_not_of('0') + 1);
 			}
+		} else if (type == ExprType::BOOLEAN) {
+			bool result = check_cond(s);
+			s = result ? L"true" : L"false";
 		}
 	}
 
@@ -800,6 +811,29 @@ variable* setvar(wstring name, vector<wstring> statements, type t) {
 	}
 
 	return var;
+}
+
+bool is_bool_expr(wstring& expr) {
+	return contains(expr, get_kw(OP_EQUALS))
+		|| contains(expr, get_kw(OP_NOT_EQ))
+		|| contains(expr, get_kw(OP_LESS_THAN))
+		|| contains(expr, get_kw(OP_MORE_THAN))
+		|| contains(expr, get_kw(OP_LESS_OR_EQUALS))
+		|| contains(expr, get_kw(OP_MORE_OR_EQUALS))
+		|| contains(expr, get_kw(KW_AND))
+		|| contains(expr, get_kw(KW_OR))
+		|| contains(expr, get_kw(KW_XOR))
+		|| contains(expr, get_kw(OP_OR))
+		|| contains(expr, get_kw(OP_XOR))
+		|| contains(expr, get_kw(OP_AND));
+}
+
+bool is_math_expr(wstring& expr) {
+	return contains(expr, get_kw("+"))
+		|| contains(expr, get_kw("-"))
+		|| contains(expr, get_kw("/"))
+		|| contains(expr, get_kw("%"))
+		|| contains(expr, get_kw("*"));
 }
 
 void unset(wstring name) {

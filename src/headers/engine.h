@@ -9,6 +9,12 @@ using namespace std;
 
 typedef vector<Method*> methodmap;
 
+enum class ExprType {
+	BOOLEAN,
+	MATH,
+	NONE
+};
+
 enum class ReturnType {
 	CONTINUE,
 	BREAK,
@@ -78,6 +84,9 @@ ReturnType parseif(Method* method, wstring line, unsigned int* i, int, variable*
 ReturnType parsewhile(Method* method, wstring, unsigned int* i, int, variable*&, stackmap&);
 
 ReturnType parsefor(Method* method, wstring, unsigned int* i, int, variable*&, stackmap&);
+
+bool is_bool_expr(wstring&);
+bool is_math_expr(wstring&);
 
 void unset(wstring);
 void unset(variable*);
