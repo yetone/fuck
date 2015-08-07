@@ -69,6 +69,8 @@ using namespace std;
 #define OP_MORE_OR_EQUALS "=>"
 
 #define KW_IN "in"
+#define KW_NOT_IN "ni"
+
 #define KW_INCR "incr"
 #define KW_DECR "decr"
 
