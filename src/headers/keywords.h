@@ -68,7 +68,7 @@ using namespace std;
 #define OP_LESS_THAN "<"
 #define OP_MORE_THAN ">"
 #define OP_LESS_OR_EQUALS "<="
-#define OP_MORE_OR_EQUALS "=>"
+#define OP_MORE_OR_EQUALS ">="
 
 #define KW_IN "in"
 #define KW_NOT_IN "ni"
