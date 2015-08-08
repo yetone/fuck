@@ -643,8 +643,10 @@ bool check_cond_compare(wstring cond) {
 bool check_cond_compare(const wstring& var1, const wstring& var2, bool_ops ret) {
 	if (ret == bool_ops::IN_ARRAY || ret == bool_ops::NOT_IN_ARRAY) {
 		arrays* arr;
+		bool isnew = false;
 		if (is_array_expr(var2)) {
 			arr = setarr(EMPTY, var2);
+			isnew = true;
 		} else {
 			arr = (arrays*) getvar(var2);
 		}
@@ -654,9 +656,16 @@ bool check_cond_compare(const wstring& var1, const wstring& var2, bool_ops ret) 
 		if (arr->var.size() > 0 && arr != nullptr) {
 			for (array_t::iterator iter = arr->var.begin(); iter != arr->var.end(); ++iter) {
 				if (iter->first == expr || iter->second == expr) {
+					if (isnew) {
+						unset(arr);
+					}
+
 					return ret == bool_ops::IN_ARRAY;
 				}
 			}
+		}
+		if (isnew) {
+			unset(arr);
 		}
 
 		return ret == bool_ops::NOT_IN_ARRAY;
