@@ -315,6 +315,11 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, int indent, v
 
 	vector<Chunk> chunks = parse_chunks(method, i, indent, &totalend, keywords);
 
+	variable* from = nullptr;
+	variable* key = nullptr;
+	arrays* arr = nullptr;
+	bool isnew = false;
+
 	for (Chunk chunk : chunks) {
 		wstring line = trim(method->getlines()[chunk.start].second);
 
@@ -326,13 +331,9 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, int indent, v
 			first = first.substr(1);
 		}
 
-		variable* from;
-
 		// Range based foor loop
 		bool rangeloop = false;
 		array_t::iterator iter;
-		variable* key = nullptr;
-		arrays* arr = nullptr;
 
 		// Normal for loop
 		int to;
@@ -351,7 +352,14 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, int indent, v
 				dos = w;
 			} else if (startswith(s, get_kw(KW_IN))) {
 				rangeloop = true;
-				arr = (arrays*) getvar(w);
+
+				if (is_array_expr(w)) {
+					arr = setarr(EMPTY, w);
+					isnew = true;
+				} else {
+					arr = (arrays*) getvar(w);
+				}
+
 				iter = arr->var.begin();
 
 				int f = first.find(get_kw(PAIR_SEPARATOR));
@@ -400,12 +408,26 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, int indent, v
 
 				goto exec;
 			} else if (type == ReturnType::RETURN && var != nullptr) {
+				if (isnew) {
+					unset(arr);
+				}
+
+				unset(key);
+				unset(from);
+
 				return type;
 			}
 			break;
 		}
 	}
 	*i = totalend;
+
+	if (isnew) {
+		unset(arr);
+	}
+
+	unset(from);
+	unset(key);
 
 	return ReturnType::NONE;
 }
