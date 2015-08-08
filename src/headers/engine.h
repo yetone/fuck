@@ -94,5 +94,5 @@ bool is_bool_expr(const wstring&);
 bool is_math_expr(const wstring&);
 bool is_array_expr(const wstring&);
 
-void unset(wstring);
+inline void unset(wstring);
 void unset(variable*);

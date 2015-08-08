@@ -911,7 +911,7 @@ bool is_array_expr(const wstring& expr) {
 	return expr[0] == '[' && expr[expr.length() - 1] == ']';
 }
 
-void unset(wstring name) {
+inline void unset(wstring name) {
 	unset(getvar(name));
 }
 
