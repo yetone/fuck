@@ -10,6 +10,8 @@ typedef map<wstring, wstring> array_t;
 #ifndef H_VAR
 #define H_VAR
 
+#define EMPTY L""
+
 enum class type {
 	DEFAULT,
 	ARRAY
@@ -23,11 +25,13 @@ public:
 	variable();
 	variable(wstring name);
 
+	virtual ~variable() { }
+
 	virtual wstring get(const wstring& key) {
-		return L"";
+		return EMPTY;
 	}
 	virtual wstring get() {
-		return L"";
+		return EMPTY;
 	}
 	virtual array_t* getpairs() {
 		return nullptr;

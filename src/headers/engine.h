@@ -7,8 +7,6 @@
 
 using namespace std;
 
-#define EMPTY L""
-
 typedef vector<Method*> methodmap;
 
 enum class ExprType {

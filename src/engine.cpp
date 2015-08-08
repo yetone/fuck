@@ -693,7 +693,7 @@ variable* getvar(wstring name) {
 
 	for (unsigned int i = 0; i < stackMap.size(); i++) {
 		variable* v = stackMap[i];
-		if (v->getname() == name) {
+		if (v->getname().length() > 0 && v->getname() == name) {
 			return stackMap[i];
 		}
 	}
@@ -801,7 +801,7 @@ variable* setvar(wstring name, vector<wstring> statements, type t) {
 	}
 
 	if (t == type::DEFAULT) {
-		if (var == nullptr) {
+		if (name == EMPTY || var == nullptr) {
 			var = new str(name);
 		}
 
@@ -809,7 +809,7 @@ variable* setvar(wstring name, vector<wstring> statements, type t) {
 	} else if (t == type::ARRAY) {
 		arrays* arr;
 
-		if (var == nullptr) {
+		if (name == EMPTY || var == nullptr) {
 			arr = new arrays(name);
 		} else {
 			arr = (arrays*) var;
