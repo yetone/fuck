@@ -1,13 +1,13 @@
 for $i; from 2; to 30; do $i + 1;
 	out $i
-end for
+end
 
 array $arr [ "first", "second", "third" ]
 
 for $key; in $arr
 	out "$key"
-end for
+end
 
 for $key => $val; in $arr
 	out "$key = $val"
-end for
+end
