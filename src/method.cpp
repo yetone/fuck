@@ -2,6 +2,7 @@
 
 #include "headers/method.h"
 #include "headers/engine.h"
+#include "headers/keywords.h"
 
 using namespace std;
 
@@ -35,4 +36,8 @@ const wstring Method::getdisplayname() {
 	} else {
 		return this->ns + L"." + this->name;
 	}
+}
+
+const bool Method::ismain() {
+	return this->name == ENTRY_POINT;
 }

@@ -137,7 +137,7 @@ variable* invoke(Method* method) {
 		ReturnType type;
 
 		try {
-			type = execline(method, &i, 0, var, map);
+			type = execline(method, &i, method->ismain() ? 0 : 1, var, map);
 		} catch (exception& e) {
 			printerror(string(e.what()) + ", line #" + to_string(i));
 			break;
@@ -191,13 +191,13 @@ ReturnType execline(Method* method, unsigned int* i, int indent, variable*& var,
 			}
 		}
 	} else if (keyword == get_kw(KW_IF)) {
-		ReturnType type = parseif(method, untrimmed, i, indent, var, map);
+		ReturnType type = parseif(method, line, i, indent, var, map);
 		return type;
 	} else if (keyword == get_kw(KW_WHILE)) {
-		ReturnType type = parsewhile(method, untrimmed, i, indent, var, map);
+		ReturnType type = parsewhile(method, line, i, indent, var, map);
 		return type;
 	} else if (keyword == get_kw(KW_FOR)) {
-		ReturnType type = parsefor(method, untrimmed, i, indent, var, map);
+		ReturnType type = parsefor(method, line, i, indent, var, map);
 		return type;
 	} else if (keyword == get_kw(KW_HALT)) {
 		exit(get_exit_code(line));

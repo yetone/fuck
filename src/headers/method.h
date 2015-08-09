@@ -26,6 +26,8 @@ public:
 	const wstring& getname();
 	const wstring& getnamespace();
 	const wstring getdisplayname();
+
+	const bool ismain();
 };
 
 #endif
