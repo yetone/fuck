@@ -3,8 +3,33 @@ method m
 	
 	out "$inside"
 	out "$var"
+	
+	if (true)
+		out "Chunk with correct indentation"
+	end
+	
+		if (true)
+			out "Random placed chunk"
+			if (true)
+				out "Random placed chunk 2"
+				if (true)
+					out "Random placed chunk 3"
+				end
+			end
+				if (true)
+					out "Random placed chunk 4"
+				end
+		end
+		
+							if (true)
+								out "Random placed chunk 5"
+							end
 end method
 
 $var := "ok"
 
 call m
+
+if (true)
+	out "Normal chunk"
+end
