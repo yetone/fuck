@@ -104,7 +104,7 @@ int main(int argc, char* argv[]) {
 
 		main.lines.push_back(make_pair(i, s));
 
-		execline(&main, &i, 0, var, map);
+		execline(&main, &i, var, map);
 		i++;
 	}
 

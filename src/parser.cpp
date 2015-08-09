@@ -13,7 +13,7 @@ using namespace std;
 extern methodmap methodMap;
 extern stackmap stackMap;
 
-vector<Chunk> parse_chunks(Method* method, unsigned int* i, int indent, int* totalend, vector<wstring> keywords) {
+vector<Chunk> parse_chunks(Method* method, unsigned int* i, int* totalend, vector<wstring> keywords) {
 	unsigned int end = *i;
 
 	wstring line;
@@ -22,10 +22,10 @@ vector<Chunk> parse_chunks(Method* method, unsigned int* i, int indent, int* tot
 
 	Chunk *current = nullptr;
 
+	int depth = 0;
+
 	while (end < method->getlines().size()) {
 		wstring temp = method->getlines()[end].second;
-
-		int s = temp.find_first_not_of('\t');
 
 		bool word = false;
 
@@ -35,17 +35,14 @@ vector<Chunk> parse_chunks(Method* method, unsigned int* i, int indent, int* tot
 			}
 		}
 
-		if (s == indent && word) {
-			if (current != nullptr) {
-				current->end = end - 1;
-				chunks.push_back(*current);
-			}
-
+		if (word && depth++ == 0) {
 			current = new Chunk;
 			current->start = end;
 			*i = end;
-		} else if (s == indent && startswith(trim(temp), get_kw(KW_END))) {
-			if (current != nullptr) {
+		} else if (current != nullptr && startswith(trim(temp), get_kw(KW_END))) {
+			depth--;
+
+			if (depth == 0) {
 				line = method->getlines()[current->start].second;
 				wstring cond = line.substr(line.find_first_of(L" ") + 1);
 
