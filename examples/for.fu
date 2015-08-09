@@ -14,4 +14,7 @@ end
 
 for $key => $val; in [ "key1" => "item1" ]
 	out "($key) = ($val)"
+	for $key => $val; in [ "key2" => "item2", "key3" => "item3" ]
+		out "($key) = ($val)"
+	end
 end

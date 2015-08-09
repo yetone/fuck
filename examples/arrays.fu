@@ -27,4 +27,9 @@ end
 
 if ("item" ni [ "random" ])
 	out "item does not exist in array"
+	if ("item" in [ "random" ])
+		out "item does not exist in array"
+	elif ("item2" in [ "item", "item2" ])
+		out "item2 exists in array"
+	end
 end
