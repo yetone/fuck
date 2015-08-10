@@ -784,7 +784,7 @@ wstring parse_set_statement(wstring s, stackmap& map) {
 			int f = s.find_last_of('.');
 
 			if (f != (signed int) wstring::npos && s.substr(f + 1).find_first_not_of('0') == wstring::npos) {
-				// If absolute value, remove dot and zeros
+				// If decimal value, remove dot and zeros
 				s = s.substr(0, f);
 			}
 		} else if (type == ExprType::BOOLEAN) {
