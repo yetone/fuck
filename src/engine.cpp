@@ -493,7 +493,7 @@ ReturnType parseif(Method* method, wstring line, unsigned int* i, variable*& var
 			break;
 		}
 
-		wstring cond = line.substr(line.find_first_of(L" L") + 1);
+		wstring cond = line.substr(line.find_first_of(L" ") + 1);
 
 		if (check_cond(cond, map)) {
 			*i = conds.start + 1;
