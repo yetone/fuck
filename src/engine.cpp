@@ -185,7 +185,7 @@ ReturnType execline(Method* method, unsigned int* i, variable*& var, stackmap& m
 		linemap lines = method->getlines();
 
 		for (unsigned int l = 0; l < lines.size(); l++) {
-			if (lines[l].second == get_kw(KW_LABEL) + L" L" + line)  {
+			if (lines[l].second == get_kw(KW_LABEL) + L" " + line)  {
 				*i = l + 1;
 				return ReturnType::NONE;
 			}
