@@ -1,20 +1,24 @@
+# Test basic for loop
+
 for $i; from 2; to 30; do $i + 1;
 	out $i
 end
 
+# Loop array
 array $arr [ "first", "second", "third" ]
-
 for $key; in $arr
 	out "$key"
 end
 
+# Loop key and value in array
 for $key => $val; in $arr
 	out "$key = $val"
 end
 
-for $key => $val; in [ "key1" => "item1" ]
+# Loop temporary arrays
+for $key => $val; in [ "key1" => "item1", "random" ]
 	out "($key) = ($val)"
-	for $key => $val; in [ "key2" => "item2", "key3" => "item3" ]
-		out "($key) = ($val)"
+	for $k2 => $v2; in [ "key2" => "item2", "key3" => "item3" ]
+		out "($k2) = ($v2)"
 	end
 end
