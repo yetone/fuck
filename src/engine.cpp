@@ -781,14 +781,11 @@ wstring parse_set_statement(wstring s, stackmap& map) {
 
 			s = itow(val);
 
-			unsigned int f = s.find_last_of('.');
+			int f = s.find_last_of('.');
 
-			if (f != wstring::npos && s.substr(f + 1).find_first_not_of('0') == wstring::npos) {
+			if (f != (signed int) wstring::npos && s.substr(f + 1).find_first_not_of('0') == wstring::npos) {
 				// If absolute value, remove dot and zeros
 				s = s.substr(0, f);
-			} else {
-				// Remove zeros
-				s = s.substr(0, s.find_last_not_of('0') + 1);
 			}
 		} else if (type == ExprType::BOOLEAN) {
 			bool result = check_cond(s, map);
