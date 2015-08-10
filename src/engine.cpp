@@ -789,7 +789,7 @@ wstring parse_set_statement(wstring s, stackmap& map) {
 			}
 		} else if (type == ExprType::BOOLEAN) {
 			bool result = check_cond(s, map);
-			s = result ? L"true" : L"false";
+			s = result ? get_kw(KW_TRUE) : get_kw(KW_FALSE);
 		}
 	}
 
