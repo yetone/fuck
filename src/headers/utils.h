@@ -35,7 +35,9 @@ vector<wstring> split(wstring, wchar_t delim = ' ');
 
 int get_exit_code(wstring);
 
-wstring itow(int i);
+wstring itow(int);
+
+string itos(int);
 
 int wtoi(wstring);
 

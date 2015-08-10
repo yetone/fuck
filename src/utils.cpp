@@ -120,6 +120,10 @@ wstring itow(int i) {
 	return to_wstring(i);
 }
 
+string itos(int i) {
+	return to_string(i);
+}
+
 int wtoi(wstring w) {
 	return atoi(string(w.begin(), w.end()).c_str());
 }

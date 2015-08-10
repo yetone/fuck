@@ -15,7 +15,6 @@ using namespace std;
 bool verbose = false;
 bool colors = false;
 methodmap methodMap;
-stackmap stackMap;
 
 void printinfo() {
 	cout << "fulang, version " << VERSION << endl;

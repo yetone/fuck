@@ -27,7 +27,6 @@
 using namespace std;
 
 extern methodmap methodMap;
-extern stackmap stackMap;
 
 void parse(Code &code) {
 	printverbose(L"Parsing " + stow(code.getfile()));
@@ -69,7 +68,7 @@ void parse(Code &code) {
 		wstring keyword = firstsep == wstring::npos ? line : line.substr(0, firstsep);
 		line = line.substr(firstsep + 1, line.length());
 
-		printverbose(L"Keyword " + color(VERBOSE_HL) + keyword + color(VERBOSE) + L", line #" + to_wstring(rl) + color(VERBOSE_HL) + L" \"" + line + L"\"");
+		printverbose(L"Keyword " + color(VERBOSE_HL) + keyword + color(VERBOSE) + L", line #" + itow(rl) + color(VERBOSE_HL) + L" \"" + line + L"\"");
 
 		if (keyword == get_kw(KW_NAMESPACE)) {
 			if (end) {
@@ -125,7 +124,7 @@ variable* invoke(wstring s) {
 }
 
 variable* invoke(Method* method) {
-	printverbose(L"Invoking " + color(VERBOSE_HL) + method->getdisplayname() + color(VERBOSE) + L" on line " + color(VERBOSE_HL) + L"#" + to_wstring(method->chunk.start));
+	printverbose(L"Invoking " + color(VERBOSE_HL) + method->getdisplayname() + color(VERBOSE) + L" on line " + color(VERBOSE_HL) + L"#" + itow(method->chunk.start));
 
 	linemap lines = method->getlines();
 
@@ -139,7 +138,7 @@ variable* invoke(Method* method) {
 		try {
 			type = execline(method, &i, var, map);
 		} catch (exception& e) {
-			printerror(string(e.what()) + ", line #" + to_string(i));
+			printerror(string(e.what()) + ", line #" + itos(i));
 			break;
 		}
 
@@ -169,7 +168,7 @@ ReturnType execline(Method* method, unsigned int* i, variable*& var, stackmap& m
 		line = EMPTY;
 	}
 
-	printverbose(L"Executing keyword " + color(VERBOSE_HL) + keyword + color(VERBOSE) + L", line #" + to_wstring(*i) + L" " + color(VERBOSE_HL) + L"\"" + line + L"\"");
+	printverbose(L"Executing keyword " + color(VERBOSE_HL) + keyword + color(VERBOSE) + L", line #" + itow(*i) + L" " + color(VERBOSE_HL) + L"\"" + line + L"\"");
 
 	if (keyword == get_kw(KW_CALL_METHOD)) {
 		variable* returned = invoke(line);
@@ -178,9 +177,9 @@ ReturnType execline(Method* method, unsigned int* i, variable*& var, stackmap& m
 			printverbose(color(COLOR_MAGENTA) + L"Returned value " + returned->get());
 		}
 	} else if (keyword == get_kw(KW_PRINT)) {
-		wcout << parse_set_statement(line) << endl;
+		wcout << parse_set_statement(line, map) << endl;
 	} else if (keyword == get_kw(KW_PRINT_ERR)) {
-		wcerr << color(ERROR_COLOR) << parse_set_statement(line) << reset() << endl;
+		wcerr << color(ERROR_COLOR) << parse_set_statement(line, map) << reset() << endl;
 	} else if (keyword == get_kw(KW_GOTO)) {
 		linemap lines = method->getlines();
 
@@ -206,8 +205,8 @@ ReturnType execline(Method* method, unsigned int* i, variable*& var, stackmap& m
 	} else if (keyword == get_kw(KW_RETURN)) {
 		if (line.length() > 0) {
 			printverbose(L"Returning " + color(VERBOSE_HL) + line);
-			wstring set = parse_set_statement(line);
-			variable* v = setvar(L"temp", line);
+			wstring set = parse_set_statement(line, map);
+			variable* v = setvar(L"temp", line, map);
 			var = v;
 		} else {
 			var = nullptr;
@@ -217,7 +216,7 @@ ReturnType execline(Method* method, unsigned int* i, variable*& var, stackmap& m
 	} else if (keyword == get_kw(KW_CONTINUE)) {
 		return ReturnType::CONTINUE;
 	} else if (keyword == get_kw(KW_UNSET_VAR)) {
-		unset(trim(line));
+		unset(trim(line), map);
 	} else if (keyword == get_kw(KW_SET_VAR) || (startswith(keyword, get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN)) && startswith(line, get_kw(KW_PUSH_VAR_SIMPLE_KEY, KW_PUSH_VAR_SIMPLE)))) {
 		// get type
 		int f = line.find_first_of(L" ");
@@ -256,9 +255,9 @@ ReturnType execline(Method* method, unsigned int* i, variable*& var, stackmap& m
 			t = type::ARRAY;
 		}
 
-		setvar(name, statement, t);
+		setvar(name, statement, map, t);
 	} else if (keyword == get_kw(KW_LABEL)) {
-		printverbose(L"Ignoring label at line #" + to_wstring(*i));
+		printverbose(L"Ignoring label at line #" + itow(*i));
 	} else if (keyword == get_kw(KW_READ)) {
 		wstring s;
 
@@ -268,7 +267,7 @@ ReturnType execline(Method* method, unsigned int* i, variable*& var, stackmap& m
 			vector<wstring> vars = split(line, ' ');
 
 			for (wstring var : vars) {
-				setvar(var, L"\"" + s + L"\"");
+				setvar(var, L"\"" + s + L"\"", map);
 			}
 		}
 	} else if (keyword == get_kw(KW_SLEEP)) {
@@ -291,15 +290,15 @@ ReturnType execline(Method* method, unsigned int* i, variable*& var, stackmap& m
 			statement = name + (incr ? L" + " : L" - ") + statement;
 		}
 
-		setvar(name, statement);
+		setvar(name, statement, map);
 	} else if (keyword == get_kw(KW_ARRAY)) {
 		int f = line.find_first_of(L" ");
 
 		wstring name = line.substr(0, f);
 
-		setarr(name, line.substr(f));
+		setarr(name, line.substr(f), map);
 	} else {
-		printerror(L"Unknown instruction " + color(ERROR_HL) + keyword + L" (" + line + L")" + color(ERROR_COLOR) + L" on line #" + to_wstring(*i));
+		printerror(L"Unknown instruction " + color(ERROR_HL) + keyword + L" (" + line + L")" + color(ERROR_COLOR) + L" on line #" + itow(*i));
 	}
 
 	return ReturnType::NONE;
@@ -345,7 +344,7 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, variable*& va
 			wstring w = s.substr(s.find_first_of(' ') + 1);
 
 			if (startswith(s, get_kw(KW_FOR_FROM))) {
-				from = setvar(first, w);
+				from = setvar(first, w, map);
 			} else if (startswith(s, get_kw(KW_FOR_TO))) {
 				to = wtoi(w);
 			} else if (startswith(s, get_kw(KW_FOR_DO))) {
@@ -354,10 +353,10 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, variable*& va
 				rangeloop = true;
 
 				if (is_array_expr(w)) {
-					arr = setarr(EMPTY, w);
+					arr = setarr(EMPTY, w, map);
 					isnew = true;
 				} else {
-					arr = (arrays*) getvar(w);
+					arr = (arrays*) getvar(w, map);
 				}
 
 				iter = arr->var.begin();
@@ -368,10 +367,10 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, variable*& va
 					wstring skey = trim(first.substr(0, f - 1));
 					wstring value = trim(first.substr(f + get_kw(PAIR_SEPARATOR).length()));
 
-					key = setvar(skey, L"\"" + iter->first + L"\"");
-					from = setvar(value, L"\"" + iter->second + L"\"");
+					key = setvar(skey, L"\"" + iter->first + L"\"", map);
+					from = setvar(value, L"\"" + iter->second + L"\"", map);
 				} else {
-					from = setvar(first, L"\"" + iter->second + L"\"");
+					from = setvar(first, L"\"" + iter->second + L"\"", map);
 				}
 
 				break;
@@ -397,23 +396,23 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, variable*& va
 					}
 
 					if (key != nullptr) {
-						setvar(key->getname(), L"\"" + iter->first + L"\"");
+						setvar(key->getname(), L"\"" + iter->first + L"\"", map);
 					}
 
-					setvar(from->getname(), L"\"" + iter->second + L"\"");
+					setvar(from->getname(), L"\"" + iter->second + L"\"", map);
 				} else {
-					variable* temp = setvar(from->getname(), dos);
+					variable* temp = setvar(from->getname(), dos, map);
 					f = wtoi(temp->get());
 				}
 
 				goto exec;
 			} else if (type == ReturnType::RETURN && var != nullptr) {
 				if (isnew) {
-					unset(arr);
+					unset(arr, map);
 				}
 
-				unset(key);
-				unset(from);
+				unset(key, map);
+				unset(from, map);
 
 				return type;
 			}
@@ -423,11 +422,11 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, variable*& va
 	*i = totalend;
 
 	if (isnew) {
-		unset(arr);
+		unset(arr, map);
 	}
 
-	unset(from);
-	unset(key);
+	unset(from, map);
+	unset(key, map);
 
 	return ReturnType::NONE;
 }
@@ -447,7 +446,7 @@ ReturnType parsewhile(Method* method, wstring line, unsigned int* i, variable*& 
 
 		wstring cond = line.substr(line.find_first_of(L" L") + 1);
 
-		if (check_cond(cond)) {
+		if (check_cond(cond, map)) {
 			*i = chunk.start + 1;
 			exec:
 			ReturnType type = execrange(method, i, chunk.end, var, map);
@@ -457,7 +456,7 @@ ReturnType parsewhile(Method* method, wstring line, unsigned int* i, variable*& 
 				continue;
 			} else if (type == ReturnType::RETURN && var != nullptr) {
 				return type;
-			} else if (check_cond(cond) || type == ReturnType::CONTINUE) {
+			} else if (check_cond(cond, map) || type == ReturnType::CONTINUE) {
 				*i = chunk.start + 1;
 				goto exec;
 			}
@@ -496,7 +495,7 @@ ReturnType parseif(Method* method, wstring line, unsigned int* i, variable*& var
 
 		wstring cond = line.substr(line.find_first_of(L" L") + 1);
 
-		if (check_cond(cond)) {
+		if (check_cond(cond, map)) {
 			*i = conds.start + 1;
 			ReturnType type = execrange(method, i, conds.end, var, map);
 			if (type != ReturnType::NONE) {
@@ -522,7 +521,7 @@ ReturnType execrange(Method* method, unsigned int* i, unsigned int to, variable*
 	return ReturnType::NONE;
 }
 
-bool check_cond(wstring line) {
+bool check_cond(wstring line, stackmap& map) {
 	if (line == get_kw(KW_ELSE)) {
 		return true;
 	}
@@ -563,7 +562,7 @@ bool check_cond(wstring line) {
 
 		pos = beginnext;
 
-		bool result = check_cond_compare(s);
+		bool result = check_cond_compare(s, map);
 
 		conds.push_back(make_pair(cond, result));
 	}
@@ -613,7 +612,7 @@ bool check_cond(wstring line) {
 	return istrue;
 }
 
-bool check_cond_compare(wstring cond) {
+bool check_cond_compare(wstring cond, stackmap& map) {
 	wstring splitat = EMPTY;
 	bool_ops ret;
 
@@ -647,11 +646,11 @@ bool check_cond_compare(wstring cond) {
 
 	int index = cond.find(splitat);
 
-	wstring stat1 = parse_set_statement(trim(cond.substr(0, index)));
+	wstring stat1 = parse_set_statement(trim(cond.substr(0, index)), map);
 	wstring stat2 = trim(cond.substr(index + splitat.length()));
 
 	if (ret != bool_ops::IN_ARRAY && ret != bool_ops::NOT_IN_ARRAY) {
-		stat2 = parse_set_statement(stat2);
+		stat2 = parse_set_statement(stat2, map);
 	}
 
 	if (stat1.length() == 0) {
@@ -659,27 +658,27 @@ bool check_cond_compare(wstring cond) {
 		stat2 = EMPTY;
 	}
 
-	return check_cond_compare(stat1, stat2, ret);
+	return check_cond_compare(stat1, stat2, ret, map);
 }
 
-bool check_cond_compare(const wstring& var1, const wstring& var2, bool_ops ret) {
+bool check_cond_compare(const wstring& var1, const wstring& var2, bool_ops ret, stackmap& map) {
 	if (ret == bool_ops::IN_ARRAY || ret == bool_ops::NOT_IN_ARRAY) {
 		arrays* arr;
 		bool isnew = false;
 		if (is_array_expr(var2)) {
-			arr = setarr(EMPTY, var2);
+			arr = setarr(EMPTY, var2, map);
 			isnew = true;
 		} else {
-			arr = (arrays*) getvar(var2);
+			arr = (arrays*) getvar(var2, map);
 		}
 
-		wstring expr = parse_set_statement(var1);
+		wstring expr = parse_set_statement(var1, map);
 
 		if (arr->var.size() > 0 && arr != nullptr) {
 			for (array_t::iterator iter = arr->var.begin(); iter != arr->var.end(); ++iter) {
 				if (iter->first == expr || iter->second == expr) {
 					if (isnew) {
-						unset(arr);
+						unset(arr, map);
 					}
 
 					return ret == bool_ops::IN_ARRAY;
@@ -687,7 +686,7 @@ bool check_cond_compare(const wstring& var1, const wstring& var2, bool_ops ret) 
 			}
 		}
 		if (isnew) {
-			unset(arr);
+			unset(arr, map);
 		}
 
 		return ret == bool_ops::NOT_IN_ARRAY;
@@ -717,22 +716,22 @@ bool check_cond_compare(const wstring& var1, const wstring& var2, bool_ops ret) 
 	return DEFAULT_COND;
 }
 
-variable* getvar(wstring name) {
+variable* getvar(wstring name, stackmap& stack) {
 	if (name[0] == get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN)[0]) {
 		name = name.substr(1);
 	}
 
-	for (unsigned int i = 0; i < stackMap.size(); i++) {
-		variable* v = stackMap[i];
+	for (unsigned int i = 0; i < stack.size(); i++) {
+		variable* v = stack[i];
 		if (v->getname().length() > 0 && v->getname() == name) {
-			return stackMap[i];
+			return stack[i];
 		}
 	}
 
 	return nullptr;
 }
 
-wstring parse_set_statement(wstring s) {
+wstring parse_set_statement(wstring s, stackmap& map) {
 	printverbose(L"Checking variable set statement " + color(VERBOSE_HL) + s);
 
 	if (s.length() == 0) {
@@ -758,7 +757,7 @@ wstring parse_set_statement(wstring s) {
 	if (!startstr && var && s.find(L" ") == wstring::npos) {
 		wstring name = s.substr(opposite ? 2 : 1);
 
-		variable* v = getvar(name);
+		variable* v = getvar(name, map);
 		if (v != nullptr && v->getname() == name) {
 			if (opposite) {
 				bool yes = v->get() == get_kw(KW_TRUE);
@@ -770,7 +769,7 @@ wstring parse_set_statement(wstring s) {
 		}
 
 	} else if (s != get_kw(KW_TRUE) && s != get_kw(KW_FALSE)) {
-		s = parsevars(s);
+		s = parsevars(s, map);
 
 		if (startstr) {
 			s = s.substr(1, s.length() - 2);
@@ -778,7 +777,7 @@ wstring parse_set_statement(wstring s) {
 			s = replaceAll(s, L" ", EMPTY);
 			double val = eval(wtos(s));
 
-			s = to_wstring(val);
+			s = itow(val);
 
 			unsigned int f = s.find_last_of('.');
 
@@ -790,7 +789,7 @@ wstring parse_set_statement(wstring s) {
 				s = s.substr(0, s.find_last_not_of('0') + 1);
 			}
 		} else if (type == ExprType::BOOLEAN) {
-			bool result = check_cond(s);
+			bool result = check_cond(s, map);
 			s = result ? L"true" : L"false";
 		}
 	}
@@ -798,23 +797,23 @@ wstring parse_set_statement(wstring s) {
 	return s;
 }
 
-arrays* setarr(wstring name, wstring statement) {
+arrays* setarr(wstring name, wstring statement, stackmap& stack) {
 	vector<wstring> statements = split(trim(statement).substr(1, statement.length() - 3), ',');
 
-	return (arrays*) setvar(name, statements, type::ARRAY);
+	return (arrays*) setvar(name, statements, stack, type::ARRAY);
 }
 
-variable* setvar(wstring statement, type t) {
-	return setvar(EMPTY, statement, t);
+variable* setvar(wstring statement, stackmap& stack, type t) {
+	return setvar(EMPTY, statement, stack, t);
 }
 
-variable* setvar(wstring name, wstring statement, type t) {
+variable* setvar(wstring name, wstring statement, stackmap& stack, type t) {
 	vector<wstring> statements;
 	statements.push_back(statement);
-	return setvar(name, statements, t);
+	return setvar(name, statements, stack, t);
 }
 
-variable* setvar(wstring name, vector<wstring> statements, type t) {
+variable* setvar(wstring name, vector<wstring> statements, stackmap& stack, type t) {
 	if (name[0] == get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN)[0]) {
 		name = name.substr(1);
 	}
@@ -822,8 +821,8 @@ variable* setvar(wstring name, vector<wstring> statements, type t) {
 	variable* var = nullptr;
 
 	int index = -1;
-	for (unsigned int k = 0; k < stackMap.size(); k++) {
-		variable* v = stackMap[k];
+	for (unsigned int k = 0; k < stack.size(); k++) {
+		variable* v = stack[k];
 		if (v->getname() == name) {
 			var = v;
 			index = k;
@@ -836,7 +835,7 @@ variable* setvar(wstring name, vector<wstring> statements, type t) {
 			var = new str(name);
 		}
 
-		var->set(parse_set_statement(statements[0]));
+		var->set(parse_set_statement(statements[0], stack));
 	} else if (t == type::ARRAY) {
 		arrays* arr;
 
@@ -864,7 +863,7 @@ variable* setvar(wstring name, vector<wstring> statements, type t) {
 
 			printverbose(L"Setting " + key + L" to " + statement, verbose_mode::ADDITION);
 
-			arr->var[parse_set_statement(trim(key))] = parse_set_statement(trim(statement));
+			arr->var[parse_set_statement(trim(key), stack)] = parse_set_statement(trim(statement), stack);
 		}
 
 		var = arr;
@@ -872,11 +871,11 @@ variable* setvar(wstring name, vector<wstring> statements, type t) {
 
 	if (index != -1) {
 		printverbose(L"Updated " + color(VERBOSE_HL) + name + color(VERBOSE) + L" on stack with value " + var->get(), verbose_mode::ADDITION);
-		stackMap.at(index) = var;
+		stack.at(index) = var;
 	} else {
 		printverbose(L"Added " + color(VERBOSE_HL) + name + color(VERBOSE) + L" to stack with value " + var->get(), verbose_mode::ADDITION);
 
-		stackMap.insert(stackMap.begin(), var);
+		stack.insert(stack.begin(), var);
 	}
 
 	return var;
@@ -911,17 +910,17 @@ bool is_array_expr(const wstring& expr) {
 	return expr[0] == '[' && expr[expr.length() - 1] == ']';
 }
 
-inline void unset(wstring name) {
-	unset(getvar(name));
+inline void unset(wstring name, stackmap& stack) {
+	unset(getvar(name, stack), stack);
 }
 
-void unset(variable* var) {
+void unset(variable* var, stackmap& stack) {
 	if (var != nullptr) {
-		for (unsigned int i = 0; i < stackMap.size(); i++) {
-			variable* var2 = stackMap[i];
+		for (unsigned int i = 0; i < stack.size(); i++) {
+			variable* var2 = stack[i];
 
 			if (var2->getname() == var->getname()) {
-				stackMap.erase(stackMap.begin() + i);
+				stack.erase(stack.begin() + i);
 				break;
 			}
 		}

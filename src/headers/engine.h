@@ -50,13 +50,12 @@ enum class bool_ops {
 // Check if line is comment
 inline bool is_comment(wstring);
 
-variable* getvar(wstring);
+variable* getvar(wstring, stackmap&);
 
-arrays* setarr(wstring name, wstring statement);
-
-variable* setvar(wstring statement, type t = type::DEFAULT);
-variable* setvar(wstring name, wstring statement, type t = type::DEFAULT);
-variable* setvar(wstring name, vector<wstring> statements, type t);
+arrays* setarr(wstring name, wstring statement, stackmap&);
+variable* setvar(wstring statement, stackmap& stack, type t = type::DEFAULT);
+variable* setvar(wstring name, wstring statement, stackmap& stack, type t = type::DEFAULT);
+variable* setvar(wstring name, vector<wstring> statements, stackmap& stack, type t);
 
 void parse(Code&);
 
@@ -76,13 +75,13 @@ ReturnType execline(Method*, unsigned int*, variable*&, stackmap&);
 ReturnType execrange(Method*, unsigned int*, unsigned int, variable*&, stackmap&);
 
 // check if something is true
-bool check_cond(wstring);
+bool check_cond(wstring, stackmap&);
 
-bool check_cond_compare(wstring cond);
-bool check_cond_compare(const wstring& var1, const wstring& var2, bool_ops ret);
+bool check_cond_compare(wstring cond, stackmap&);
+bool check_cond_compare(const wstring& var1, const wstring& var2, bool_ops ret, stackmap&);
 
 // used when set keyword is used, create new variable
-wstring parse_set_statement(wstring statement);
+wstring parse_set_statement(wstring statement, stackmap&);
 
 ReturnType parseif(Method* method, wstring line, unsigned int* i, variable*&, stackmap&);
 
@@ -94,5 +93,5 @@ bool is_bool_expr(const wstring&);
 bool is_math_expr(const wstring&);
 bool is_array_expr(const wstring&);
 
-inline void unset(wstring);
-void unset(variable*);
+inline void unset(wstring, stackmap&);
+void unset(variable*, stackmap&);

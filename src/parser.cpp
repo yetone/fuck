@@ -11,7 +11,6 @@
 using namespace std;
 
 extern methodmap methodMap;
-extern stackmap stackMap;
 
 vector<Chunk> parse_chunks(Method* method, unsigned int* i, int* totalend, vector<wstring> keywords) {
 	unsigned int end = *i;
@@ -61,7 +60,7 @@ vector<Chunk> parse_chunks(Method* method, unsigned int* i, int* totalend, vecto
 }
 
 
-wstring parsevars(wstring s) {
+wstring parsevars(wstring s, stackmap& map) {
 	int f = 0;
 	while ((f = s.find(L"[", f)) != (signed int) wstring::npos) {
 		int f2 = s.find(L"]", f);
@@ -72,14 +71,14 @@ wstring parsevars(wstring s) {
 		if (startswith(expr, get_kw(KW_EXPR))) {
 			expr = expr.substr(5);
 
-			expr = parse_set_statement(expr);
+			expr = parse_set_statement(expr, map);
 		}
 
 		s = s.replace(f, replace.length(), expr);
 		f += expr.length();
 	}
 
-	for (variable* v : stackMap) {
+	for (variable* v : map) {
 		if (v->gettype() == type::ARRAY) {
 			array_t* map = v->getpairs();
 
