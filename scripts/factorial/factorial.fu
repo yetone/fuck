@@ -1,0 +1,13 @@
+out "Please enter number to calculate factorial of"
+
+read $i
+
+$n := 0
+$fac := 1
+
+while ($n < $i)
+	incr $n
+	$fac := $fac * $n
+	
+	out $fac
+end
