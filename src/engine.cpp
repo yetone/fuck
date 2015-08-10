@@ -310,9 +310,8 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, variable*& va
 	int totalend;
 
 	vector<wstring> keywords;
-	keywords.push_back(get_kw(KW_FOR));
 
-	vector<Chunk> chunks = parse_chunks(method, i, &totalend, keywords);
+	vector<Chunk> chunks = parse_chunks(method, i, &totalend, get_kw(KW_FOR));
 
 	variable* from = nullptr;
 	variable* key = nullptr;
@@ -436,10 +435,7 @@ ReturnType parsewhile(Method* method, wstring line, unsigned int* i, variable*& 
 
 	int totalend;
 
-	vector<wstring> keywords;
-	keywords.push_back(get_kw(KW_WHILE));
-
-	vector<Chunk> chunks = parse_chunks(method, i, &totalend, keywords);
+	vector<Chunk> chunks = parse_chunks(method, i, &totalend, get_kw(KW_WHILE));
 
 	for (Chunk chunk : chunks) {
 		wstring line = trim(method->getlines()[chunk.start].second);
@@ -473,12 +469,13 @@ ReturnType parseif(Method* method, wstring line, unsigned int* i, variable*& var
 
 	int totalend;
 
-	vector<wstring> keywords;
-	keywords.push_back(get_kw(KW_IF));
-	keywords.push_back(get_kw(KW_ELSEIF));
-	keywords.push_back(get_kw(KW_ELSE));
+	wstring open = get_kw(KW_IF);
 
-	vector<Chunk> chunks = parse_chunks(method, i, &totalend, keywords);
+	vector<wstring> separators;
+	separators.push_back(get_kw(KW_ELSEIF));
+	separators.push_back(get_kw(KW_ELSE));
+
+	vector<Chunk> chunks = parse_chunks(method, i, &totalend, open, &separators);
 
 	for (Chunk conds : chunks) {
 		wstring line = trim(method->getlines()[conds.start].second);
@@ -510,13 +507,18 @@ ReturnType parseif(Method* method, wstring line, unsigned int* i, variable*& var
 }
 
 ReturnType execrange(Method* method, unsigned int* i, unsigned int to, variable*& var, stackmap& map) {
+	//stackmap temp = map;
+
 	for (unsigned int from = *i; from <= to; from++) {
 		ReturnType type = execline(method, &from, var, map);
 
 		if (type != ReturnType::NONE) {
 			return type;
 		}
+
 	}
+
+	//map = temp;
 
 	return ReturnType::NONE;
 }

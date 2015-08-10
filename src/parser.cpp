@@ -12,7 +12,7 @@ using namespace std;
 
 extern methodmap methodMap;
 
-vector<Chunk> parse_chunks(Method* method, unsigned int* i, int* totalend, vector<wstring> keywords) {
+vector<Chunk> parse_chunks(Method* method, unsigned int* i, int* totalend, wstring open, vector<wstring> *separators) {
 	unsigned int end = *i;
 
 	wstring line;
@@ -24,17 +24,20 @@ vector<Chunk> parse_chunks(Method* method, unsigned int* i, int* totalend, vecto
 	int depth = 0;
 
 	while (end < method->getlines().size()) {
-		wstring temp = method->getlines()[end].second;
+		wstring temp = trim(method->getlines()[end].second);
 
-		bool word = false;
+		bool isopen = startswith(temp, open);
+		bool isseparator = false;
 
-		for (wstring str : keywords) {
-			if (startswith(trim(temp), get_kw(str))) {
-				word = true;
+		if (separators != nullptr) {
+			for (wstring str : *separators) {
+				if (startswith(temp, get_kw(str))) {
+					isseparator = true;
+				}
 			}
 		}
 
-		if (word && depth++ == 0) {
+		if ((isseparator && depth - 1 == 0) || (isopen && depth++ == 0)) {
 			current = new Chunk;
 			current->start = end;
 			*i = end;
