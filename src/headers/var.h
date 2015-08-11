@@ -83,4 +83,6 @@ public:
 
 #endif
 
+wstring gettext(variable*);
+
 typedef vector<variable*> stackmap;

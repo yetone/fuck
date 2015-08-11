@@ -57,3 +57,15 @@ type arrays::gettype() {
 array_t* arrays::getpairs() {
 	return &this->var;
 }
+
+wstring gettext(variable* v) {
+	wstring w;
+
+	if (v->getname().length() == 0) {
+		w = L"temporary variable";
+	} else {
+		w = v->getname();
+	}
+
+	return w;
+}
