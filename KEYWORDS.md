@@ -189,7 +189,7 @@ you can also loop an array
 
 ```php
 array $arr [ "first", "second", "third" ]
-for <key> => <name> in $arr
+foreach $key => $value in $arr
 ...
 end
 ```
