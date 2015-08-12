@@ -7,6 +7,7 @@
 #include "headers/utils.h"
 #include "headers/code.h"
 #include "headers/engine.h"
+#include "headers/parser.h"
 #include "headers/var.h"
 #include "headers/main.h"
 

@@ -57,8 +57,6 @@ variable* setvar(wstring statement, stackmap& stack, type t = type::DEFAULT);
 variable* setvar(wstring name, wstring statement, stackmap& stack, type t = type::DEFAULT);
 variable* setvar(wstring name, vector<wstring> statements, stackmap& stack, type t);
 
-void parse(Code&);
-
 // Invoke main method
 void invoke();
 
