@@ -4,7 +4,7 @@ This is the default keywords in fulang. You will be able to modify all these wit
 
 | Type                  | Keywords
 | -------------         | :-------------  |
-| Iteration Statements  | [for](examples/for.fu) [while](examples/while.fu)  |
+| Iteration Statements  | [for foreach](examples/for.fu) [while](examples/while.fu)  |
 | Selection Statements  | [if elif else](examples/if.fu) |
 | Jump Statements       | [goto label](examples/goto.fu) [continue](examples/while.fu) [break](examples/while.fu) |
 | Functions             | [method return](examples/method.fu) |
@@ -187,9 +187,9 @@ end
 
 you can also loop an array
 
-```
+```php
 array $arr [ "first", "second", "third" ]
-for <init>; in $arr
+for <key> => <name> in $arr
 ...
 end
 ```
