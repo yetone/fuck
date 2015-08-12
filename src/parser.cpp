@@ -13,7 +13,7 @@ using namespace std;
 
 extern methodmap methodMap;
 
-void parse(Code &code) {
+void parse(Code& code) {
 	printverbose(L"Parsing " + stow(code.getfile()));
 
 	vector<wstring> lines = code.getlines();
@@ -52,8 +52,6 @@ void parse(Code &code) {
 		unsigned int firstsep = line.find_first_of(KEYWORD_SEPARATOR);
 		wstring keyword = firstsep == wstring::npos ? line : line.substr(0, firstsep);
 		line = line.substr(firstsep + 1, line.length());
-
-		printverbose(L"Keyword " + color(VERBOSE_HL) + keyword + color(VERBOSE) + L", line #" + itow(rl) + color(VERBOSE_HL) + L" \"" + line + L"\"");
 
 		if (keyword == get_kw(KW_NAMESPACE)) {
 			if (end) {

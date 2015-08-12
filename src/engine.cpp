@@ -124,8 +124,8 @@ ReturnType execline(Method* method, unsigned int* i, variable*& var, stackmap& m
 	} else if (keyword == get_kw(KW_WHILE)) {
 		ReturnType type = parsewhile(method, line, i, var, map);
 		return type;
-	} else if (keyword == get_kw(KW_FOR)) {
-		ReturnType type = parsefor(method, line, i, var, map);
+	} else if (keyword == get_kw(KW_FOR) || keyword == get_kw(KW_FOREACH)) {
+		ReturnType type = parsefor(method, line, i, var, map, keyword == get_kw(KW_FOREACH));
 		return type;
 	} else if (keyword == get_kw(KW_HALT)) {
 		exit(get_exit_code(line));
@@ -233,14 +233,14 @@ ReturnType execline(Method* method, unsigned int* i, variable*& var, stackmap& m
 	return ReturnType::NONE;
 }
 
-ReturnType parsefor(Method* method, wstring line, unsigned int* i, variable*& var, stackmap& map) {
+ReturnType parsefor(Method* method, wstring line, unsigned int* i, variable*& var, stackmap& map, bool range) {
 	printverbose(L"Checking " + color(VERBOSE_HL) + L"for" + color(VERBOSE) + L", condition " + color(VERBOSE_HL) + line);
 
 	int totalend;
 
 	vector<wstring> keywords;
 
-	vector<Chunk> chunks = parse_chunks(method, i, &totalend, get_kw(KW_FOR));
+	vector<Chunk> chunks = parse_chunks(method, i, &totalend, range ? get_kw(KW_FOREACH) : get_kw(KW_FOR));
 
 	variable* from = nullptr;
 	variable* key = nullptr;
@@ -258,67 +258,68 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, variable*& va
 			first = first.substr(1);
 		}
 
-		// Range based foor loop
-		bool rangeloop = false;
 		array_t::iterator iter;
 
 		// Normal for loop
-		int to;
+		int to = 0;
+		int f = 0;
 		wstring dos;
 
-		for (unsigned int in = 1; in < spl.size(); in++) {
-			wstring s = trim(spl[in]);
-			wstring word = s.substr(0, s.find_first_of(' '));
-			wstring w = s.substr(s.find_first_of(' ') + 1);
+		if (range) {
+			first = cond.substr(0, cond.find_first_of(L"in") - 1);
+			wstring arraydecl = trim(cond.substr(cond.find_first_of(L"in") + 2));
 
-			if (startswith(s, get_kw(KW_FOR_FROM))) {
-				from = setvar(first, w, map);
-			} else if (startswith(s, get_kw(KW_FOR_TO))) {
-				to = wtoi(w);
-			} else if (startswith(s, get_kw(KW_FOR_DO))) {
-				dos = w;
-			} else if (startswith(s, get_kw(KW_IN))) {
-				rangeloop = true;
-
-				if (is_array_expr(w)) {
-					arr = setarr(EMPTY, w, map);
-					isnew = true;
-				} else {
-					arr = (arrays*) getvar(w, map);
-				}
-
-				iter = arr->var.begin();
-
-				int f = first.find(get_kw(PAIR_SEPARATOR));
-
-				if (f != (signed int) string::npos) {
-					wstring skey = trim(first.substr(0, f - 1));
-					wstring value = trim(first.substr(f + get_kw(PAIR_SEPARATOR).length()));
-
-					key = setvar(skey, L"\"" + iter->first + L"\"", map);
-					from = setvar(value, L"\"" + iter->second + L"\"", map);
-				} else {
-					from = setvar(first, L"\"" + iter->second + L"\"", map);
-				}
-
-				break;
+			if (is_array_expr(arraydecl)) {
+				arr = setarr(EMPTY, arraydecl, map);
+				isnew = true;
 			} else {
-				printwarning(L"Unknown " + s);
+				arr = (arrays*) getvar(arraydecl, map);
+			}
+
+			iter = arr->var.begin();
+
+			int f = first.find(get_kw(PAIR_SEPARATOR));
+
+			if (f != (signed int) string::npos) {
+				wstring skey = trim(first.substr(0, f - 1));
+				wstring value = trim(first.substr(f + get_kw(PAIR_SEPARATOR).length()));
+
+				key = setvar(skey, L"\"" + iter->first + L"\"", map);
+				from = setvar(value, L"\"" + iter->second + L"\"", map);
+			} else {
+				from = setvar(first, L"\"" + iter->second + L"\"", map);
+			}
+		} else {
+			for (unsigned int in = 1; in < spl.size(); in++) {
+				wstring s = trim(spl[in]);
+				wstring word = s.substr(0, s.find_first_of(' '));
+				wstring w = s.substr(s.find_first_of(' ') + 1);
+
+				if (startswith(s, get_kw(KW_FOR_FROM))) {
+					from = setvar(first, w, map);
+				} else if (startswith(s, get_kw(KW_FOR_TO))) {
+					to = wtoi(w);
+				} else if (startswith(s, get_kw(KW_FOR_DO))) {
+					dos = w;
+				} else {
+					printwarning(L"Unknown " + s);
+				}
 			}
 		}
 
-		int f = wtoi(from->get());
+		f = wtoi(from->get());
 
-		if (rangeloop || f != to) {
+		if (range || f != to) {
 			*i = chunk.start + 1;
 			exec:
+
 			ReturnType type = execrange(method, i, chunk.end, var, map);
 			if (type == ReturnType::BREAK) {
 				continue;
-			} else if (rangeloop || f != to || type == ReturnType::CONTINUE) {
+			} else if (range || f != to || type == ReturnType::CONTINUE) {
 				*i = chunk.start + 1;
 
-				if (rangeloop) {
+				if (range) {
 					if (++iter == arr->var.end()) {
 						break;
 					}

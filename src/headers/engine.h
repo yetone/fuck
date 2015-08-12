@@ -85,7 +85,7 @@ ReturnType parseif(Method* method, wstring line, unsigned int* i, variable*&, st
 
 ReturnType parsewhile(Method* method, wstring, unsigned int* i, variable*&, stackmap&);
 
-ReturnType parsefor(Method* method, wstring, unsigned int* i, variable*&, stackmap&);
+ReturnType parsefor(Method* method, wstring, unsigned int* i, variable*&, stackmap&, bool range);
 
 bool is_bool_expr(const wstring&);
 bool is_math_expr(const wstring&);
