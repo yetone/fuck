@@ -22,11 +22,6 @@ enum class ReturnType {
 	NONE
 };
 
-enum class StackPos {
-	FRONT,
-	END
-};
-
 enum class Conds {
 	AND,
 	OR,
