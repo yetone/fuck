@@ -10,6 +10,8 @@
 #define COMMAND_EXIT L"/exit"
 #define COMMAND_RUN L"/run"
 
+#define LINE_PREFIX ">> "
+
 void printinfo();
 
 void printusage();

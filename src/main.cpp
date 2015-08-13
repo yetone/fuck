@@ -90,7 +90,7 @@ int main(int argc, char* argv[]) {
 	vector<wstring> lines;
 
 	while (true) {
-		cout << ">> ";
+		cout << LINE_PREFIX;
 
 		wstring s;
 		getline(wcin, s);
