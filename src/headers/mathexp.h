@@ -12,8 +12,8 @@ struct TokenBase {
 
 template<class T> class Token : public TokenBase {
 public:
-  Token (T t) : val(t) {}
-  T val;
+	Token (T t) : val(t) {}
+	T val;
 };
 
 typedef std::queue<TokenBase*> TokenQueue_t;

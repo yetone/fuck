@@ -9,6 +9,7 @@ using namespace std;
 
 typedef vector<Method*> methodmap;
 
+// Expression types
 enum class ExprType {
 	BOOLEAN,
 	MATH,
@@ -22,12 +23,14 @@ enum class ReturnType {
 	NONE
 };
 
+// Modes when comparing multiple booleans
 enum class Conds {
 	AND,
 	OR,
 	XOR
 };
 
+// Modes when comparing two variables
 enum class bool_ops {
 	EQUALS,
 	NOT_EQUAL,
@@ -86,5 +89,8 @@ bool is_bool_expr(const wstring&);
 bool is_math_expr(const wstring&);
 bool is_array_expr(const wstring&);
 
+// Unset variable from name
 inline void unset(wstring, stackmap&);
+
+// Unset variable
 void unset(variable*, stackmap&);

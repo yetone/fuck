@@ -10,15 +10,22 @@ typedef map<wstring, wstring> array_t;
 #ifndef H_VAR
 #define H_VAR
 
+// Temporary variable name
 #define EMPTY L""
 
+// Variable type
 enum class type {
+
+	// Text, number, decimal
 	DEFAULT,
+
+	// Array/map
 	ARRAY
 };
 
 class variable {
 private:
+	// Variable name (empty if temporary)
 	wstring name;
 
 public:
@@ -45,6 +52,7 @@ public:
 	wstring getname();
 };
 
+// Default variable
 class str : public variable {
 public:
 	str(): variable() { }
@@ -64,6 +72,7 @@ public:
 	void set(const wstring& value);
 };
 
+// Array variable
 class arrays : public variable {
 public:
 	arrays(): variable() { }
@@ -83,6 +92,7 @@ public:
 
 #endif
 
+// Return display text from variable
 wstring gettext(variable*);
 
 typedef vector<variable*> stackmap;
