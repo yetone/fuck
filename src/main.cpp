@@ -86,9 +86,8 @@ int main(int argc, char* argv[]) {
 	printinfo();
 
 	Method main(ENTRY_POINT);
-	unsigned int i = 0;
 
-	stackmap map;
+	vector<wstring> lines;
 
 	while (true) {
 		cout << ">> ";
@@ -96,16 +95,14 @@ int main(int argc, char* argv[]) {
 		wstring s;
 		getline(wcin, s);
 
-		if (s == EXIT) {
+		if (s == COMMAND_EXIT) {
 			return NORMAL_EXIT;
+		} else if (s == COMMAND_RUN) {
+			Code code("", lines);
+			parse(code);
+		} else {
+			lines.push_back(s);
 		}
-
-		variable *var;
-
-		main.lines.push_back(make_pair(i, s));
-
-		execline(&main, &i, var, map);
-		i++;
 	}
 
 	return NORMAL_EXIT;

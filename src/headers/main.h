@@ -7,7 +7,8 @@
 #define ARG_COLORS_SHORT "-c"
 #define ARG_HELP "--help"
 
-#define EXIT L"exit"
+#define COMMAND_EXIT L"/exit"
+#define COMMAND_RUN L"/run"
 
 void printinfo();
 
