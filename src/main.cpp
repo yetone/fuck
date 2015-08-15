@@ -82,21 +82,35 @@ int main(int argc, char* argv[]) {
 
 	Method main(ENTRY_POINT);
 
-	vector<wstring> lines;
+	unsigned int i = 0;
+	int depth = 0;
+	stackmap stack;
+	variable* var = nullptr;
 
 	while (true) {
-		cout << LINE_PREFIX;
+		cout << (depth == 0 ? LINE_PREFIX : WAIT_PREFIX);
 
 		wstring s;
 		getline(wcin, s);
 
 		if (s == COMMAND_EXIT) {
 			return NORMAL_EXIT;
-		} else if (s == COMMAND_RUN) {
-			Code code("", lines);
-			parse(code);
-		} else {
-			lines.push_back(s);
+		}
+
+		if (startswith(s, get_kw(KW_FOR)) || startswith(s, get_kw(KW_FOREACH))|| startswith(s, get_kw(KW_WHILE)) || startswith(s, get_kw(KW_IF))) {
+			depth++;
+		} else if (startswith(s, get_kw(KW_END))) {
+			depth--;
+		}
+
+		main.lines.push_back(make_pair(i, s));
+
+		if (depth == 0) {
+			for (line l : main.lines) {
+				execline(&main, &l.first, var, stack);
+			}
+
+			main.lines.clear();
 		}
 	}
 

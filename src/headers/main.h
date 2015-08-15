@@ -15,11 +15,9 @@
 // Exit command
 #define COMMAND_EXIT L"/exit"
 
-// Evaluate typed code
-#define COMMAND_RUN L"/run"
-
 // Line prefix
 #define LINE_PREFIX ">> "
+#define WAIT_PREFIX ".. "
 
 // Print name, version number
 void printinfo();
