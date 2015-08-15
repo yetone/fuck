@@ -34,11 +34,6 @@ void printusage() {
 int main(int argc, char* argv[]) {
 	cout.setf(ios::boolalpha);
 
-	if (argc <= 1) {
-		printerror("No input files specified");
-		return 1;
-	}
-
 	// If we has gotten any files to parse
 	bool gotfiles = false;
 
