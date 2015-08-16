@@ -276,6 +276,10 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, variable*& va
 				arr = (arrays*) getvar(arraydecl, map);
 			}
 
+			if (arr == nullptr) {
+				throw runtime_error("No array to iterate found");
+			}
+
 			iter = arr->var.begin();
 
 			int f = first.find(get_kw(PAIR_SEPARATOR));
@@ -305,6 +309,10 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, variable*& va
 					printwarning(L"Unknown " + s);
 				}
 			}
+		}
+
+		if (from == nullptr) {
+			throw runtime_error("From variable is missing");
 		}
 
 		f = wtoi(from->get());
