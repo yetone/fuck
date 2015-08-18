@@ -14,7 +14,7 @@ using namespace std;
 extern methodmap methodMap;
 
 void parse(Code& code) {
-	printverbose(L"Parsing " + stow(code.getfile()));
+	printverbose(color(COLOR_GREEN) + L"Parsing " + stow(code.getfile()));
 
 	vector<wstring> lines = code.getlines();
 
