@@ -74,6 +74,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	if (gotfiles) {
+		invoke();
 		// We have processed all input files, exit
 		return NORMAL_EXIT;
 	}

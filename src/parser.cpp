@@ -23,9 +23,9 @@ void parse(Code& code) {
 
 	// Current method name, if no method, should be L"main"
 	Method *currentmethod;
-	Method main(ENTRY_POINT);
-	methodMap.push_back(&main);
-	currentmethod = &main;
+	Method* main = new Method(ENTRY_POINT);
+	methodMap.push_back(main);
+	currentmethod = main;
 
 	int rl = 0;
 	for (unsigned int i = 0; i < lines.size(); i++) {
@@ -66,7 +66,7 @@ void parse(Code& code) {
 
 				currentmethod->chunk.end = rl + 1;
 
-				currentmethod = &main;
+				currentmethod = main;
 			} else {
 				currentmethod = new Method(currentns, line);
 				currentmethod->chunk.start = rl + 1;
@@ -78,8 +78,6 @@ void parse(Code& code) {
 	}
 
 	printverbose(color(COLOR_GREEN) + L"Parsing complete");
-
-	invoke();
 }
 
 vector<Chunk> parse_chunks(Method* method, unsigned int* i, int* totalend, wstring open, vector<wstring> *separators) {
