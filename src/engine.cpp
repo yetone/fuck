@@ -226,6 +226,9 @@ ReturnType execline(Method* method, unsigned int* i, variable*& var, stackmap& m
 		wstring name = line.substr(0, f);
 
 		setarr(name, line.substr(f), map);
+	} else if (keyword == get_kw(KW_USE)) {
+		Code code(wtos(line));
+		parse(code);
 	} else {
 		printerror(L"Unknown instruction " + color(ERROR_HL) + keyword + L" (" + line + L")" + color(ERROR_COLOR) + L" on line #" + itow(*i));
 	}
