@@ -84,6 +84,8 @@ using namespace std;
 #define OP_XOR "^^"
 #define KW_XOR "xor"
 
+#define KW_USE "use"
+
 void load();
 
 wstring get_kw(wstring key);

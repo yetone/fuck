@@ -1,0 +1,5 @@
+method imported
+	out "Calling imported method..."
+end method
+
+out "code in no function"

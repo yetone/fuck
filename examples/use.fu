@@ -1,0 +1,3 @@
+use examples/use2.fu
+
+call imported

@@ -2,23 +2,24 @@
 
 This is the default keywords in fulang. You will be able to modify all these without recompiling
 
-| Type                  | Keywords
-| -------------         | :-------------  |
-| Iteration Statements  | [for foreach](examples/for.fu) [while](examples/while.fu)  |
-| Selection Statements  | [if elif else](examples/if.fu) |
-| Jump Statements       | [goto label](examples/goto.fu) [continue](examples/while.fu) [break](examples/while.fu) |
-| Functions             | [method return](examples/method.fu) |
-| Namespaces            | [namespace](examples/namespace.fu) |
-| End Statement         | [end](examples/conds.fu) |
-| Using stdout          | [out err](examples/hello-world.fu) |
-| Using stdin           | [read](examples/read.fu) |
-| Call function         | [call](examples/method.fu) |
-| Boolean Constants     | [true false](examples/bools.fu) |
-| Boolean Operations    | [and or xor](examples/conds.fu) |
-| Used in for loops     | [from to do in](examples/for.fu) |
-| Pause execution		| [sleep](examples/sleep.fu) | 
-| Variables				| [set front back incr decr unset](examples/vars.fu) |
-| Arrays				| [array in ni](examples/arrays.fu) |
+| Type                  	| Keywords
+| -------------         	| :-------------  |
+| Iteration Statements  	| [for foreach](examples/for.fu) [while](examples/while.fu)  |
+| Selection Statements  	| [if elif else](examples/if.fu) |
+| Jump Statements       	| [goto label](examples/goto.fu) [continue](examples/while.fu) [break](examples/while.fu) |
+| Functions             	| [method return](examples/method.fu) |
+| Namespaces            	| [namespace](examples/namespace.fu) |
+| End Statement         	| [end](examples/conds.fu) |
+| Using stdout          	| [out err](examples/hello-world.fu) |
+| Using stdin           	| [read](examples/read.fu) |
+| Call function         	| [call](examples/method.fu) |
+| Boolean Constants     	| [true false](examples/bools.fu) |
+| Boolean Operations   		| [and or xor](examples/conds.fu) |
+| Used in for loops    		| [from to do in](examples/for.fu) |
+| Pause execution			| [sleep](examples/sleep.fu) | 
+| Variables					| [set front back incr decr unset](examples/vars.fu) |
+| Arrays					| [array in ni](examples/arrays.fu) |
+| Import files & functions 	| [use](examples/use.fu) |
 
 ***
 
