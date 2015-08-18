@@ -85,6 +85,7 @@ using namespace std;
 #define KW_XOR "xor"
 
 #define KW_USE "use"
+#define KW_IMPORT_FROM "from"
 
 void load();
 

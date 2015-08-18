@@ -19,7 +19,7 @@ This is the default keywords in fulang. You will be able to modify all these wit
 | Pause execution			| [sleep](examples/sleep.fu) | 
 | Variables					| [set front back incr decr unset](examples/vars.fu) |
 | Arrays					| [array in ni](examples/arrays.fu) |
-| Import files & functions 	| [use](examples/use.fu) |
+| Import files & functions 	| [use from](examples/use.fu) |
 
 ***
 

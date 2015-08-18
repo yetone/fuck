@@ -227,8 +227,10 @@ ReturnType execline(Method* method, unsigned int* i, variable*& var, stackmap& m
 
 		setarr(name, line.substr(f), map);
 	} else if (keyword == get_kw(KW_USE)) {
-		Code code(wtos(line));
-		parse(code);
+		if (line.find(L" " + get_kw(KW_IMPORT_FROM) +  L") == string::npos) {
+			Code code(wtos(line));
+			parse(code);
+		}
 	} else {
 		printerror(L"Unknown instruction " + color(ERROR_HL) + keyword + L" (" + line + L")" + color(ERROR_COLOR) + L" on line #" + itow(*i));
 	}
