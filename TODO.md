@@ -5,4 +5,5 @@
 - Variables inside scope, deleted when scope is finished
 - Do not split , in string when creating array
 - Do not split > when making array
-- Remove stackpos
+- Methods with parameters
+- import/using/use keyword
