@@ -12,3 +12,9 @@ Experimental programming language with intepreter written in C++ inspired by gol
 | --help			| Prints usage							|
 
 Every other argument is being parsed as input file
+
+## Synopsis
+
+```
+$ ./fulang [-v, --verbose] [-c, --colors] FILE ...
+```
