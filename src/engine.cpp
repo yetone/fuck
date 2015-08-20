@@ -227,9 +227,15 @@ ReturnType execline(Method* method, unsigned int* i, variable*& var, stackmap& m
 
 		setarr(name, line.substr(f), map);
 	} else if (keyword == get_kw(KW_USE)) {
-		if (line.find(L" " + get_kw(KW_IMPORT_FROM) +  L") == string::npos) {
+		wstring find = L" " + get_kw(KW_IMPORT_FROM) + L" ";
+		int from = line.find(find);
+
+		if (from == (signed int) string::npos) {
 			Code code(wtos(line));
 			parse(code);
+		} else {
+			wstring file = line.substr(from + find.length());
+			line = line.substr(0, from);
 		}
 	} else {
 		printerror(L"Unknown instruction " + color(ERROR_HL) + keyword + L" (" + line + L")" + color(ERROR_COLOR) + L" on line #" + itow(*i));
