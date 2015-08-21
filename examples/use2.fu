@@ -1,5 +1,13 @@
-method imported
-	out "Calling imported method..."
+method m1
+	out "method 1"
 end method
 
-out "code in no function"
+method m2
+	out "method 2"
+end method
+
+method m3
+	out "method 3"
+end method
+
+out "no method"

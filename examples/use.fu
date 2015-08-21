@@ -1,3 +1,9 @@
+use m1 from examples/use2.fu
+use m1, m2 from examples/use2.fu
+
+call m1
+
 use examples/use2.fu
 
-call imported
+call m2
+call m3
