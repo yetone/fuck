@@ -32,6 +32,7 @@ void printusage() {
 }
 
 int main(int argc, char* argv[]) {
+	wcout.setf(ios::boolalpha);
 	cout.setf(ios::boolalpha);
 
 	// If we has gotten any files to parse
