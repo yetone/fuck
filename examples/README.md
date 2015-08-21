@@ -73,3 +73,7 @@ Contains pausing/sleeping script examples
 ## [scope.fu](scope.fu)
 
 Example of variables in scopes and how they work
+
+## [use.fu](use.fu)
+
+Importing code from other files
