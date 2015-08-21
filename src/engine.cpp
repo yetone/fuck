@@ -236,6 +236,16 @@ ReturnType execline(Method* method, unsigned int* i, variable*& var, stackmap& m
 		} else {
 			wstring file = line.substr(from + find.length());
 			line = line.substr(0, from);
+
+			Code code(wtos(file));
+
+			vector<wstring> v = split(line, ',');
+
+			for (wstring w : v) {
+				w = trim(w);
+				printverbose(L"Loading " + w + L" from " + file);
+				parse(code, w);
+			}
 		}
 	} else {
 		printerror(L"Unknown instruction " + color(ERROR_HL) + keyword + L" (" + line + L")" + color(ERROR_COLOR) + L" on line #" + itow(*i));

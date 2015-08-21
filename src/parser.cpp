@@ -13,7 +13,7 @@ using namespace std;
 
 extern methodmap methodMap;
 
-void parse(Code& code) {
+void parse(Code& code, wstring what) {
 	printverbose(color(COLOR_GREEN) + L"Parsing " + stow(code.getfile()));
 
 	vector<wstring> lines = code.getlines();
@@ -22,10 +22,12 @@ void parse(Code& code) {
 	wstring currentns = EMPTY;
 
 	// Current method name, if no method, should be L"main"
-	Method *currentmethod;
+	Method* currentmethod;
 	Method* main = new Method(ENTRY_POINT);
 	methodMap.push_back(main);
 	currentmethod = main;
+
+	bool one = what.length() > 0;
 
 	int rl = 0;
 	for (unsigned int i = 0; i < lines.size(); i++) {
@@ -61,6 +63,12 @@ void parse(Code& code) {
 			}
 		} else if (keyword == get_kw(KW_METHOD)) {
 			if (end) {
+				if (one && currentmethod != nullptr && what != currentmethod->getdisplayname()) {
+					delete currentmethod;
+					currentmethod = main;
+					continue;
+				}
+
 				printverbose(L"Method " + color(VERBOSE_HL) + currentmethod->getdisplayname() + color(VERBOSE) + L" finished");
 				methodMap.push_back(currentmethod);
 
@@ -69,6 +77,11 @@ void parse(Code& code) {
 				currentmethod = main;
 			} else {
 				currentmethod = new Method(currentns, line);
+
+				if (one && currentmethod->getdisplayname() != what) {
+					continue;
+				}
+
 				currentmethod->chunk.start = rl + 1;
 				printverbose(L"Method " + color(VERBOSE_HL) + currentmethod->getdisplayname() + color(VERBOSE) + L" initialized");
 			}

@@ -4,8 +4,11 @@
 
 using namespace std;
 
-// Parse code
-void parse(Code&);
+/*
+ * @param code
+ * @param what If importing only one thing from the referenced code
+ */
+void parse(Code& code, wstring what = L"");
 
 /*
  * Parse chunks in statements
