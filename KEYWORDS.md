@@ -263,3 +263,22 @@ out "$var"
 out "$var(0)"
 out "$var(key)"
 ```
+
+## Import from another file
+
+### Synopsis
+
+```
+use <file>
+use <method> from <file>
+```
+
+### Example
+
+```
+use method1 from examples/file.fu
+call method1
+
+use examples/file.fu
+call method2
+```
