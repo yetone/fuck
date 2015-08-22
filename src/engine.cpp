@@ -98,7 +98,7 @@ ReturnType execline(Method* method, unsigned int* i, variable*& var, stackmap& m
 		line = EMPTY;
 	}
 
-	printverbose(L"Executing keyword " + color(VERBOSE_HL) + keyword + color(VERBOSE) + L", line #" + itow(*i) + L" " + color(VERBOSE_HL) + L"\"" + line + L"\"");
+	printverbose(L"Executing keyword " + color(VERBOSE_HL) + keyword + color(VERBOSE) + L", line #" + itow(*i) + L" " + color(VERBOSE_HL)  + line );
 
 	if (keyword == get_kw(KW_CALL_METHOD)) {
 		variable* returned = invoke(line);
@@ -197,14 +197,14 @@ ReturnType execline(Method* method, unsigned int* i, variable*& var, stackmap& m
 			vector<wstring> vars = split(line, ' ');
 
 			for (wstring var : vars) {
-				setvar(var, L"\"" + s + L"\"", map);
+				setvar(var, s, map);
 			}
 		}
 	} else if (keyword == get_kw(KW_SLEEP)) {
 		#ifdef _WIN32
 		Sleep(wtoi(line));
 		#else
-		usleep(wtoi(line) * 1000);
+		usleep(wtoi(line) * 1000);f
 		#endif
 	} else if (keyword == get_kw(KW_INCR) || keyword == get_kw(KW_DECR)) {
 		int f = line.find_first_of(L" ");
@@ -310,10 +310,10 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, variable*& va
 				wstring skey = trim(first.substr(0, f - 1));
 				wstring value = trim(first.substr(f + get_kw(PAIR_SEPARATOR).length()));
 
-				key = setvar(skey, L"\"" + iter->first + L"\"", map);
-				from = setvar(value, L"\"" + iter->second + L"\"", map);
+				key = setvar(skey, iter->first, map);
+				from = setvar(value, iter->second, map);
 			} else {
-				from = setvar(first, L"\"" + iter->second + L"\"", map);
+				from = setvar(first, iter->second, map);
 			}
 		} else {
 			for (unsigned int in = 1; in < spl.size(); in++) {
@@ -355,10 +355,10 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, variable*& va
 					}
 
 					if (key != nullptr) {
-						setvar(key->getname(), L"\"" + iter->first + L"\"", map);
+						setvar(key->getname(), iter->first, map);
 					}
 
-					setvar(from->getname(), L"\"" + iter->second + L"\"", map);
+					setvar(from->getname(), iter->second, map);
 				} else {
 					variable* temp = setvar(from->getname(), dos, map);
 					f = wtoi(temp->get());
@@ -707,16 +707,20 @@ wstring parse_set_statement(wstring s, stackmap& map) {
 
 	ExprType type = ExprType::NONE;
 
-	bool startstr = s[0] == L'\"' && s[s.length() - 1] == L'\"';
+	if (is_string_expr(s)) {
+		s = s.substr(1, s.length() - 2);
+	} else if (is_bool_expr(s)) {
+		cout << "bool" << endl;
 
-	if (!startstr && is_bool_expr(s)) {
 		type = ExprType::BOOLEAN;
-	} else if (!startstr && is_math_expr(s)) {
+	} else if (is_math_expr(s)) {
+		cout << "math" << endl;
+
 		type = ExprType::MATH;
 	}
 
 	// Single variable
-	if (!startstr && var && s.find(L" ") == wstring::npos) {
+	if (var && s.find(L" ") == wstring::npos) {
 		wstring name = s.substr(opposite ? 2 : 1);
 
 		variable* v = getvar(name, map);
@@ -733,9 +737,7 @@ wstring parse_set_statement(wstring s, stackmap& map) {
 	} else if (s != get_kw(KW_TRUE) && s != get_kw(KW_FALSE)) {
 		s = parsevars(s, map);
 
-		if (startstr) {
-			s = s.substr(1, s.length() - 2);
-		} else if (type == ExprType::MATH) {
+		if (type == ExprType::MATH) {
 			s = replaceAll(s, L" ", EMPTY);
 			double val = eval(wtos(s));
 
@@ -867,6 +869,12 @@ bool is_math_expr(const wstring& expr) {
 
 bool is_array_expr(const wstring& expr) {
 	return expr[0] == '[' && expr[expr.length() - 1] == ']';
+}
+
+bool is_string_expr(const wstring& expr) {
+	bool startstr = expr[0] == L'\"' && expr[expr.length() - 1] == L'\"';
+
+	return startstr || contains(expr, get_kw(OP_CONCATENATE_STRINGS));
 }
 
 inline void unset(wstring name, stackmap& stack) {

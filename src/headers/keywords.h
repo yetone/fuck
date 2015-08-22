@@ -71,6 +71,8 @@ using namespace std;
 #define OP_LESS_OR_EQUALS "<="
 #define OP_MORE_OR_EQUALS ">="
 
+#define OP_CONCATENATE_STRINGS "."
+
 #define KW_IN "in"
 #define KW_NOT_IN "ni"
 

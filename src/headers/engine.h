@@ -88,6 +88,7 @@ ReturnType parsefor(Method* method, wstring, unsigned int* i, variable*&, stackm
 bool is_bool_expr(const wstring&);
 bool is_math_expr(const wstring&);
 bool is_array_expr(const wstring&);
+bool is_string_expr(const wstring&);
 
 // Unset variable from name
 inline void unset(wstring, stackmap&);
