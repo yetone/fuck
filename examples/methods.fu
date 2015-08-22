@@ -8,6 +8,8 @@ out $var
 $va2 := "normal()"
 out "ok $var ok normal() $va2"
 
+out "[ call normal ]"
+
 method parameters $1 $2 $3
 
 end method

@@ -167,9 +167,19 @@ wstring parsevars(wstring s, stackmap& map) {
 		wstring expr = trim(replace.substr(1, replace.length() - 2));
 
 		if (startswith(expr, get_kw(KW_EXPR))) {
-			expr = expr.substr(5);
+			expr = expr.substr(get_kw(KW_EXPR).length() + 1);
 
 			expr = parse_set_statement(expr, map);
+		} else if (startswith(expr, get_kw(KW_CALL_METHOD))) {
+			expr = expr.substr(get_kw(KW_CALL_METHOD).length() + 1);
+
+			variable *var = invoke(trim(expr));
+
+			if (var != nullptr) {
+				expr = var->get();
+
+				unset(var, map);
+			}
 		}
 
 		s = s.replace(f, replace.length(), expr);
