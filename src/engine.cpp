@@ -23,6 +23,7 @@
 #include "headers/colors.h"
 #include "headers/mathexp.h"
 #include "headers/parser.h"
+#include "stl/native.h"
 
 using namespace std;
 

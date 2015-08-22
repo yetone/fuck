@@ -11,6 +11,8 @@
 #include "headers/var.h"
 #include "headers/main.h"
 
+#include "stl/native.h"
+
 using namespace std;
 
 bool verbose = false;
@@ -34,6 +36,8 @@ void printusage() {
 int main(int argc, char* argv[]) {
 	wcout.setf(ios::boolalpha);
 	cout.setf(ios::boolalpha);
+
+	loadstl();
 
 	// If we has gotten any files to parse
 	bool gotfiles = false;
