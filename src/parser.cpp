@@ -12,6 +12,7 @@
 using namespace std;
 
 extern methodmap methodMap;
+#include <iostream>
 
 void parse(Code& code, wstring what) {
 	printverbose(color(COLOR_GREEN) + L"Parsing " + stow(code.getfile()));
@@ -76,7 +77,20 @@ void parse(Code& code, wstring what) {
 
 				currentmethod = main;
 			} else {
-				currentmethod = new Method(currentns, line);
+				int nameindex = line.find_first_of(KEYWORD_SEPARATOR);
+				wstring name = trim(nameindex == (signed int) string::npos ? line : line.substr(0, nameindex));
+
+				parameters params;
+
+				if (nameindex == (signed int) string::npos) {
+					name = trim(line);
+				} else {
+					name = trim(line.substr(0, nameindex));
+
+					params = split(trim(line.substr(nameindex)), ' ');
+				}
+
+				currentmethod = new Method(currentns, line, params);
 
 				if (one && currentmethod->getdisplayname() != what) {
 					continue;

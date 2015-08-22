@@ -6,17 +6,13 @@
 
 using namespace std;
 
-Method::Method(wstring name): name(name) {
+Method::Method(wstring name): name(name) { }
 
-}
+Method::Method(wstring ns, wstring name): ns(ns), name(name) { }
 
-Method::Method(wstring ns, wstring name): ns(ns), name(name) {
+Method::Method(wstring ns, wstring name, parameters params): ns(ns), name(name), params(params) { }
 
-}
-
-Method::Method(wstring ns, wstring name, linemap& lines): ns(ns), name(name), lines(lines) {
-
-}
+Method::Method(wstring ns, wstring name, linemap& lines): ns(ns), name(name), lines(lines) { }
 
 linemap& Method::getlines() {
 	return this->lines;
