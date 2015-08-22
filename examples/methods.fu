@@ -1,9 +1,13 @@
-method method
+method normal
 	return "ok"
 end method
 
-set var "method() method()"
+set var "normal() normal()"
 
 out $var
-$va2 := "method()"
-out "ok $var ok method() $va2"
+$va2 := "normal()"
+out "ok $var ok normal() $va2"
+
+method parameters $1 $2 $3
+
+end method
