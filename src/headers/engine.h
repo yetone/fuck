@@ -93,5 +93,8 @@ bool is_string_expr(const wstring&);
 // Unset variable from name
 inline void unset(wstring, stackmap&);
 
+// Unset all variables in array
+void unset(int count, variable*[], stackmap&);
+
 // Unset variable
 void unset(variable*, stackmap&);

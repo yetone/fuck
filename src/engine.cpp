@@ -877,6 +877,12 @@ inline void unset(wstring name, stackmap& stack) {
 	unset(getvar(name, stack), stack);
 }
 
+void unset(int count, variable* vars[], stackmap& stack) {
+	for (int i = 0; i < count; i++) {
+		unset(vars[i], stack);
+	}
+}
+
 void unset(variable* var, stackmap& stack) {
 	if (var != nullptr) {
 		for (unsigned int i = 0; i < stack.size(); i++) {
