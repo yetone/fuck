@@ -710,12 +710,8 @@ wstring parse_set_statement(wstring s, stackmap& map) {
 	if (is_string_expr(s)) {
 		s = s.substr(1, s.length() - 2);
 	} else if (is_bool_expr(s)) {
-		cout << "bool" << endl;
-
 		type = ExprType::BOOLEAN;
 	} else if (is_math_expr(s)) {
-		cout << "math" << endl;
-
 		type = ExprType::MATH;
 	}
 
