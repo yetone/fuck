@@ -90,7 +90,7 @@ void parse(Code& code, wstring what) {
 					params = split(trim(line.substr(nameindex)), ' ');
 				}
 
-				currentmethod = new Method(currentns, line, params);
+				currentmethod = new Method(currentns, name, params);
 
 				if (one && currentmethod->getdisplayname() != what) {
 					continue;
