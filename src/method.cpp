@@ -18,6 +18,10 @@ linemap& Method::getlines() {
 	return this->lines;
 }
 
+parameters& Method::getparams() {
+	return this->params;
+}
+
 const wstring& Method::getname() {
 	return this->name;
 }

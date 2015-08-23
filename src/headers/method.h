@@ -13,11 +13,13 @@ typedef vector<wstring> parameters;
 #define H_METHOD
 
 class Method {
-public:
-	struct Chunk chunk;
+private:
 	const wstring ns;
 	const wstring name;
 	parameters params;
+
+public:
+	struct Chunk chunk;
 	linemap lines;
 	goto_labels labels;
 
@@ -25,7 +27,10 @@ public:
 	Method(wstring ns, wstring name);
 	Method(wstring ns, wstring name, parameters params);
 	Method(wstring ns, wstring name, linemap& lines);
+
 	linemap& getlines();
+	parameters& getparams();
+
 	const wstring& getname();
 	const wstring& getnamespace();
 	const wstring getdisplayname();
