@@ -209,22 +209,5 @@ wstring parsevars(wstring s, stackmap& map) {
 		}
 	}
 
-	for (Method* m : methodMap) {
-		wstring find = m->getname() + L"()";
-
-		int f = 0;
-
-		while ((f = s.find(find, f)) != (signed int) wstring::npos) {
-			variable* returned = invoke(m);
-
-			if (returned == nullptr) {
-				printerror(L"Function " + color(ERROR_HL) + m->getname() + color(ERROR_COLOR) + L" did not return any value");
-			} else {
-				s = s.replace(f, find.length(), returned->get());
-				f += returned->get().length();
-			}
-		}
-	}
-
 	return s;
 }
