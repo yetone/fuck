@@ -25,3 +25,5 @@ vector<Chunk> parse_chunks(Method* method, unsigned int* i, int* totalend, wstri
 wstring parsevars(wstring, stackmap&);
 
 wstring rm_strings(wstring);
+
+vector<wstring> split_ignore_strings(wstring w, wstring delim);

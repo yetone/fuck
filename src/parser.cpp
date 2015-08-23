@@ -235,3 +235,25 @@ wstring rm_strings(wstring s) {
 
 	return s;
 }
+
+vector<wstring> split_ignore_strings(wstring w, wstring delim) {
+	vector<wstring> vec;
+
+	bool instr = false;
+
+	for (unsigned int i = 0, i1 = 0; i < w.length(); i++) {
+		if (w[i] == '\"' && i + 1 != w.length()) {
+			instr = !instr;
+		} else if ((!instr && w.substr(i, delim.length()) == delim) || i + 1 == w.length()) {
+			wstring entry = w.substr(i1, i - i1);
+			i1 = i + delim.length();
+
+			vec.push_back(trim(entry));
+		}
+	}
+
+	// Quick fix
+	vec[vec.size() - 1] += w[w.length() - 1];
+
+	return vec;
+}

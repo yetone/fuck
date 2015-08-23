@@ -731,11 +731,25 @@ wstring parse_set_statement(wstring s, stackmap& map) {
 	wstring expr = rm_strings(s);
 
 	if (is_string_expr(expr)) {
-		s = s.substr(1, s.length() - 2);
+		vector<wstring> vec = split_ignore_strings(s, get_kw(OP_CONCATENATE_STRINGS));
+
+		if (vec.size() > 0) {
+			s = EMPTY;
+		}
+
+		for (wstring w : vec) {
+			s += parse_set_statement(w, map);
+		}
 	} else if (is_bool_expr(expr)) {
 		type = ExprType::BOOLEAN;
 	} else if (is_math_expr(expr)) {
 		type = ExprType::MATH;
+	}
+
+	bool startstr = s[0] == L'\"' && s[s.length() - 1] == L'\"';
+
+	if (startstr) {
+		s = s.substr(1, s.length() - 2);
 	}
 
 	// Single variable
