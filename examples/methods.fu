@@ -9,3 +9,10 @@ method parameters $test $knark $3
 end method
 
 out "[ call parameters "ok", 1+1, "param3" ]"
+
+$ok := "test " . "test2" . " test3"
+
+$ko := 1 + 1 . "test" . [ call normal ]
+
+out $ok
+out $ko
