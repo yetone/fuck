@@ -211,3 +211,27 @@ wstring parsevars(wstring s, stackmap& map) {
 
 	return s;
 }
+
+wstring rm_strings(wstring s) {
+	int f = 0;
+	while ((f = s.find(L"[", f)) != (signed int) wstring::npos) {
+		int f2 = s.find(L"]", f + 1);
+
+		wstring replace = s.substr(f, f2 - f + 1);
+
+		s = s.replace(f, replace.length(), L"");
+		f += 1;
+	}
+
+	f = 0;
+	while ((f = s.find(L"\"", f)) != (signed int) wstring::npos) {
+		int f2 = s.find(L"\"", f + 1);
+
+		wstring replace = s.substr(f, f2 - f + 1);
+
+		s = s.replace(f, replace.length(), L"");
+		f += 1;
+	}
+
+	return s;
+}

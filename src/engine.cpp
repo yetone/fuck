@@ -728,11 +728,13 @@ wstring parse_set_statement(wstring s, stackmap& map) {
 
 	ExprType type = ExprType::NONE;
 
-	if (is_string_expr(s)) {
+	wstring expr = rm_strings(s);
+
+	if (is_string_expr(expr)) {
 		s = s.substr(1, s.length() - 2);
-	} else if (is_bool_expr(s)) {
+	} else if (is_bool_expr(expr)) {
 		type = ExprType::BOOLEAN;
-	} else if (is_math_expr(s)) {
+	} else if (is_math_expr(expr)) {
 		type = ExprType::MATH;
 	}
 

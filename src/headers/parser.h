@@ -23,3 +23,5 @@ vector<Chunk> parse_chunks(Method* method, unsigned int* i, int* totalend, wstri
 
 // Replace variables in string
 wstring parsevars(wstring, stackmap&);
+
+wstring rm_strings(wstring);
