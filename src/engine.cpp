@@ -34,12 +34,26 @@ void invoke() {
 }
 
 variable* invoke(wstring s) {
+	wstring methodname;
+	parameters params;
+
+	int sep = s.find(' ');
+
+	if (sep != (signed int) string::npos) {
+		methodname = s.substr(0, sep);
+		s = s.substr(sep + 1);
+
+		params = split(s, ',');
+	} else {
+		methodname = s;
+	}
+
 	Method* method = nullptr;
 
 	for (unsigned int i = 0; i < methodMap.size(); i++) {
 		Method *m = methodMap.at(i);
 
-		if (m->getdisplayname() == s) {
+		if (m->getdisplayname() == methodname) {
 			method = m;
 			break;
 		}
@@ -50,15 +64,20 @@ variable* invoke(wstring s) {
 		return nullptr;
 	}
 
-	return invoke(method);
+	return invoke(method, params);
 }
 
-variable* invoke(Method* method) {
+variable* invoke(Method* method, parameters& params) {
 	printverbose(L"Invoking " + color(VERBOSE_HL) + method->getdisplayname() + color(VERBOSE) + L" on line " + color(VERBOSE_HL) + L"#" + itow(method->chunk.start));
 
 	linemap lines = method->getlines();
 
 	stackmap map;
+	variable* ptrs[params.size()];
+
+	for (unsigned int i = 0; i < params.size(); i++) {
+		ptrs[i] = setvar(method->getparams()[i], trim(params[i]), map);
+	}
 
 	for (unsigned int i = 0; i < lines.size(); i++) {
 		variable* var = nullptr;
@@ -73,10 +92,12 @@ variable* invoke(Method* method) {
 		}
 
 		if (type == ReturnType::RETURN && var != nullptr) {
+			unset(params.size(), ptrs, map);
 			return var;
 		}
 	}
 
+	unset(params.size(), ptrs, map);
 	return nullptr;
 }
 

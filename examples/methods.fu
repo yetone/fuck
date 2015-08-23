@@ -4,6 +4,8 @@ end method
 
 out "[ call normal ]"
 
-method parameters $1 $2 $3
-
+method parameters $test $knark $3
+	out "Method called, parameters is $test $knark $3"
 end method
+
+out "[ call parameters "ok", 1+1, "param3" ]"
