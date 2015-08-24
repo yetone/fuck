@@ -33,3 +33,5 @@ if ("item" ni [ "random" ])
 		out "item2 exists in array"
 	end
 end
+
+array $empty

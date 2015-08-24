@@ -245,9 +245,17 @@ ReturnType execline(Method* method, unsigned int* i, variable*& var, stackmap& m
 	} else if (keyword == get_kw(KW_ARRAY)) {
 		int f = line.find_first_of(L" ");
 
-		wstring name = line.substr(0, f);
+		wstring name;
+		wstring statement;
 
-		setarr(name, line.substr(f), map);
+		if (f != (signed int) string::npos) {
+			name = line.substr(0, f);
+			statement = line.substr(f);
+		} else {
+			name = line;
+		}
+
+		setarr(name, statement, map);
 	} else if (keyword == get_kw(KW_USE)) {
 		wstring find = L" " + get_kw(KW_IMPORT_FROM) + L" ";
 		int from = line.find(find);
@@ -792,7 +800,13 @@ wstring parse_set_statement(wstring s, stackmap& map) {
 }
 
 arrays* setarr(wstring name, wstring statement, stackmap& stack) {
-	vector<wstring> statements = split(trim(statement).substr(1, statement.length() - 3), ',');
+	vector<wstring> statements;
+
+	statement = trim(statement);
+
+	if (statement.length() > 0) {
+		statements = split(statement.substr(1, statement.length() - 3), ',');
+	}
 
 	return (arrays*) setvar(name, statements, stack, type::ARRAY);
 }
