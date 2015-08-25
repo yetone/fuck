@@ -4,5 +4,5 @@
  * Returns substring of string
  */
 class sleep : public templ {
-	variable* run();
+	virtual variable* run(int paramc, variable* params[]);
 };

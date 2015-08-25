@@ -14,7 +14,7 @@ class templ {
 public:
 	virtual ~templ() { }
 
-	virtual variable* run() {
+	virtual variable* run(int paramc, variable* params[]) {
 		return nullptr;
 	}
 
@@ -25,5 +25,7 @@ typedef vector<nativefunc_t> nativefuncs_t;
 
 void addfunc(wstring name, templ *t);
 void loadstl();
+
+void call(wstring name);
 
 #endif

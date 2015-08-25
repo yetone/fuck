@@ -8,7 +8,7 @@
 
 #include "native.h"
 
-variable* sleep::run() {
+variable* sleep::run(int paramc, variable* params[]) {
 	int x = 1;
 
 #ifdef _WIN32
