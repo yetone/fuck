@@ -225,7 +225,7 @@ ReturnType execline(Method* method, unsigned int* i, variable*& var, stackmap& m
 		#ifdef _WIN32
 		Sleep(wtoi(line));
 		#else
-		usleep(wtoi(line) * 1000);f
+		usleep(wtoi(line) * 1000);
 		#endif
 	} else if (keyword == get_kw(KW_INCR) || keyword == get_kw(KW_DECR)) {
 		int f = line.find_first_of(L" ");
