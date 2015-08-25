@@ -8,8 +8,14 @@
 
 #include "native.h"
 
+#include "../headers/utils.h"
+
 variable* sleep::run(int paramc, variable* params[]) {
-	int x = 1;
+	if (paramc < 1) {
+		throw runtime_error("Not enough parameters");
+	}
+
+	int x = wtoi(params[0]->get());
 
 #ifdef _WIN32
 	Sleep(x);
