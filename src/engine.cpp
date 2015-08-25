@@ -27,7 +27,7 @@ void invoke() {
 	invoke(L"main");
 }
 
-variable* invoke(wstring s) {
+variable* invoke(wstring s, bool native) {
 	wstring methodname;
 	parameters params;
 
@@ -44,12 +44,16 @@ variable* invoke(wstring s) {
 
 	Method* method = nullptr;
 
-	for (unsigned int i = 0; i < methodMap.size(); i++) {
-		Method *m = methodMap.at(i);
+	if (native) {
+		method = new Method(methodname);
+	} else {
+		for (unsigned int i = 0; i < methodMap.size(); i++) {
+			Method *m = methodMap.at(i);
 
-		if (m->getdisplayname() == methodname) {
-			method = m;
-			break;
+			if (m->getdisplayname() == methodname) {
+				method = m;
+				break;
+			}
 		}
 	}
 
@@ -61,7 +65,7 @@ variable* invoke(wstring s) {
 	return invoke(method, params);
 }
 
-variable* invoke(Method* method, parameters& params) {
+variable* invoke(Method* method, parameters& params, bool native) {
 	printverbose(L"Invoking " + color(VERBOSE_HL) + method->getdisplayname() + color(VERBOSE) + L" on line " + color(VERBOSE_HL) + L"#" + itow(method->chunk.start));
 
 	linemap lines = method->getlines();
@@ -73,21 +77,25 @@ variable* invoke(Method* method, parameters& params) {
 		ptrs[i] = setvar(method->getparams()[i], trim(params[i]), map);
 	}
 
-	for (unsigned int i = 0; i < lines.size(); i++) {
-		variable* var = nullptr;
+	if (native) {
+		call(method->getname(), params.size(), ptrs);
+	} else {
+		for (unsigned int i = 0; i < lines.size(); i++) {
+			variable* var = nullptr;
 
-		ReturnType type;
+			ReturnType type;
 
-		try {
-			type = execline(method, &i, var, map);
-		} catch (exception& e) {
-			printerror(string(e.what()) + ", line #" + itos(i));
-			break;
-		}
+			try {
+				type = execline(method, &i, var, map);
+			} catch (exception& e) {
+				printerror(string(e.what()) + ", line #" + itos(i));
+				break;
+			}
 
-		if (type == ReturnType::RETURN && var != nullptr) {
-			unset(params.size(), ptrs, map);
-			return var;
+			if (type == ReturnType::RETURN && var != nullptr) {
+				unset(params.size(), ptrs, map);
+				return var;
+			}
 		}
 	}
 

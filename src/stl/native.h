@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "../headers/var.h"
+#include "../headers/method.h"
 
 using namespace std;
 
@@ -26,6 +27,6 @@ typedef vector<nativefunc_t> nativefuncs_t;
 void addfunc(wstring name, templ *t);
 void loadstl();
 
-void call(wstring name);
+void call(wstring name, int paramc, variable* params[]);
 
 #endif
