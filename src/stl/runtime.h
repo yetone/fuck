@@ -3,6 +3,6 @@
 /**
  * Returns substring of string
  */
-class sub : public templ {
+class sleep : public templ {
 	variable* run();
 };

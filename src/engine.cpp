@@ -10,12 +10,6 @@
 #include <typeinfo>
 #include <utility>
 
-#ifdef _WIN32
-#include <windows.h>
-#else
-#include <unistd.h>
-#endif
-
 #include "headers/keywords.h"
 #include "headers/code.h"
 #include "headers/utils.h"

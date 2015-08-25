@@ -1,6 +1,6 @@
 #include "native.h"
 
-#include "strings.h"
+#include "runtime.h"
 
 nativefuncs_t nativefuncs;
 
@@ -9,5 +9,5 @@ void addfunc(wstring name, templ *t) {
 }
 
 void loadstl() {
-	addfunc(L"sub", new sub);
+	addfunc(L"sleep", new sleep);
 }
