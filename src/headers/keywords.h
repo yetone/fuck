@@ -60,8 +60,6 @@ using namespace std;
 #define KW_CONTINUE "continue"
 #define KW_RETURN "return"
 
-#define KW_SLEEP "sleep"
-
 #define KW_EXPR "expr"
 
 #define OP_EQUALS "=="

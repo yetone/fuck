@@ -16,7 +16,6 @@ This is the default keywords in fulang. You will be able to modify all these wit
 | Boolean Constants     	| [true false](examples/bools.fu) |
 | Boolean Operations   		| [and or xor](examples/conds.fu) |
 | Used in for loops    		| [from to do in](examples/for.fu) |
-| Pause execution			| [sleep](examples/sleep.fu) | 
 | Variables					| [set front back incr decr unset](examples/vars.fu) |
 | Arrays					| [array in ni](examples/arrays.fu) |
 | Import files & functions 	| [use from](examples/use.fu) |
@@ -211,18 +210,6 @@ for $i; from 2; to 30; do $i + 1;
   out $i
 end
 ```
-
-## Sleeping
-
-### Synopsis
-
-```sleep <ms>```
-
-### Example:
-
-```sleep 1000``` Will sleep for one second
-
-Requires ```windows.h``` on Windows and ```unistd.h``` on *nix
 
 ## Increase or decrease
 
