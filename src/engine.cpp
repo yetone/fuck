@@ -62,7 +62,7 @@ variable* invoke(wstring s, bool native) {
 		return nullptr;
 	}
 
-	return invoke(method, params);
+	return invoke(method, params, native);
 }
 
 variable* invoke(Method* method, parameters& params, bool native) {
@@ -74,7 +74,7 @@ variable* invoke(Method* method, parameters& params, bool native) {
 	variable* ptrs[params.size()];
 
 	for (unsigned int i = 0; i < params.size(); i++) {
-		ptrs[i] = setvar(method->getparams()[i], trim(params[i]), map);
+		ptrs[i] = setvar(native ? EMPTY : method->getparams()[i], trim(params[i]), map);
 	}
 
 	if (native) {
@@ -273,6 +273,8 @@ ReturnType execline(Method* method, unsigned int* i, variable*& var, stackmap& m
 				parse(code, w);
 			}
 		}
+	} else if (keyword == L"native") {
+		invoke(line, true);
 	} else {
 		printerror(L"Unknown instruction " + color(ERROR_HL) + keyword + L" (" + line + L")" + color(ERROR_COLOR) + L" on line #" + itow(*i));
 	}
