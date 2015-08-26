@@ -20,6 +20,7 @@ variable* sleep::run(int paramc, variable* params[]) {
 #ifdef _WIN32
 	Sleep(x);
 #else
+	// Microseconds on *nix, ms 10^3
 	usleep(x * 1000);
 #endif
 

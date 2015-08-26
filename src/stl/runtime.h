@@ -1,7 +1,7 @@
 #include "native.h"
 
 /**
- * Returns substring of string
+ * Pause code execution
  */
 class sleep : public templ {
 	virtual variable* run(int paramc, variable* params[]);
