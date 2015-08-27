@@ -45,7 +45,7 @@ variable* invoke(wstring s, bool native) {
 	Method* method = nullptr;
 
 	if (native) {
-		method = new Method(methodname);
+		method = new NativeMethod(methodname);
 	} else {
 		for (unsigned int i = 0; i < methodMap.size(); i++) {
 			Method *m = methodMap.at(i);
@@ -62,10 +62,10 @@ variable* invoke(wstring s, bool native) {
 		return nullptr;
 	}
 
-	return invoke(method, params, native);
+	return invoke(method, params);
 }
 
-variable* invoke(Method* method, parameters& params, bool native) {
+variable* invoke(Method* method, parameters& params) {
 	printverbose(L"Invoking " + color(VERBOSE_HL) + method->getdisplayname() + color(VERBOSE) + L" on line " + color(VERBOSE_HL) + L"#" + itow(method->chunk.start));
 
 	linemap lines = method->getlines();
@@ -74,10 +74,10 @@ variable* invoke(Method* method, parameters& params, bool native) {
 	variable* ptrs[params.size()];
 
 	for (unsigned int i = 0; i < params.size(); i++) {
-		ptrs[i] = setvar(native ? EMPTY : method->getparams()[i], trim(params[i]), map);
+		ptrs[i] = setvar(method->isnative() ? EMPTY : method->getparams()[i], trim(params[i]), map);
 	}
 
-	if (native) {
+	if (method->isnative()) {
 		call_native(method->getname(), params.size(), ptrs);
 	} else {
 		for (unsigned int i = 0; i < lines.size(); i++) {

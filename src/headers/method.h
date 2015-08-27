@@ -23,6 +23,7 @@ public:
 	linemap lines;
 	goto_labels labels;
 
+	virtual ~Method() { }
 	Method(wstring name);
 	Method(wstring ns, wstring name);
 	Method(wstring ns, wstring name, parameters params);
@@ -36,6 +37,14 @@ public:
 	const wstring getdisplayname();
 
 	const bool ismain();
+
+	virtual const bool isnative();
+};
+
+class NativeMethod : public Method {
+public:
+	NativeMethod(wstring name): Method(name) { }
+	const bool isnative();
 };
 
 #endif

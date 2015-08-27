@@ -62,7 +62,7 @@ void invoke();
 variable* invoke(wstring, bool native = false);
 
 // Invoke method
-variable* invoke(Method*, parameters&, bool native = false);
+variable* invoke(Method*, parameters&);
 
 // Execute line
 ReturnType execline(Method*, unsigned int*, variable*&, stackmap&);
