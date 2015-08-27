@@ -38,13 +38,18 @@ public:
 
 	const bool ismain();
 
-	virtual const bool isnative();
+	virtual const bool isnative() {
+		return false;
+	}
 };
 
 class NativeMethod : public Method {
 public:
 	NativeMethod(wstring name): Method(name) { }
-	const bool isnative();
+
+	const bool isnative() {
+		return true;
+	}
 };
 
 #endif

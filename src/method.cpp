@@ -41,11 +41,3 @@ const wstring Method::getdisplayname() {
 const bool Method::ismain() {
 	return this->name == ENTRY_POINT;
 }
-
-const bool Method::isnative() {
-	return false;
-}
-
-const bool NativeMethod::isnative() {
-	return true;
-}
