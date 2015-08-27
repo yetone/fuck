@@ -37,7 +37,7 @@ variable* invoke(wstring s, bool native) {
 		methodname = s.substr(0, sep);
 		s = s.substr(sep + 1);
 
-		params = split(s, ',');
+		params = split_ignore_strings(s, L",");
 	} else {
 		methodname = s;
 	}
