@@ -78,7 +78,7 @@ variable* invoke(Method* method, parameters& params, bool native) {
 	}
 
 	if (native) {
-		call(method->getname(), params.size(), ptrs);
+		call_native(method->getname(), params.size(), ptrs);
 	} else {
 		for (unsigned int i = 0; i < lines.size(); i++) {
 			variable* var = nullptr;
@@ -273,7 +273,7 @@ ReturnType execline(Method* method, unsigned int* i, variable*& var, stackmap& m
 				parse(code, w);
 			}
 		}
-	} else if (keyword == L"native") {
+	} else if (keyword == L"native") { // Test calling native functions
 		invoke(line, true);
 	} else {
 		printerror(L"Unknown instruction " + color(ERROR_HL) + keyword + L" (" + line + L")" + color(ERROR_COLOR) + L" on line #" + itow(*i));

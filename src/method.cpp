@@ -41,3 +41,4 @@ const wstring Method::getdisplayname() {
 const bool Method::ismain() {
 	return this->name == ENTRY_POINT;
 }
+

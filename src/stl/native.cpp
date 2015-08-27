@@ -12,7 +12,7 @@ void loadstl() {
 	addfunc(L"sleep", new sleep);
 }
 
-void call(wstring name, int paramc, variable* params[]) {
+void call_native(wstring name, int paramc, variable* params[]) {
 	for (nativefunc_t func : nativefuncs) {
 		if (func.first == name) {
 			templ* t = func.second;
