@@ -876,10 +876,10 @@ variable* setvar(wstring name, vector<wstring> statements, stackmap& stack, type
 	}
 
 	if (index != -1) {
-		printverbose(L"Updated " + color(VERBOSE_HL) + gettext(var) + color(VERBOSE) + L" on stack with value " + var->get(), verbose_mode::ADDITION);
+		printverbose(L"Updated " + color(VERBOSE_HL) + gettext(var) + color(VERBOSE) + L" on stack with value " + color(VERBOSE_HL) +var->get(), verbose_mode::ADDITION);
 		stack.at(index) = var;
 	} else {
-		printverbose(L"Added " + color(VERBOSE_HL) + gettext(var) + color(VERBOSE) + L" to stack with value " + var->get(), verbose_mode::ADDITION);
+		printverbose(L"Added " + color(VERBOSE_HL) + gettext(var) + color(VERBOSE) + L" to stack with value " + color(VERBOSE_HL)+ var->get(), verbose_mode::ADDITION);
 
 		stack.insert(stack.begin(), var);
 	}
