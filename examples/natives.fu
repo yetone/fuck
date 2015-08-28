@@ -1,1 +1,4 @@
-native sleep 2500
+use sleep from runtime
+#use runtime
+
+native sleep 1000
