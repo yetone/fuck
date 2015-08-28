@@ -18,7 +18,7 @@ This is the default keywords in fulang. You will be able to modify all these wit
 | Used in for loops    		| [from to do in](examples/for.fu) |
 | Variables					| [set front back incr decr unset](examples/vars.fu) |
 | Arrays					| [array in ni](examples/arrays.fu) |
-| Import files & functions 	| [use from](examples/use.fu) |
+| Import files & functions 	| [use from](examples/use.fu) [import](examples/natives.fu) |
 
 ***
 
@@ -256,16 +256,26 @@ out "$var(key)"
 ### Synopsis
 
 ```
-use <file>
-use <method> from <file>
+import <file>
+import <method> from <file>
 ```
 
 ### Example
 
 ```
-use method1 from examples/file.fu
+import method1 from examples/file.fu
 call method1
 
-use examples/file.fu
+import examples/file.fu
 call method2
 ```
+
+## Include a native function
+
+#### Synopsis
+
+```python
+use runtime
+use sleep from runtime
+```
+
