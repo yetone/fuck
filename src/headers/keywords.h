@@ -86,6 +86,7 @@ using namespace std;
 
 #define KW_USE "use"
 #define KW_IMPORT_FROM "from"
+#define KW_IMPORT "import"
 
 void load();
 
