@@ -1,9 +1,9 @@
-import m1 from examples/use2.fu
-import m1, m2 from examples/use2.fu
+import m1 from examples/import2.fu
+import m1, m2 from examples/import2.fu
 
 call m1
 
-import examples/use2.fu
+import examples/import2.fu
 
 call m2
 call m3
