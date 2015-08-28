@@ -1,3 +1,6 @@
+#ifndef H_ENGINE
+#define H_ENGINE
+
 #include <string>
 #include <map>
 
@@ -98,3 +101,5 @@ void unset(int count, variable*[], stackmap&);
 
 // Unset variable
 void unset(variable*, stackmap&);
+
+#endif
