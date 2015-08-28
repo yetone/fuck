@@ -257,6 +257,18 @@ ReturnType execline(Method* method, unsigned int* i, variable*& var, stackmap& m
 		int from = line.find(find);
 
 		if (from == (signed int) string::npos) {
+			import_native(line);
+		} else {
+			wstring file = line.substr(from + find.length());
+			line = line.substr(0, from);
+
+			import_native(line, file);
+		}
+	} else if (keyword == get_kw(KW_IMPORT)) {
+		wstring find = L" " + get_kw(KW_IMPORT_FROM) + L" ";
+		int from = line.find(find);
+
+		if (from == (signed int) string::npos) {
 			Code code(wtos(line));
 			parse(code);
 		} else {
