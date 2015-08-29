@@ -1,8 +1,6 @@
 #include "native.h"
-
 #include "runtime.h"
-
-#include <iostream>
+#include "../headers/utils.h"
 
 nativefuncs_t nativefuncs;
 
@@ -33,6 +31,9 @@ void call_native(wstring name, int paramc, variable* params[]) {
 				templ* t = n.second;
 
 				if (t->getname() == name) {
+					if (t->getparamc() != paramc) {
+						throw runtime_error("Not matching parameter count " + itos(paramc) + " (should be " + itos(t->getparamc()) + ")");
+					}
 					t->run(paramc, params);
 					break;
 				}

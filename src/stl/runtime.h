@@ -4,6 +4,7 @@
  * Pause code execution
  */
 class sleep : public templ {
-	virtual variable* run(int paramc, variable* params[]);
-	virtual wstring getname();
+	variable* run(int paramc, variable* params[]);
+	wstring getname();
+	int getparamc();
 };

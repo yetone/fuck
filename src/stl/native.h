@@ -23,6 +23,10 @@ public:
 	virtual wstring getname() {
 		return EMPTY;
 	}
+
+	virtual int getparamc() {
+		return 0;
+	}
 };
 
 typedef pair<wstring, templ*> nativefunc_t;

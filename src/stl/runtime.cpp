@@ -11,10 +11,6 @@
 #include "../headers/utils.h"
 
 variable* sleep::run(int paramc, variable* params[]) {
-	if (paramc < 1) {
-		throw runtime_error("Not enough parameters");
-	}
-
 	int x = wtoi(params[0]->get());
 
 #ifdef _WIN32
@@ -29,4 +25,8 @@ variable* sleep::run(int paramc, variable* params[]) {
 
 wstring sleep::getname() {
 	return L"sleep";
+}
+
+int sleep::getparamc() {
+	return 1;
 }
