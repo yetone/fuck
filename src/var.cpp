@@ -44,12 +44,14 @@ void arrays::set(const wstring& key, const wstring& value) {
 	this->var[key] = value;
 }
 
-void arrays::set(const wstring& value) {
-
-}
-
 array_t* arrays::getpairs() {
 	return &this->var;
+}
+
+wstring pointer::get() {
+	intptr_t p = (intptr_t) this->ptr;
+
+	return itow(p);
 }
 
 wstring gettext(variable* v) {

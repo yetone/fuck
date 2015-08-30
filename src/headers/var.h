@@ -15,12 +15,14 @@ typedef map<wstring, wstring> array_t;
 
 // Variable type
 enum class type {
-
 	// Text, number, decimal
 	DEFAULT,
 
 	// Array/map
-	ARRAY
+	ARRAY,
+
+	// Pointer variable
+	POINTER
 };
 
 class variable {
@@ -40,10 +42,6 @@ public:
 
 	virtual wstring get() {
 		return EMPTY;
-	}
-
-	virtual array_t* getpairs() {
-		return nullptr;
 	}
 
 	virtual void set(const wstring& value) { }
@@ -94,10 +92,33 @@ public:
 	array_t* getpairs();
 
 	void set(const wstring& key, const wstring& value);
-	void set(const wstring& value);
 
 	type gettype() {
 		return type::ARRAY;
+	}
+};
+
+class pointer : public variable {
+private:
+	void* ptr;
+
+public:
+	pointer(): variable() {
+
+	}
+
+	pointer(wstring name): variable(name) {
+
+	}
+
+	void* getptr() {
+		return ptr;
+	}
+
+	wstring get();
+
+	type gettype() {
+		return type::POINTER;
 	}
 };
 

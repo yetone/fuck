@@ -188,7 +188,7 @@ wstring parsevars(wstring s, stackmap& map) {
 
 	for (variable* v : map) {
 		if (v->gettype() == type::ARRAY) {
-			array_t* map = v->getpairs();
+			array_t* map = static_cast<arrays*>(v)->getpairs();
 
 			for (array_t::iterator it = map->begin(); it != map->end(); ++it) {
 				wstring replace = get_kw(KW_VAR_SIGN_KEY, KW_VAR_SIGN) + v->getname() + L"(" + it->first + L")";
