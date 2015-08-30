@@ -170,8 +170,10 @@ wstring parsevars(wstring s, stackmap& map) {
 			expr = expr.substr(get_kw(KW_EXPR).length() + 1);
 
 			expr = parse_set_statement(expr, map);
-		} else if (startswith(expr, get_kw(KW_CALL_METHOD))) {
-			expr = expr.substr(get_kw(KW_CALL_METHOD).length() + 1);
+		} else {
+			if (startswith(expr, get_kw(KW_CALL_METHOD))) {
+				expr = expr.substr(get_kw(KW_CALL_METHOD).length() + 1);
+			}
 
 			variable *var = invoke(trim(expr));
 
