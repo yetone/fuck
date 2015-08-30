@@ -53,6 +53,7 @@ inline bool is_comment(wstring);
 
 variable* getvar(wstring, stackmap&);
 
+pointer* setptr(wstring name, void* ptr, stackmap& stack);
 arrays* setarr(wstring name, wstring statement, stackmap&);
 variable* setvar(wstring statement, stackmap& stack, type t = type::DEFAULT);
 variable* setvar(wstring name, wstring statement, stackmap& stack, type t = type::DEFAULT);

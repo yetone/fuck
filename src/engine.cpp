@@ -809,6 +809,15 @@ wstring parse_set_statement(wstring s, stackmap& map) {
 	return s;
 }
 
+pointer* setptr(wstring name, void* ptr, stackmap& stack) {
+	pointer* var = new pointer(name);
+	var->setptr(ptr);
+
+	stack.insert(stack.begin(), var);
+
+	return var;
+}
+
 arrays* setarr(wstring name, wstring statement, stackmap& stack) {
 	vector<wstring> statements;
 

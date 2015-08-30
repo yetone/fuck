@@ -115,6 +115,10 @@ public:
 		return ptr;
 	}
 
+	void setptr(void* ptr) {
+		this->ptr = ptr;
+	}
+
 	wstring get();
 
 	type gettype() {
