@@ -37,48 +37,57 @@ public:
 	virtual wstring get(const wstring& key) {
 		return EMPTY;
 	}
+
 	virtual wstring get() {
 		return EMPTY;
 	}
+
 	virtual array_t* getpairs() {
 		return nullptr;
 	}
 
-	virtual void set(const wstring& key, const wstring& value) { }
 	virtual void set(const wstring& value) { }
 
-	virtual type gettype() { return type::DEFAULT; }
+	virtual type gettype() {
+		return type::DEFAULT;
+	}
 
 	wstring getname();
 };
 
 // Default variable
 class str : public variable {
-public:
-	str(): variable() { }
-	str(wstring name): variable(name) { }
-
+private:
 	wstring var;
 
-	wstring get(const wstring& key) {
-		return get();
+public:
+	str(): variable() {
+
 	}
 
-	virtual wstring get();
+	str(wstring name): variable(name) {
 
-	void set(const wstring& key, const wstring& value) {
-		set(value);
 	}
+
+
+	wstring get();
+
 	void set(const wstring& value);
 };
 
 // Array variable
 class arrays : public variable {
-public:
-	arrays(): variable() { }
-	arrays(wstring name): variable(name) { }
-
+private:
 	array_t var;
+
+public:
+	arrays(): variable() {
+
+	}
+
+	arrays(wstring name): variable(name) {
+
+	}
 
 	wstring get(const wstring& key);
 	wstring get();
@@ -87,7 +96,9 @@ public:
 	void set(const wstring& key, const wstring& value);
 	void set(const wstring& value);
 
-	type gettype();
+	type gettype() {
+		return type::ARRAY;
+	}
 };
 
 #endif

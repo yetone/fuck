@@ -26,8 +26,6 @@ void str::set(const wstring& value) {
 	this->var = value;
 }
 
-
-
 wstring arrays::get(const wstring& key) {
 	return this->var[key];
 }
@@ -48,10 +46,6 @@ void arrays::set(const wstring& key, const wstring& value) {
 
 void arrays::set(const wstring& value) {
 
-}
-
-type arrays::gettype() {
-	return type::ARRAY;
 }
 
 array_t* arrays::getpairs() {

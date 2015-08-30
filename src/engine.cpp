@@ -341,7 +341,7 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, variable*& va
 				throw runtime_error("No array to iterate found");
 			}
 
-			iter = arr->var.begin();
+			iter = arr->getpairs()->begin();
 
 			int f = first.find(get_kw(PAIR_SEPARATOR));
 
@@ -389,7 +389,7 @@ ReturnType parsefor(Method* method, wstring line, unsigned int* i, variable*& va
 				*i = chunk.start + 1;
 
 				if (range) {
-					if (++iter == arr->var.end()) {
+					if (++iter == arr->getpairs()->end()) {
 						break;
 					}
 
@@ -675,8 +675,8 @@ bool check_cond_compare(const wstring& var1, const wstring& var2, bool_ops ret, 
 
 		wstring expr = parse_set_statement(var1, map);
 
-		if (arr->var.size() > 0 && arr != nullptr) {
-			for (array_t::iterator iter = arr->var.begin(); iter != arr->var.end(); ++iter) {
+		if (arr->getpairs()->size() > 0 && arr != nullptr) {
+			for (array_t::iterator iter = arr->getpairs()->begin(); iter != arr->getpairs()->end(); ++iter) {
 				if (iter->first == expr || iter->second == expr) {
 					if (isnew) {
 						unset(arr, map);
@@ -875,13 +875,13 @@ variable* setvar(wstring name, vector<wstring> statements, stackmap& stack, type
 				key = trim(expr.substr(0, f - 1));
 				statement = trim(expr.substr(f + get_kw(PAIR_SEPARATOR).length()));
 			} else {
-				key = itow(arr->var.size());
+				key = itow(arr->getpairs()->size());
 				statement = expr;
 			}
 
 			printverbose(L"Setting " + key + L" to " + statement, verbose_mode::ADDITION);
 
-			arr->var[parse_set_statement(trim(key), stack)] = parse_set_statement(trim(statement), stack);
+			(*arr->getpairs())[parse_set_statement(trim(key), stack)] = parse_set_statement(trim(statement), stack);
 		}
 
 		var = arr;
