@@ -27,7 +27,7 @@ void invoke() {
 	invoke(L"main");
 }
 
-variable* invoke(wstring s, bool native) {
+variable* invoke(wstring s) {
 	wstring methodname;
 	parameters params;
 
@@ -44,16 +44,12 @@ variable* invoke(wstring s, bool native) {
 
 	Method* method = nullptr;
 
-	if (native) {
-		method = new NativeMethod(methodname);
-	} else {
-		for (unsigned int i = 0; i < methodMap.size(); i++) {
-			Method *m = methodMap.at(i);
+	for (unsigned int i = 0; i < methodMap.size(); i++) {
+		Method *m = methodMap.at(i);
 
-			if (m->getdisplayname() == methodname) {
-				method = m;
-				break;
-			}
+		if (m->getdisplayname() == methodname) {
+			method = m;
+			break;
 		}
 	}
 
@@ -285,8 +281,6 @@ ReturnType execline(Method* method, unsigned int* i, variable*& var, stackmap& m
 				parse(code, w);
 			}
 		}
-	} else if (keyword == L"native") { // Test calling native functions
-		invoke(line, true);
 	} else {
 		printerror(L"Unknown instruction " + color(ERROR_HL) + keyword + L" (" + line + L")" + color(ERROR_COLOR) + L" on line #" + itow(*i));
 	}

@@ -1,8 +1,8 @@
 use sleep from runtime
 #use runtime
 
-native sleep 1000
+call sleep 1000
 
 # Test calling native methods with no or more than required parameters
-native sleep
-native sleep 5000 5000
+call sleep
+call sleep 5000 5000

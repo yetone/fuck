@@ -63,7 +63,7 @@ variable* setvar(wstring name, vector<wstring> statements, stackmap& stack, type
 void invoke();
 
 // Invoke method from wstring
-variable* invoke(wstring, bool native = false);
+variable* invoke(wstring);
 
 // Invoke method
 variable* invoke(Method*, parameters&);
