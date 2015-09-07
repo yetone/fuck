@@ -131,7 +131,7 @@ vector<Chunk> parse_chunks(Method* method, unsigned int* i, int* totalend, wstri
 	while (end < method->getlines().size()) {
 		wstring temp = trim(method->getlines()[end].second);
 
-		unsigned int open_bracket = temp.find_first_of(get_kw(KW_END));
+		unsigned int open_bracket = temp.find_first_of(get_kw(KW_OPEN));
 
 		if (open_bracket != string::npos) {
 			temp = temp.substr(0, open_bracket);
