@@ -25,7 +25,13 @@ while $var
 	out "after break..."
 }
 
-while $var
-	continue
-	break
+$int := 5
+
+while ($var) {
+	incr $int
+	out $int
+	
+	if ($int == 100) {
+		break
+	}
 }
