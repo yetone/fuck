@@ -88,6 +88,10 @@ void parse(Code& code, wstring what) {
 					name = trim(line.substr(0, nameindex));
 
 					params = split(trim(line.substr(nameindex)), ' ');
+
+					for (wstring param : params) {
+						printverbose(L"Parameter " + color(VERBOSE_HL) + param);
+					}
 				}
 
 				currentmethod = new Method(currentns, name, params);
