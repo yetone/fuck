@@ -56,6 +56,12 @@ void parse(Code& code, wstring what) {
 		wstring keyword = firstsep == wstring::npos ? line : line.substr(0, firstsep);
 		line = line.substr(firstsep + 1, line.length());
 
+		unsigned int open_bracket = line.find_first_of(get_kw(KW_OPEN));
+
+		if (open_bracket != string::npos) {
+			line = line.substr(0, open_bracket);
+		}
+
 		if (keyword == get_kw(KW_NAMESPACE)) {
 			if (end) {
 				currentns = EMPTY;
