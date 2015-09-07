@@ -6,7 +6,7 @@ method m
 	
 	if (true)
 		out "Chunk with correct indentation"
-	end
+	}
 	
 		if (true)
 			out "Random placed chunk"
@@ -14,17 +14,17 @@ method m
 				out "Random placed chunk 2"
 				if (true)
 					out "Random placed chunk 3"
-				end
-			end
+				}
+			}
 				if (true)
 					out "Random placed chunk 4"
-				end
-		end
+				}
+		}
 		
 							if (true)
 								out "Random placed chunk 5"
-							end
-end method
+							}
+} method
 
 $var := "ok"
 
@@ -32,4 +32,4 @@ call m
 
 if (true)
 	out "Normal chunk"
-end
+}

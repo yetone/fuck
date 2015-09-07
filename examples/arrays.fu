@@ -13,25 +13,25 @@ out "$arr(key) $arr(0)"
 
 out "First is in array: " [ expr "first" in $arr ]
 
-if ("first" in $arr)
+if ("first" in $arr) {
 	out "first is in \$arr"
-end
+}
 
-if ("not" ni $arr)
+if ("not" ni $arr) {
 	out "not is not in \$arr"
-end
+}
 
 if ("item" in [ "item" ])
 	out "item exists in array"
-end
+}
 
-if ("item" ni [ "random" ])
+if ("item" ni [ "random" ]) {
 	out "item does not exist in array"
-	if ("item" in [ "random" ])
+	if ("item" in [ "random" ]) {
 		out "item does not exist in array"
-	elif ("item2" in [ "item", "item2" ])
+	elif ("item2" in [ "item", "item2" ]) {
 		out "item2 exists in array"
-	end
-end
+	}
+}
 
 array $empty

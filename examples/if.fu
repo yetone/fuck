@@ -3,34 +3,34 @@ set var1 true
 
 # if1
 if $var1
-	out if1
-end
+	out "if1"
+}
 
 set var1 false
 set var2 true
 
 # elif2
 if $var1
-	out if2
+	out "if2"
 elif $var2
-	out elif2
+	out "elif2"
 else
-	out else2
-end
+	out "else2"
+}
 
 set var2 false
 set var3 true
 
 # else3
 if $var1
-	out if3
+	out "if3"
 elif $var2
-	out elif3
+	out "elif3"
 elif $var3
-	out elif3
+	out "elif3"
 else
-	out else3
-end
+	out "else3"
+}
 
 set var3 true
 set var4 true
@@ -41,10 +41,10 @@ if $var3
 	if $var4
 		if $var4
 			if $var4
-				out many
-			end
-		end
-		out if in if
-	end
-	out success
-end
+				out "many"
+			}
+		}
+		out "if in if"
+	}
+	out "success"
+}

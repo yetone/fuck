@@ -2,7 +2,7 @@ $bool := true
 
 if $bool
 	out "\$bool is true"
-end
+}
 
 $val1 := 10
 $val2 := 50
@@ -12,45 +12,45 @@ $false := false
 
 if ($bool)
 	out "\$bool is true"
-end
+}
 
 if ($false == false)
 	out "\$false is $false"
-end
+}
 
 if ($val1 < $val2)
 	out "\$val1 is less than \$val2"
-end
+}
 
 if ($val2 > $val1)
 	out "\$val2 is more than \$val1"
-end
+}
 
 if ($val1 > $val2)
 	# will not happen
 else
 	out "\$val1 is not more than \$val2"
-end
+}
 
 if ($val2 < $val1)
 	# will not happen
 else
 	out "\$val2 is not less than \$val1"
-end
+}
 
 # same as $val1
 $val3 := $val1
 
 if ($val1 == $val3)
 	out "\$val1 is equal to \$val3"
-end
+}
 
 $val3 := 0
 
 while ($val1 != $val3)
 	out "\$val1 is not equal to \$val3"
 	$val1 := $val3
-end
+}
 
 # compare strings
 $val1 := "string"
@@ -58,46 +58,46 @@ $val2 := "string"
 
 if ($val1 == $val2)
 	out "strings is equal"
-end
+}
 
 # Will not happen
 if ($val1 == $val2) and ($val1 != $val2)
 	out "what the fuck"
-end
+}
 
 # Will happen
 if ($val1 == $val2) and ($val2 == $val1) and ($val2 == $val1)
 	out "\$val1 == \$val2"
-end
+}
 
 if ($val1 == $val2) or ($val1 != $val2)
 	out "test or with or"
-end 
+} 
 
 if ($val1 == $val2) || ($val1 != $val2)
 	out "test or with ||"
-end 
+} 
 
 if ($val1 == $val2) and ($val1 != $val2)
 	out "test and"
-end 
+} 
 
 if ($val1 == $val2) && ($val1 != $val2)
 	out "test or 2 with &&"
-end 
+} 
 
 if ($val1 == $val2) xor ($val1 == $val2)
 	out "test xor 1 with xor"
-end 
+} 
 
 if ($val1 == $val2) xor ($val1 != $val2)
 	out "test xor 2 with xor"
-end 
+} 
 
 if ($val1 == $val2) ^^ ($val1 != $val2)
 	out "test xor 2 with ^^"
-end 
+} 
 
 if ($val1 == $val2) and ($val2 == $val1) and ($val2 == $val1)
 	out "\$val1 == \$val2"
-end
+}

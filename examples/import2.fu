@@ -1,13 +1,13 @@
 method m1
 	out "method 1"
-end method
+} method
 
 method m2
 	out "method 2"
-end method
+} method
 
 method m3
 	out "method 3"
-end method
+} method
 
 out "no method"

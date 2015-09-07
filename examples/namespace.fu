@@ -1,9 +1,9 @@
-namespace ns
+namespace ns {
 	method funcname
 	
 	out "ns.funcname called"
 	
-	end method
-end namespace
+	} method
+} namespace
 
 call ns.funcname

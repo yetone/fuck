@@ -5,7 +5,7 @@ out $var1 - $var2
 
 if ($var1 > $var2)
 	out "$var1 is over $var2"
-end
+}
 
 if ($var1 < $var2)
 	out "will not happen"
@@ -13,4 +13,4 @@ elif ($var2 < $var1)
 	out "$var2 is less than $var1"
 else
 	out "will not happen"
-end
+}

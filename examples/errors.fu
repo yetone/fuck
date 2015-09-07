@@ -2,7 +2,7 @@
 call non_existing_method
 
 # Unknown instructions
-end
+}
 else
 
 # set variable with empty value
@@ -13,8 +13,8 @@ set
 
 if
 
-end
+}
 
 foreach
 
-end
+}

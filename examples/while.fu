@@ -13,9 +13,9 @@ while $var
 		else
 			set halt true
 			set var false
-		end
-	end
-end
+		}
+	}
+}
 
 set var true
 
@@ -23,9 +23,9 @@ while $var
 	out "breaking..."
 	break
 	out "after break..."
-end
+}
 
 while $var
 	continue
 	break
-end
+}
