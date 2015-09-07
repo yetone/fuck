@@ -117,12 +117,12 @@ void parse(Code& code, wstring what) {
 	printverbose(color(COLOR_GREEN) + L"Parsing complete");
 }
 
-vector<Chunk> parse_chunks(Method* method, unsigned int* i, int* totalend, wstring open, vector<wstring> *separators) {
+vector<Chunk*> parse_chunks(Method* method, unsigned int* i, int* totalend, wstring open, vector<wstring> *separators) {
 	unsigned int end = *i;
 
 	wstring line;
 
-	vector<Chunk> chunks;
+	vector<Chunk*> chunks;
 
 	Chunk *current = nullptr;
 
@@ -160,7 +160,7 @@ vector<Chunk> parse_chunks(Method* method, unsigned int* i, int* totalend, wstri
 				wstring cond = line.substr(line.find_first_of(L" ") + 1);
 
 				current->end = end - 1;
-				chunks.push_back(*current);
+				chunks.push_back(current);
 				*i = end;
 				*totalend = end;
 				break;

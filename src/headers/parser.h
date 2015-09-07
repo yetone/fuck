@@ -19,7 +19,7 @@ void parse(Code& code, wstring what = L"");
  * @param open Open keyword
  * @param separators New chunk keywords
  */
-vector<Chunk> parse_chunks(Method* method, unsigned int* i, int* totalend, wstring open, vector<wstring> *separators = nullptr);
+vector<Chunk*> parse_chunks(Method* method, unsigned int* i, int* totalend, wstring open, vector<wstring> *separators = nullptr);
 
 // Replace variables in string
 wstring parsevars(wstring, stackmap&);
