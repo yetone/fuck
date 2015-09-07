@@ -11,7 +11,8 @@ using namespace std;
 
 #define KEYWORD_SEPARATOR ' '
 
-#define KW_END "end"
+#define KW_OPEN "{"
+#define KW_END "}"
 
 #define KW_FALSE "false"
 #define KW_TRUE "true"
