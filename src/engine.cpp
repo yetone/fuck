@@ -104,7 +104,7 @@ ReturnType execline(Method* method, unsigned int* i, variable*& var, stackmap& m
 
 	wstring line = trim(untrimmed);
 
-	if (is_comment(line)) {
+	if (is_comment(line) || line == get_kw(KW_END) || line == get_kw(KW_OPEN)) {
 		printverbose(line, verbose_mode::COMMENT);
 		return ReturnType::NONE;
 	}
