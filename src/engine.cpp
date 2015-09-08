@@ -617,18 +617,18 @@ bool check_cond_compare(wstring cond, stackmap& map) {
 	} else if (contains(cond, get_kw(OP_NOT_EQ))) {
 		splitat = get_kw(OP_NOT_EQ);
 		ret = bool_ops::NOT_EQUAL;
-	} else if (contains(cond, get_kw(OP_LESS_THAN))) {
-		splitat = get_kw(OP_LESS_THAN);
-		ret = bool_ops::LESS_THAN;
-	} else if (contains(cond, get_kw(OP_MORE_THAN))) {
-		splitat = get_kw(OP_MORE_THAN);
-		ret = bool_ops::MORE_THAN;
 	} else if (contains(cond, get_kw(OP_LESS_OR_EQUALS))) {
 		splitat = get_kw(OP_LESS_OR_EQUALS);
 		ret = bool_ops::LESS_OR_EQUALS;
 	} else if (contains(cond, get_kw(OP_MORE_OR_EQUALS))) {
 		splitat = get_kw(OP_MORE_OR_EQUALS);
 		ret = bool_ops::MORE_OR_EQUALS;
+	} else if (contains(cond, get_kw(OP_LESS_THAN))) {
+		splitat = get_kw(OP_LESS_THAN);
+		ret = bool_ops::LESS_THAN;
+	} else if (contains(cond, get_kw(OP_MORE_THAN))) {
+		splitat = get_kw(OP_MORE_THAN);
+		ret = bool_ops::MORE_THAN;
 	} else if (contains(cond, get_kw(KW_IN))) {
 		splitat = get_kw(KW_IN);
 		ret = bool_ops::IN_ARRAY;
