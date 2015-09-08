@@ -12,7 +12,6 @@
 using namespace std;
 
 extern methodmap methodMap;
-#include <iostream>
 
 void parse(Code& code, wstring what) {
 	printverbose(color(COLOR_GREEN) + L"Parsing " + stow(code.getfile()));
