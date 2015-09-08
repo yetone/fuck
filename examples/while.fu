@@ -1,37 +1,16 @@
-set var true
+$i := 5
 
-set halt false
+out $i
 
-while $var
-	out "first"
-	
-	while $var
-		out "second"
-		if $halt
-			#halt normal
-			break
-		else
-			set halt true
-			set var false
-		}
-	}
+if ($i == 5) {
+	out "\$i = 5"
 }
 
-set var true
+while (true) {
+	incr $i
+	out $i
 
-while $var
-	out "breaking..."
-	break
-	out "after break..."
-}
-
-$int := 5
-
-while ($var) {
-	incr $int
-	out $int
-	
-	if ($int == 100) {
+	if ($i == 100) {
 		break
 	}
 }
