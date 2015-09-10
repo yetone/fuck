@@ -8,12 +8,12 @@ void load() {
 
 }
 
-inline wstring get_kw(wstring key) {
+wstring get_kw(wstring key) {
 	string s(key.begin(), key.end());
 	return get_kw(s, s);
 }
 
-inline wstring get_kw(string key) {
+wstring get_kw(string key) {
 	return get_kw(key, key);
 }
 

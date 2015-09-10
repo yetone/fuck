@@ -91,7 +91,7 @@ using namespace std;
 
 void load();
 
-inline wstring get_kw(wstring key);
-inline wstring get_kw(string key);
+wstring get_kw(wstring key);
+wstring get_kw(string key);
 wstring get_kw(string key, string def);
 wstring get_kw(string key, wstring def);
