@@ -474,7 +474,7 @@ ReturnType parseif(Method* method, wstring line, unsigned int* i, variable*& var
 		wstring line = trim(method->getlines()[conds->start].second);
 
 		// Is else, we have passed by everything else
-		if (line == get_kw(KW_ELSE)) {
+		if (startswith(line, get_kw(KW_ELSE))) {
 			*i = conds->start + 1;
 			ReturnType type = execrange(method, i, conds->end, var, map);
 			if (type == ReturnType::RETURN) {
