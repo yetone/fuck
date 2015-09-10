@@ -85,7 +85,7 @@ variable* invoke(Method* method, parameters& params) {
 				type = execline(method, &i, var, map);
 			} catch (exception& e) {
 				printerror(string(e.what()) + ", line #" + itos(i));
-				break;
+				throw e;
 			}
 
 			if (type == ReturnType::RETURN && var != nullptr) {
