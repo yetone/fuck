@@ -20,7 +20,7 @@ bool colors = false;
 methodmap methodMap;
 
 void printinfo() {
-	cout << "fulang, version " << VERSION << endl;
+	cout << "fulang, version " << VERSION << ", Built on " << __DATE__ << " " << __TIME__ << endl;
 }
 
 void printusage() {
