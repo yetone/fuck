@@ -458,8 +458,6 @@ ReturnType parsewhile(Method* method, wstring line, unsigned int* i, variable*& 
 }
 
 ReturnType parseif(Method* method, wstring line, unsigned int* i, variable*& var, stackmap& map) {
-	printverbose(L"Checking " + color(VERBOSE_HL) + L"if" + color(VERBOSE) + L", condition " + color(VERBOSE_HL) + line);
-
 	int totalend;
 
 	wstring open = get_kw(KW_IF);
@@ -474,7 +472,7 @@ ReturnType parseif(Method* method, wstring line, unsigned int* i, variable*& var
 		wstring line = trim(method->getlines()[conds->start].second);
 
 		// Is else, we have passed by everything else
-		if (startswith(line, get_kw(KW_ELSE))) {
+		if (startswith(remove_brackets(line), get_kw(KW_ELSE))) {
 			*i = conds->start + 1;
 			ReturnType type = execrange(method, i, conds->end, var, map);
 			if (type == ReturnType::RETURN) {
@@ -483,7 +481,7 @@ ReturnType parseif(Method* method, wstring line, unsigned int* i, variable*& var
 			break;
 		}
 
-		wstring cond = line.substr(line.find_first_of(L" ") + 1);
+		wstring cond = remove_brackets(line.substr(line.find_first_of(L" ") + 1));
 
 		if (check_cond(cond, map)) {
 			*i = conds->start + 1;
@@ -494,6 +492,7 @@ ReturnType parseif(Method* method, wstring line, unsigned int* i, variable*& var
 			break;
 		}
 	}
+
 	*i = totalend;
 
 	return ReturnType::NONE;

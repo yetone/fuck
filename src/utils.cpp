@@ -139,3 +139,20 @@ wstring stow(string s) {
 string wtos(wstring w) {
 	return string(w.begin(), w.end());
 }
+
+wstring remove_brackets(wstring w) {
+	if (w.length() <= 1) {
+		return w;
+	}
+	if (w.substr(0, 1) == get_kw(KW_END)) {
+		w = w.substr(1);
+	}
+
+	if (w.substr(w.length() - 1) == get_kw(KW_OPEN)) {
+		w = w.substr(0, w.length() - 1);
+	}
+
+
+
+	return w;
+}

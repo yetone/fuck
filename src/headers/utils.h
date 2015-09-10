@@ -70,3 +70,5 @@ wstring stow(string);
 
 // Wide string to string
 string wtos(wstring);
+
+wstring remove_brackets(wstring);

@@ -130,12 +130,6 @@ vector<Chunk*> parse_chunks(Method* method, unsigned int* i, int* totalend, wstr
 	while (end < method->getlines().size()) {
 		wstring temp = trim(method->getlines()[end].second);
 
-		unsigned int open_bracket = temp.find_first_of(get_kw(KW_OPEN));
-
-		if (open_bracket != string::npos) {
-			temp = temp.substr(0, open_bracket);
-		}
-
 		bool isopen = startswith(temp, open);
 		bool isseparator = false;
 
@@ -148,20 +142,25 @@ vector<Chunk*> parse_chunks(Method* method, unsigned int* i, int* totalend, wstr
 		}
 
 		if ((isseparator && depth - 1 == 0) || (isopen && depth++ == 0)) {
+			if (current != nullptr) {
+				current->end = end - 1;
+				chunks.push_back(current);
+			}
+
 			current = new Chunk;
+
 			current->start = end;
 			*i = end;
-		} else if (current != nullptr && startswith(trim(temp), get_kw(KW_END))) {
+		} else if (current != nullptr && startswith(temp, get_kw(KW_END))) {
 			depth--;
 
 			if (depth == 0) {
-				line = method->getlines()[current->start].second;
-				wstring cond = line.substr(line.find_first_of(L" ") + 1);
-
 				current->end = end - 1;
+
 				chunks.push_back(current);
 				*i = end;
 				*totalend = end;
+
 				break;
 			}
 		}
