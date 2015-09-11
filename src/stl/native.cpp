@@ -16,7 +16,7 @@ void loadstl() {
 
 void import_native(wstring name, wstring from) {
 	for (nativefunc_t n : nativefuncs) {
-		if ((from == EMPTY && n.first == from) || (from != EMPTY && n.first == from && n.second->getname() == name)) {
+		if ((from == EMPTY && n.first == name) || (from != EMPTY && n.first == from && n.second->getname() == name)) {
 			NativeMethod* m = new NativeMethod(n.second->getname());
 			methodMap.push_back(m);
 		}
