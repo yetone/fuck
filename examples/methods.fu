@@ -1,4 +1,12 @@
 method normal {
+	$var := true
+
+	if ($var) {
+		out "\$var is true"
+	else
+		out "\$var is false"
+	}
+
 	return "ok"
 } method
 
