@@ -1,5 +1,8 @@
 #include "native.h"
+
 #include "runtime.h"
+#include "math.h"
+
 #include "../headers/utils.h"
 
 nativefuncs_t nativefuncs;
@@ -12,6 +15,9 @@ void addfunc(wstring name, templ *t) {
 
 void loadstl() {
 	addfunc(L"runtime", new sleep);
+	addfunc(L"math", new math_cos);
+	addfunc(L"math", new math_sin);
+	addfunc(L"math", new math_tan);
 }
 
 void import_native(wstring name, wstring from) {
