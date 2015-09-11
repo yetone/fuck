@@ -22,11 +22,3 @@ variable* sleep::run(int paramc, variable* params[]) {
 
 	return nullptr;
 }
-
-wstring sleep::getname() {
-	return L"sleep";
-}
-
-int sleep::getparamc() {
-	return 1;
-}

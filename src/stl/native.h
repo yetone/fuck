@@ -1,5 +1,4 @@
 #ifndef H_NATIVE
-
 #define H_NATIVE
 
 #include <string>
@@ -20,11 +19,11 @@ public:
 		return nullptr;
 	}
 
-	virtual wstring getname() {
+	virtual const wstring getname() {
 		return EMPTY;
 	}
 
-	virtual int getparamc() {
+	virtual const int getparamc() {
 		return 0;
 	}
 };

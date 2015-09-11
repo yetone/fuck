@@ -5,6 +5,12 @@
  */
 class sleep : public templ {
 	variable* run(int paramc, variable* params[]);
-	wstring getname();
-	int getparamc();
+
+	const wstring getname() {
+		return L"sleep";
+	}
+
+	const int getparamc() {
+		return 1;
+	}
 };
