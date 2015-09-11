@@ -132,6 +132,10 @@ double wtod(wstring w) {
 	return atof(string(w.begin(), w.end()).c_str());
 }
 
+wstring dtow(double d) {
+	return to_wstring(d);
+}
+
 wstring stow(string s) {
 	return wstring(s.begin(), s.end());
 }

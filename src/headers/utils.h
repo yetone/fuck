@@ -65,6 +65,8 @@ int wtoi(wstring);
 // Wide string to double
 double wtod(wstring);
 
+wstring dtow(double);
+
 // String to wide string
 wstring stow(string);
 
