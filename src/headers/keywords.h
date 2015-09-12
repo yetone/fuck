@@ -13,6 +13,7 @@ using namespace std;
 
 #define KW_OPEN "{"
 #define KW_END "}"
+#define KW_END_SECTION "end"
 
 #define KW_FALSE "false"
 #define KW_TRUE "true"

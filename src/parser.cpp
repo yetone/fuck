@@ -41,11 +41,11 @@ void parse(Code& code, wstring what) {
 
 		rl++;
 
-		bool end = line == get_kw(KW_END) || line.substr(0, line.find_first_of(' ')) == get_kw(KW_END);
+		bool end = line == get_kw(KW_END_SECTION) || line.substr(0, line.find_first_of(' ')) == get_kw(KW_END_SECTION);
 
 		if (end) {
-			if (line.length() > strlen(KW_END)) {
-				line = line.substr(strlen(KW_END) + 1, line.size());
+			if (line.length() > strlen(KW_END_SECTION)) {
+				line = line.substr(strlen(KW_END_SECTION) + 1, line.size());
 			} else {
 				line = EMPTY;
 			}
