@@ -12,7 +12,7 @@ variable* math_cos::run(int paramc, variable* params[]) {
 	variable* v = new str;
 	v->set(dtow(t));
 
-	return nullptr;
+	return v;
 }
 
 variable* math_sin::run(int paramc, variable* params[]) {
@@ -23,7 +23,7 @@ variable* math_sin::run(int paramc, variable* params[]) {
 	variable* v = new str;
 	v->set(dtow(t));
 
-	return nullptr;
+	return v;
 }
 
 variable* math_tan::run(int paramc, variable* params[]) {
@@ -34,5 +34,5 @@ variable* math_tan::run(int paramc, variable* params[]) {
 	variable* v = new str;
 	v->set(dtow(t));
 
-	return nullptr;
+	return v;
 }
