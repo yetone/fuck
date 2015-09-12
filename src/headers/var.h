@@ -68,10 +68,20 @@ public:
 	str(wstring name, wstring value): variable(name) {
 		this->var = value;
 	}
+
 	str(wstring name, double value): variable(name) {
 		this->var = dtow(value);
 	}
+
 	str(wstring name, int value): variable(name) {
+		this->var = itow(value);
+	}
+
+	str(double value) : variable() {
+		this->var = dtow(value);
+	}
+
+	str(int value) : variable() {
 		this->var = itow(value);
 	}
 
