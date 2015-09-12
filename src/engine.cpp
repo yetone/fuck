@@ -794,7 +794,7 @@ wstring parse_set_statement(wstring s, stackmap& map) {
 			s = replaceAll(s, L" ", EMPTY);
 			double val = eval(wtos(s));
 
-			s = itow(val);
+			s = dtow(val);
 
 			int f = s.find_last_of('.');
 
