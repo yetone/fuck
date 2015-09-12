@@ -129,11 +129,9 @@ ReturnType execline(Method* method, unsigned int* i, variable*& var, stackmap& m
 	printverbose(L"Executing keyword " + color(VERBOSE_HL) + keyword + color(VERBOSE) + L", line #" + itow(*i) + L" " + color(VERBOSE_HL)  + line );
 
 	if (keyword == get_kw(KW_CALL_METHOD)) {
-		variable* returned = invoke(line);
+		variable* var = invoke(line);
 
-		if (returned != nullptr) {
-			printverbose(color(COLOR_MAGENTA) + L"Returned value " + returned->get());
-		}
+		unset(var, map);
 	} else if (keyword == get_kw(KW_PRINT)) {
 		wcout << parse_set_statement(line, map) << endl;
 	} else if (keyword == get_kw(KW_PRINT_ERR)) {
