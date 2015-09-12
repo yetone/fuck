@@ -1,0 +1,21 @@
+use math
+
+read $deg
+
+method degtorad $rad {
+	return $rad * 3,14159265 / 180
+end method
+
+$rad := [ degtorad $deg ]
+
+out "Deg $deg is Rad $rad"
+
+$tan := [ tan $rad ]
+out "tan($rad) = $tan"
+
+$sin := [ sin $rad ]
+out "sin($rad) = $sin"
+
+$cos := [ cos $rad ]
+out "cos($rad) = $cos"
+
