@@ -68,13 +68,18 @@ variable* invoke(Method* method, parameters& params) {
 
 	stackmap map;
 	variable* ptrs[params.size()];
+	variable* ret = nullptr;
 
 	for (unsigned int i = 0; i < params.size(); i++) {
 		ptrs[i] = setvar(method->isnative() ? EMPTY : method->getparams()[i], trim(params[i]), map);
 	}
 
 	if (method->isnative()) {
-		call_native(method->getname(), params.size(), ptrs);
+		variable* var = call_native(method->getname(), params.size(), ptrs);
+
+		if (var != nullptr) {
+			ret = var;
+		}
 	} else {
 		for (unsigned int i = 0; i < lines.size(); i++) {
 			variable* var = nullptr;
@@ -89,14 +94,13 @@ variable* invoke(Method* method, parameters& params) {
 			}
 
 			if (type == ReturnType::RETURN && var != nullptr) {
-				unset(params.size(), ptrs, map);
-				return var;
+				ret = var;
 			}
 		}
 	}
 
 	unset(params.size(), ptrs, map);
-	return nullptr;
+	return ret;
 }
 
 ReturnType execline(Method* method, unsigned int* i, variable*& var, stackmap& map) {

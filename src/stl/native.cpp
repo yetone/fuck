@@ -30,7 +30,7 @@ void import_native(wstring name, wstring from) {
 
 }
 
-void call_native(wstring name, int paramc, variable* params[]) {
+variable* call_native(wstring name, int paramc, variable* params[]) {
 	for (Method* m : methodMap) {
 		if (m->getname() == name && m->isnative()) {
 			for (nativefunc_t n : nativefuncs) {
@@ -40,10 +40,14 @@ void call_native(wstring name, int paramc, variable* params[]) {
 					if (t->getparamc() != paramc) {
 						throw runtime_error("Not matching parameter count " + itos(paramc) + " (should be " + itos(t->getparamc()) + ")");
 					}
-					t->run(paramc, params);
-					break;
+
+					variable* v = t->run(paramc, params);
+
+					return v;
 				}
 			}
 		}
 	}
+
+	return nullptr;
 }

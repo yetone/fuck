@@ -35,6 +35,6 @@ void addfunc(wstring name, templ *t);
 void loadstl();
 void import_native(wstring method, wstring from = EMPTY);
 
-void call_native(wstring name, int paramc, variable* params[]);
+variable* call_native(wstring name, int paramc, variable* params[]);
 
 #endif
