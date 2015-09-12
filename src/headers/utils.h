@@ -1,3 +1,6 @@
+#ifndef H_UTILS
+#define H_UTILS
+
 #include <string>
 
 #include "code.h"
@@ -6,10 +9,7 @@ using namespace std;
 
 // Verbose printing mode
 enum class verbose_mode {
-	NORMAL,
-	DELETION,
-	ADDITION,
-	COMMENT
+	NORMAL, DELETION, ADDITION, COMMENT
 };
 
 // Check if string starts with another string
@@ -74,3 +74,5 @@ wstring stow(string);
 string wtos(wstring);
 
 wstring remove_brackets(wstring);
+
+#endif
