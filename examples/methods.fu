@@ -8,13 +8,13 @@ method normal {
 	}
 
 	return "ok"
-} method
+end method
 
 out "[ call normal ]"
 
 method parameters $test $knark $3 {
 	out "Method called, parameters is $test $knark $3"
-} method
+end method
 
 out "[ call parameters "ok", 1+1, "param3" ]"
 
