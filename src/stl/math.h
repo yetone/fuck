@@ -4,6 +4,7 @@
  * Returns the cosine of an angle of x radians.
  */
 class math_cos : public templ {
+public:
 	variable* run(int paramc, variable* params[]);
 
 	const wstring getname() {
@@ -19,6 +20,7 @@ class math_cos : public templ {
  * Returns the sine of an angle of x radians.
  */
 class math_sin : public templ {
+public:
 	variable* run(int paramc, variable* params[]);
 
 	const wstring getname() {
@@ -34,6 +36,7 @@ class math_sin : public templ {
  * Returns the tangent of an angle of x radians.
  */
 class math_tan : public templ {
+public:
 	variable* run(int paramc, variable* params[]);
 
 	const wstring getname() {

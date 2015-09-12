@@ -4,6 +4,7 @@
  * Pause code execution
  */
 class sleep : public templ {
+public:
 	variable* run(int paramc, variable* params[]);
 
 	const wstring getname() {
