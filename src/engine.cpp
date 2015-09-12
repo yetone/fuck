@@ -39,9 +39,9 @@ variable* invoke(wstring s, stackmap* stack) {
 
 		params = split_ignore_strings(s, L",");
 
-
+		stackmap d;
 		for (wstring& param : params) {
-			param = parse_set_statement(param, *stack);
+			param = parse_set_statement(param, stack == nullptr ? d : *stack);
 		}
 	} else {
 		methodname = s;
