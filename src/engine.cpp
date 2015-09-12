@@ -790,7 +790,7 @@ wstring parse_set_statement(wstring s, stackmap& map) {
 
 		if (type == ExprType::MATH) {
 			s = replaceAll(s, L" ", EMPTY);
-			double val = eval(wtos(s));
+			double val = eval(wtos(replaceAll(s, L",", L".")));
 
 			s = dtow(val);
 
