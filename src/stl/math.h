@@ -47,3 +47,59 @@ public:
 		return 1;
 	}
 };
+
+
+class math_acos : public templ {
+public:
+	variable* run(int paramc, variable* params[]);
+
+	const wstring getname() {
+		return L"acos";
+	}
+
+	const int getparamc() {
+		return 1;
+	}
+};
+
+
+class math_asin : public templ {
+public:
+	variable* run(int paramc, variable* params[]);
+
+	const wstring getname() {
+		return L"asin";
+	}
+
+	const int getparamc() {
+		return 1;
+	}
+};
+
+
+class math_atan : public templ {
+public:
+	variable* run(int paramc, variable* params[]);
+
+	const wstring getname() {
+		return L"atan";
+	}
+
+	const int getparamc() {
+		return 1;
+	}
+};
+
+
+class math_atan2 : public templ {
+public:
+	variable* run(int paramc, variable* params[]);
+
+	const wstring getname() {
+		return L"atan2";
+	}
+
+	const int getparamc() {
+		return 2;
+	}
+};

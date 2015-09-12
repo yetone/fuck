@@ -18,6 +18,11 @@ void loadstl() {
 	addfunc(L"math", new math_cos);
 	addfunc(L"math", new math_sin);
 	addfunc(L"math", new math_tan);
+	addfunc(L"math", new math_acos);
+	addfunc(L"math", new math_asin);
+	addfunc(L"math", new math_atan);
+	addfunc(L"math", new math_atan2);
+
 }
 
 void import_native(wstring name, wstring from) {
