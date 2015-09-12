@@ -27,7 +27,7 @@ void invoke() {
 	invoke(L"main");
 }
 
-variable* invoke(wstring s) {
+variable* invoke(wstring s, stackmap* stack) {
 	wstring methodname;
 	parameters params;
 
@@ -38,6 +38,11 @@ variable* invoke(wstring s) {
 		s = s.substr(sep + 1);
 
 		params = split_ignore_strings(s, L",");
+
+
+		for (wstring& param : params) {
+			param = parse_set_statement(param, *stack);
+		}
 	} else {
 		methodname = s;
 	}
@@ -61,7 +66,7 @@ variable* invoke(wstring s) {
 	return invoke(method, params);
 }
 
-variable* invoke(Method* method, parameters& params) {
+variable* invoke(Method* method, parameters& params, stackmap* stack) {
 	printverbose(L"Invoking " + color(VERBOSE_HL) + method->getdisplayname() + color(VERBOSE) + L" on line " + color(VERBOSE_HL) + L"#" + itow(method->chunk.start));
 
 	linemap lines = method->getlines();

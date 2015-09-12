@@ -63,10 +63,10 @@ variable* setvar(wstring name, vector<wstring> statements, stackmap& stack, type
 void invoke();
 
 // Invoke method from wstring
-variable* invoke(wstring);
+variable* invoke(wstring, stackmap* = nullptr);
 
 // Invoke method
-variable* invoke(Method*, parameters&);
+variable* invoke(Method*, parameters&, stackmap* = nullptr);
 
 // Execute line
 ReturnType execline(Method*, unsigned int*, variable*&, stackmap&);

@@ -189,7 +189,7 @@ wstring parsevars(wstring s, stackmap& map) {
 				expr = expr.substr(get_kw(KW_CALL_METHOD).length() + 1);
 			}
 
-			variable *var = invoke(trim(expr));
+			variable *var = invoke(trim(expr), &map);
 
 			if (var != nullptr) {
 				expr = var->get();
