@@ -6,33 +6,21 @@
 
 variable* math_cos::run(int paramc, variable* params[]) {
 	double x = wtod(params[0]->get());
-
 	double t = cos(x);
 
-	variable* v = new str;
-	v->set(dtow(t));
-
-	return v;
+	return new str(t);
 }
 
 variable* math_sin::run(int paramc, variable* params[]) {
 	double x = wtod(params[0]->get());
-
 	double t = sin(x);
 
-	variable* v = new str;
-	v->set(dtow(t));
-
-	return v;
+	return new str(t);
 }
 
 variable* math_tan::run(int paramc, variable* params[]) {
 	double x = wtod(params[0]->get());
-
 	double t = tan(x);
 
-	variable* v = new str;
-	v->set(dtow(t));
-
-	return v;
+	return new str(t);
 }
