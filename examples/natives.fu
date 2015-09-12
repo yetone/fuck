@@ -1,8 +1,14 @@
 use sleep from runtime
+use math
 #use runtime
 
 call sleep 1000
 
+out "tan(35) = " . [ tan 35 ]
+out "sin(35) = " . [ sin 35 ]
+out "cos(35) = " . [ cos 35 ]
+
 # Test calling native methods with no or more than required parameters
 call sleep
 call sleep 5000 5000
+
