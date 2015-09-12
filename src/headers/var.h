@@ -3,6 +3,8 @@
 #include <map>
 #include <memory>
 
+#include "utils.h"
+
 using namespace std;
 
 typedef map<wstring, wstring> array_t;
@@ -59,14 +61,19 @@ private:
 	wstring var;
 
 public:
-	str(): variable() {
+	str(): variable() { }
 
+	str(wstring name): variable(name) { }
+
+	str(wstring name, wstring value): variable(name) {
+		this->var = value;
 	}
-
-	str(wstring name): variable(name) {
-
+	str(wstring name, double value): variable(name) {
+		this->var = dtow(value);
 	}
-
+	str(wstring name, int value): variable(name) {
+		this->var = itow(value);
+	}
 
 	wstring get();
 
