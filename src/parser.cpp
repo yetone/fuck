@@ -268,8 +268,10 @@ vector<wstring> split_ignore_strings(wstring w, wstring delim) {
 		}
 	}
 
-	// Quick fix
-	vec[vec.size() - 1] += w[w.length() - 1];
+	if (vec.size() > 0) {
+		// Quick fix
+		vec[vec.size() - 1] += w[w.length() - 1];
+	}
 
 	return vec;
 }
