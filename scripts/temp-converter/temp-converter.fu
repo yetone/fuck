@@ -1,6 +1,8 @@
 out "Please enter the temperature"
 read $start
 
+label temp
+
 out "Please enter what temperature to convert to"
 read $type
 
@@ -10,4 +12,5 @@ elif ($type == "fahrenheit") {
 	out ($start * 9) / 5 + 32
 else {
 	out "Invalid mode $type"
+	goto temp
 }
