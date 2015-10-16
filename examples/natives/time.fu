@@ -1,0 +1,3 @@
+use date
+
+out [ time ]
