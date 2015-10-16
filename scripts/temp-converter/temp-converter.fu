@@ -1,21 +1,13 @@
-# converts between fahrenheit and celsius
-
 out "Please enter the temperature"
 read $start
 
-label begin
-
 out "Please enter what temperature to convert to"
-read $input
+read $type
 
-if ($input == "fahrenheit")
-  $val := ($start * 9.0) / 5.0 + 32
-  out "$start celsius is $val fahrenheit"
-elif ($input == "celsius")
-  $val := ($start - 32) * 5 / 9
-  out "$start fahrenheit is $val celcius"
-else
-  out "Invalid mode $input, try again"
-  goto begin
-end
-
+if ($type == "celsius") {
+	out ($start - 32) * 5 / 9
+elif ($type == "fahrenheit") {
+	out ($start * 9) / 5 + 32
+else {
+	out "Invalid mode $type"
+}
