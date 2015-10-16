@@ -85,6 +85,10 @@ public:
 		this->var = itow(value);
 	}
 
+	str(long value) : variable() {
+		this->var = ltow(value);
+	}
+
 	wstring get();
 
 	void set(const wstring& value);
