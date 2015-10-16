@@ -67,6 +67,8 @@ double wtod(wstring);
 
 wstring dtow(double);
 
+wstring ltow(long long);
+
 // String to wide string
 wstring stow(string);
 

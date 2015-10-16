@@ -140,6 +140,10 @@ wstring stow(string s) {
 	return wstring(s.begin(), s.end());
 }
 
+wstring ltow(long long l) {
+	return to_wstring(l);
+}
+
 string wtos(wstring w) {
 	return string(w.begin(), w.end());
 }

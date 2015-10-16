@@ -2,6 +2,7 @@
 
 #include "runtime.h"
 #include "math.h"
+#include "date.h"
 
 #include "../headers/utils.h"
 
@@ -22,7 +23,7 @@ void loadstl() {
 	addfunc(L"math", new math_asin);
 	addfunc(L"math", new math_atan);
 	addfunc(L"math", new math_atan2);
-
+	addfunc(L"date", new date_time);
 }
 
 void import_native(wstring name, wstring from) {
