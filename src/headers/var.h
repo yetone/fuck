@@ -85,7 +85,7 @@ public:
 		this->var = itow(value);
 	}
 
-	str(long value) : variable() {
+	str(long long value) : variable() {
 		this->var = ltow(value);
 	}
 
